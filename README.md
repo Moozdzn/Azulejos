@@ -20,18 +20,18 @@ O objetivo deste projeto é criar uma aplicação móvel para visualização e r
 A ideia será usar a aplicação móvel para fazer crowdsourcing de recolha de informação sobre os azulejos e permitir assim conhecermos um pouco mais da nossa história e do nosso património. 
 Um utilizador desta aplicação deverá conseguir visualizar informação sobre que exemplos de azulejos existem perto da sua localização e enviar nova informação sobre azulejos que encontrou (tirar fotografias, obter a localização e adicionar anotações). A informação enviada deverá ser depois curada por especialistas.
    
-# Cenários
-## Cenário Principal
+## Cenários
+### Cenário Principal
 1. O utilizador abre a aplicação “Azulejos”.
 2. A aplicação apresenta o ecrã principal composto por um mapa centrado na localização atual do utilizador, com marcadores para a sua localização e para a localização de azulejos ao seu redor.
 3. O utilizador escolhe um marcador no mapa ou, em alternativa, escreve na barra de pesquisa.
 4. A aplicação mostra a informação relativa ao azulejo (fotografias, anotações).
-## Cenário Secundário
+### Cenário Secundário
 1. O utilizador, no ecrã principal da aplicação, carrega no botão “+” para adicionar um novo azulejo á aplicação.
 2. A aplicação apresenta uma interface para uma nova submissão onde o utilizador pode adicionar fotografias, anotações e confirma a localização do azulejo.
 3. O utilizador confirma esta nova submissão que é enviada para ser curada por especialistas e volta ao ecrã principal.
 
-## Cenário Secundário
+### Cenário Secundário
 O utilizador acede a uma interface onde pode ver as suas submissões e o seu estado
 
 ## Plano de Trabalhos
