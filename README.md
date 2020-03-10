@@ -1,45 +1,47 @@
 ![University](https://www.iade.europeia.pt/hs-fs/hubfs/IADE-SITE/static/ue-iade-h75.png?width=444&name=ue-iade-h75.png)
-# Azulejos Aplicação Móvel - Relatório
+# Azulejos Mobile App - Project Report 
+[Portuguese Vesion](..blob/master/Relatório%20de%20Projeto%20-%20App%20Azulejos.pdf)
 
-### Licenciatura em Engenharia Informática | Ano Letivo 2019/2020 
+### Degree in Computer Engineering | School Year 2019/2020 
 
 
-Aluno | Email | Número
+Student Name | Email | Student Number
 ------------ | ------------- | -------------
 Diogo Santos | moozdzn@gmail.com | 50038023
 
-Docentes | Email 
+Professors | Email 
 ------------ | ------------- 
 Jacinto Estima | jacinto.estima@universidadeeuropeia.pt 
 Miguel Bugalho | miguel.bugalho@universidadeeuropeia.pt
 
-## Enquadramento
-A azulejaria portuguesa é um retrato da nossa história e tem se tornado também um cartão de visita sendo inspiração para vários produtos.
-Os azulejos e a sua história estão espalhados por todo o país desde edifícios históricos até casas particulares. 
-O objetivo deste projeto é criar uma aplicação móvel para visualização e recolha de informação sobre azulejos incluindo imagens, anotações e localizações.
-A ideia será usar a aplicação móvel para fazer crowdsourcing de recolha de informação sobre os azulejos e permitir assim conhecermos um pouco mais da nossa história e do nosso património. 
-Um utilizador desta aplicação deverá conseguir visualizar informação sobre que exemplos de azulejos existem perto da sua localização e enviar nova informação sobre azulejos que encontrou (tirar fotografias, obter a localização e adicionar anotações). A informação enviada deverá ser depois curada por especialistas.
-   
-## Cenários
-### Cenário Principal
-1. O utilizador abre a aplicação “Azulejos”.
-2. A aplicação apresenta o ecrã principal composto por um mapa centrado na localização atual do utilizador, com marcadores para a sua localização e para a localização de azulejos ao seu redor.
-3. O utilizador escolhe um marcador no mapa ou, em alternativa, escreve na barra de pesquisa.
-4. A aplicação mostra a informação relativa ao azulejo (fotografias, anotações).
-### Cenário Secundário
-1. O utilizador, no ecrã principal da aplicação, carrega no botão “+” para adicionar um novo azulejo á aplicação.
-2. A aplicação apresenta uma interface para uma nova submissão onde o utilizador pode adicionar fotografias, anotações e confirma a localização do azulejo.
-3. O utilizador confirma esta nova submissão que é enviada para ser curada por especialistas e volta ao ecrã principal.
+## Context
 
-### Cenário Secundário
-O utilizador acede a uma interface onde pode ver as suas submissões e o seu estado
+Portuguese tiles are part of our history and has become source of inspiration for several products.
+The tiles and their history are scattered around our country from historical buildings to private houses.
+This project looks to create a mobile app to view and gather information about tiles such as images, annotations and its location.
+The idea is to use the mobile app to crowdsource information about the tiles and as such allow the users to know a bit more about our history and our patrimony.
+The user using this aplication should be able to view information about the tiles near his location and send new information about tiles he find (take photos, obtain location and add annotations). The information send will be then curated by specialists before being avaiable for other users.
+  
+## Scenarios
+### Main Scenario
+1. The user opens the "Azulejos" application.
+2. The application shows a map centered on the user location, with markers for his location and tiles around him.
+3. The user chooses a marker on the map or uses the search bar.
+4. The application shows the information related to the chosen tile (photos, annotations).
+### Secondary Scenario 1
+1. The user, in the main screen, presses the "+" button to submit a new tile.
+2. The application shows a new interface for a new submission where the user can add photos, annotations and confirm the tile location.
+3. The user confirms the new submission and it's send to the be curated by specialists. The aplication is redirected to the main screen.
 
-## Plano de Trabalhos
+### Secondary Scenario 2
+ The user acesses an interface where the user can see their submissions and their state (Submitted, Reviewed and Public).
+
+## Work Plan
 ![WorkPlanImage](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/WorkPlanV1.png)
 
-### Nota: Os pontos abaixo não são pedidos para a 1ª entrega. No entanto, por haver tempo os mesmos, já se encontram definidos para obter feedback o quanto antes.
+### Note: Below are requirements not needed for this 1st Delivery. However, because of extra time, they were defined to gather early feedback.
 
-## Requisitos Funcionais
+## Functional Requirements
 ![Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/FRV1.png)
 
 ## Mockups e Interfaces
@@ -47,13 +49,13 @@ O utilizador acede a uma interface onde pode ver as suas submissões e o seu est
 ![Information Screen](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/mockups/informationScreenV1.png)
 ![New Session Screen](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/mockups/newSessionV1.png)
 
-## Modelo de Domínio
+## Domain Model
 ![Domain Model](https://github.com/Moozdzn/Azulejos/blob/master/attachments/App-azulejos-diagrama.png)
 
-## Máquina de Estados
+## State Machine
 ![State Machine](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/StateMachine.png)
 
-## Referências
+## References
 História do Azulejo (Museu do Azulejo). Acedidos a 17/02/2020 : 
   > http://www.museudoazulejo.gov.pt/Data/Documents/Cronologia%20do%20Azulejo%20em%20Portugal.pdf
   > http://www.museudoazulejo.gov.pt/Data/Documents/Percurso%20MNAz.pdf
