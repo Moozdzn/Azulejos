@@ -1,6 +1,6 @@
 ![University](https://www.iade.europeia.pt/hs-fs/hubfs/IADE-SITE/static/ue-iade-h75.png?width=444&name=ue-iade-h75.png)
 # Azulejos Mobile App - Project Report 
-[Portuguese Vesion](..blob/master/Relatório%20de%20Projeto%20-%20App%20Azulejos.pdf)
+[Portuguese Vesion](../master/Relatório%20de%20Projeto%20-%20App%20Azulejos.pdf)
 
 ### Degree in Computer Engineering | School Year 2019/2020 
 
