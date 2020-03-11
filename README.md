@@ -50,7 +50,7 @@ The user using this aplication should be able to view information about the tile
 ![New Session Screen](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/mockups/newSessionV1.png)
 
 ## Domain Model
-![Domain Model](https://github.com/Moozdzn/Azulejos/blob/master/attachments/App-azulejos-diagrama.png)
+![Domain Model](https://github.com/Moozdzn/Azulejos/blob/master/attachments/App-azulejos-diagramaV2.png)
 
 ## State Machine
 ![State Machine](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/StateMachine.png)
