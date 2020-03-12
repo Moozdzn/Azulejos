@@ -46,6 +46,7 @@ The user using this aplication should be able to view information about the tile
 
 ## Mockups e Interfaces
 ![Mockups](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/MockupsV2.png)
+[Adobe XD link](https://xd.adobe.com/view/cac3ce1b-bc83-45f9-52ae-82d713068e32-bcf2/?fullscreen)
 
 ## Domain Model
 ![Domain Model](https://github.com/Moozdzn/Azulejos/blob/master/attachments/App-azulejos-diagramaV2.png)
