@@ -45,9 +45,7 @@ The user using this aplication should be able to view information about the tile
 ![Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/FRV1.png)
 
 ## Mockups e Interfaces
-![Main Screen](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/mockups/mainScreenV1.png)
-![Information Screen](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/mockups/informationScreenV1.png)
-![New Session Screen](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/mockups/newSessionV1.png)
+![Mockups](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/MockupsV2.png)
 
 ## Domain Model
 ![Domain Model](https://github.com/Moozdzn/Azulejos/blob/master/attachments/App-azulejos-diagramaV2.png)
