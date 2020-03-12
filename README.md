@@ -53,7 +53,7 @@ The user using this aplication should be able to view information about the tile
 ![Domain Model](https://github.com/Moozdzn/Azulejos/blob/master/attachments/App-azulejos-diagramaV2.png)
 
 ## State Machine
-![State Machine](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/StateMachine.png)
+![State Machine](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/StateMachine.pngV1)
 
 ## References
 História do Azulejo (Museu do Azulejo). Acedidos a 17/02/2020 : 
