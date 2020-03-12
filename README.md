@@ -42,7 +42,7 @@ The user using this aplication should be able to view information about the tile
 ### Note: Below are requirements not needed for this 1st Delivery. However, because of extra time, they were defined to gather early feedback.
 
 ## Functional Requirements
-![Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/FRV1.png)
+![Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/FRV2.png)
 
 ## Mockups e Interfaces
 ![Mockups](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/MockupsV2.png)
