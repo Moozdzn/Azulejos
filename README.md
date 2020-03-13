@@ -39,8 +39,6 @@ The user using this aplication should be able to view information about the tile
 ## Work Plan
 ![WorkPlanImage](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/WorkPlanV1.png)
 
-### Note: Below are requirements not needed for this 1st Delivery. However, because of extra time, they were defined to gather early feedback.
-
 ## Functional Requirements
 ![Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/FRV2.png)
 
