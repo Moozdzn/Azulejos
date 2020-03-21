@@ -37,20 +37,23 @@ The user using this aplication should be able to view information about the tile
  The user acesses an interface where the user can see their submissions and their state (Submitted, Reviewed and Public).
 
 ## Work Plan
-![WorkPlanImage](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/WorkPlanV1.png)
+![WorkPlanImage](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/WorkPlan-V2.png)
 
 ## Functional Requirements
-![Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/FRV2.png)
+![Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/FR-V2.png)
+
+## Non Functional Requirements
+![Non Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/NFR-V1.png)
 
 ## Mockups e Interfaces
-![Mockups](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/MockupsV2.png)
+![Mockups](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/Mockups-V2.png)
 [Adobe XD link](https://xd.adobe.com/view/cac3ce1b-bc83-45f9-52ae-82d713068e32-bcf2/?fullscreen)
 
 ## Domain Model
-![Domain Model](https://github.com/Moozdzn/Azulejos/blob/master/attachments/App-azulejos-diagramaV2.png)
+![Domain Model](https://github.com/Moozdzn/Azulejos/blob/master/attachments/App-azulejos-diagrama-V2.png)
 
 ## State Machine
-![State Machine](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/StateMachineV1.png)
+![State Machine](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/StateMachine-V1.png)
 
 ## WBS
 ![WBS](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/WBS-V1.png)
