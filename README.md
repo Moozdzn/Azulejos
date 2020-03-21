@@ -52,6 +52,11 @@ The user using this aplication should be able to view information about the tile
 ## State Machine
 ![State Machine](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/StateMachineV1.png)
 
+## WBS
+![WBS](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/WBS-V1.png)
+
+
+
 ## References
 História do Azulejo (Museu do Azulejo). Acedidos a 17/02/2020 : 
   > http://www.museudoazulejo.gov.pt/Data/Documents/Cronologia%20do%20Azulejo%20em%20Portugal.pdf
