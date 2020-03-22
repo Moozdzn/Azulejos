@@ -37,7 +37,7 @@ The user using this aplication should be able to view information about the tile
  The user acesses an interface where the user can see their submissions and their state (Submitted, Reviewed and Public).
 
 ## Work Plan
-![WorkPlanImage](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/WorkPlan-V2.png)
+![WorkPlanImage](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/WorkPlan-V3.png)
 
 ## Functional Requirements
 ![Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/attachments/FR-V2.png)
