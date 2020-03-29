@@ -5,10 +5,11 @@ import * as geolocation from "nativescript-geolocation";
 import { Accuracy } from "tns-core-modules/ui/enums"; // used to describe at what accuracy the location should be get
 import {Mapbox, MapboxMarker, MapboxViewApi} from "nativescript-mapbox-enduco";
 import { registerElement } from "nativescript-angular/element-registry";
+import { Router, NavigationExtras } from "@angular/router";
 
 
 //TESTES
-import {getFile, getImage, getJSON, getString, request, HttpResponse, HttpResponseEncoding } from "tns-core-modules/http";
+import {request} from "tns-core-modules/http";
 import * as fetch from "tns-core-modules/fetch";
 
 
@@ -23,8 +24,9 @@ export class MapComponent implements OnInit {
 
     mapbox: MapboxViewApi; 
 
-    constructor() {
+    constructor(private router: Router) {
         // Use the component constructor to inject providers.
+        
     }
 
     ngOnInit(): void {
@@ -48,6 +50,7 @@ export class MapComponent implements OnInit {
                             lng: location.longitude
                         })
                     }).then((r)=>{
+                        console.log(r)
                         var data = JSON.stringify(r.content)
                         var json = JSON.parse(data) 
                         console.log(json.docs[0])
@@ -55,13 +58,13 @@ export class MapComponent implements OnInit {
                         var markers = [];
                         for (var i in json.docs) {
                             markers.push(<MapboxMarker>{
-                                id: i,
+                                id: json.docs[i]._id,
                                 lat: json.docs[i].Localizacao.coordinates[1],
                                 lng: json.docs[i].Localizacao.coordinates[0],
                                 title: json.docs[i].Nome,
                                 subtitle: 'Carrega para ver mais',
                                 onTap: marker => console.log("Marker tapped with title: '" + marker.title + "'"),
-                                onCalloutTap: marker => alert("Marker callout tapped with title: '" + marker.title + "'")
+                                onCalloutTap: marker => this.openDetails(marker.id)
                             })
                             
                         }
@@ -85,42 +88,24 @@ export class MapComponent implements OnInit {
     
     }
 
-     centerUser(){
-     /*   const map = this.mapbox
-        map.getUserLocation().then(
-            function(userLocation) {
-                map.setCenter({
-                    lat: userLocation.location.lat,
-                    lng: userLocation.location.lng
+    centerUser(): void{
+        geolocation.enableLocationRequest().then(()=>{
+            geolocation.getCurrentLocation({desiredAccuracy:Accuracy.high}).then((location)=>{
+                this.mapbox.setCenter({
+                    lat: location.latitude,
+                    lng: location.longitude
                 })
+            })
+        })
+    }
+
+    openDetails(markerId: string):void{
+        let navigationExtras: NavigationExtras = {
+            queryParams:{
+                "id": markerId
             }
-        )
-        //TESTES
-        getJSON("https://azueljos.herokuapp.com/api/azulejos").then((r:any) =>{
-            var markers = [];
-            for (var i in r) {
-                markers.push(<MapboxMarker>{
-                    id: i,
-                    lat: r[i].Coord.coordinates[1],
-                    lng: r[i].Coord.coordinates[0],
-                    title: r[i].Nome,
-                    subtitle: 'Carrega para ver mais',
-                    onTap: marker => console.log("Marker tapped with title: '" + marker.title + "'"),
-                    onCalloutTap: marker => alert("Marker callout tapped with title: '" + marker.title + "'")
-                })
-                
-            }
-            console.log(markers);
-            map.addMarkers(markers).then((s:any)=>{
-                console.log("markers added")
-            });
-
-
-
-        },(e) =>{
-            console.log(e)
-        });*/
-
+        }
+        this.router.navigate(["/details"], navigationExtras)
     }
 
     onDrawerButtonTap(): void {

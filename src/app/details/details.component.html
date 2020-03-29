@@ -1,0 +1,16 @@
+<ActionBar title="Details Page">
+    <NavigationButton text="Back"></NavigationButton>
+</ActionBar>
+
+<StackLayout orientatio="vertical">
+    <Image src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Frontal_de_altar_azulejos_sec_XVII_IMG_1221.JPG"
+        loadMode="async"
+        stretch="aspectFit"
+        ></Image>
+    <Label text="{{name}}" ></Label>
+    <StackLayout orientation="horizontal">
+        <Label text="Ano: {{ano}}" width="100" ></Label>
+        <Label text="Condição atual: {{condicao}}" width="auto" textWrap="true"></Label>
+    </StackLayout>
+    <Label text="{{info}}" horizontalAlignment="stretch" textWrap="true" ></Label>
+</StackLayout>
