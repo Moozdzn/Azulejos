@@ -12,7 +12,9 @@ import { Router, NavigationExtras } from "@angular/router";
 import * as http from "tns-core-modules/http";
 
 //TESTES
-
+import { ObservableArray } from "tns-core-modules/data/observable-array";
+import { TokenModel } from "nativescript-ui-autocomplete";
+import { RadAutoCompleteTextViewComponent } from "nativescript-ui-autocomplete/angular";
 
 registerElement("Mapbox", () => require("nativescript-mapbox-enduco").MapboxView);
 registerElement('Fab', () => require('@nstudio/nativescript-floatingactionbutton').Fab);
@@ -22,14 +24,55 @@ registerElement('Fab', () => require('@nstudio/nativescript-floatingactionbutton
     templateUrl: "./map.component.html"
 })
 export class MapComponent implements OnInit {
-    
+    private _items: ObservableArray<TokenModel>;
+    private tiles = [{
+        "_id": "5e750549ab03535270a2eb12",
+        "Nome": "Palácio dos Marques de Fronteira"
+    },
+    {
+        "_id": "5e752079ab03535270a2eb16",
+        "Nome": "Casa no Campo de Santa Clara"
+    },
+    {
+        "_id": "5e75209fab03535270a2eb17",
+        "Nome": "Fábrica Viúva Lamego"
+    },
+    {
+        "_id": "5e7cd7e6ad7a4937cc9f01c7",
+        "Nome": "MARKER TESTE"
+    },
+    {
+        "_id": "5e7cdb19ad7a4937cc9f01c8",
+        "Nome": "MARKER TESTE 2"
+    }]
     mapbox: MapboxViewApi; 
 
     constructor( private router: Router) {
-        // Use the component constructor to inject providers.
+        this.initDataItems();
     }
     ngOnInit() {
         
+    }
+    @ViewChild("autocomplete", { static: false }) autocomplete: RadAutoCompleteTextViewComponent;
+
+    get dataItems(): ObservableArray<TokenModel> {
+        return this._items;
+    }
+
+    private initDataItems() {
+        this._items = new ObservableArray<TokenModel>();
+
+        for (let i = 0; i < this.tiles.length; i++) {
+            this._items.push(new TokenModel(this.tiles[i].Nome, undefined));
+        }
+    }
+
+    public onDidAutoComplete(args) {
+        //Does this break?
+        for(var i in this.tiles){
+            if(this.tiles[i].Nome === args.text) this.openDetails(this.tiles[i]._id)
+        }
+        alert('No such marker exists');
     }
 
     // When map is ready, focus on user and adds markers to map

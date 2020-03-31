@@ -33,6 +33,8 @@
             </Mapbox>
         </ContentView>
         <StackLayout orientation="vertical">
+            <RadAutoCompleteTextView #autocomplete [items]="dataItems" displayMode="Plain" (didAutoComplete)="onDidAutoComplete($event)">
+            </RadAutoCompleteTextView>
             <FAB 
                 height="50" 
                 width="50" 
