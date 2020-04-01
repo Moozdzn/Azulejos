@@ -19,7 +19,7 @@
         <ContentView height="100%" width="100%">
             <Mapbox
                 accessToken="pk.eyJ1IjoibW9vemR6biIsImEiOiJjazd5eGh6bjAwMGl1M21vOTdjMTI1d3NzIn0.cxQh0B_dBFEc7xNjtn0-zQ"
-                mapStyle="traffic_night"
+                mapStyle="light"
                 latitude="38.736946"
                 longitude="-9.142685"
                 hideCompass="false"
@@ -33,7 +33,7 @@
             </Mapbox>
         </ContentView>
         <StackLayout orientation="vertical">
-            <RadAutoCompleteTextView #autocomplete [items]="dataItems"suggestMode="Suggest" displayMode="Plain" (didAutoComplete)="onDidAutoComplete($event)" >
+            <RadAutoCompleteTextView #autocomplete [items]="dataItems"suggestMode="Suggest" displayMode="Plain" (didAutoComplete)="onDidAutoComplete($event)" hint="Digite para procurar azulejos" >
                 <SuggestionView tkAutoCompleteSuggestionView suggestionViewHeight="300">
                     <ng-template tkSuggestionItemTemplate let-item="item">
                         <StackLayout orientation="vertical" padding="10">
@@ -45,13 +45,23 @@
             <FAB 
                 height="50" 
                 width="50" 
-                margin="28" 
+                margin="28"
                 horizontal-align="right" 
                 vertical-align="bottom"
                 (tap)="centerUser()"
                 icon="res://centeruser"
                 rippleColor="#f1f1f1"
-                class="fab">
+                class="fab">    
+            </FAB>
+            <FAB 
+                height="50" 
+                width="50" 
+                margin="28"
+                horizontal-align="right" 
+                vertical-align="bottom"
+                icon=""
+                rippleColor="#f1f1f1"
+                class="fab">    
             </FAB>
         </StackLayout>
 </GridLayout>

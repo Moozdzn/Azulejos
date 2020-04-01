@@ -18,7 +18,8 @@ registerElement('Fab', () => require('@nstudio/nativescript-floatingactionbutton
 
 @Component({
     selector: "Map",
-    templateUrl: "./map.component.html"
+    templateUrl: "./map.component.html",
+    styleUrls: ['./map.component.css']
 })
 
 
