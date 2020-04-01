@@ -15,7 +15,6 @@ import { AppComponent } from "./app.component";
     imports: [
         AppRoutingModule,
         NativeScriptModule,
-        NativeScriptUIAutoCompleteTextViewModule,
         NativeScriptUISideDrawerModule
     ],
     declarations: [
@@ -26,4 +25,4 @@ import { AppComponent } from "./app.component";
     ]
 })
 export class AppModule { }
-export class AutoCompleteExamplesModule { }
+

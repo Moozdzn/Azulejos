@@ -33,8 +33,15 @@
             </Mapbox>
         </ContentView>
         <StackLayout orientation="vertical">
-            <RadAutoCompleteTextView #autocomplete [items]="dataItems" displayMode="Plain" (didAutoComplete)="onDidAutoComplete($event)">
-            </RadAutoCompleteTextView>
+            <RadAutoCompleteTextView #autocomplete [items]="dataItems"suggestMode="Suggest" displayMode="Plain" (didAutoComplete)="onDidAutoComplete($event)" >
+                <SuggestionView tkAutoCompleteSuggestionView suggestionViewHeight="300">
+                    <ng-template tkSuggestionItemTemplate let-item="item">
+                        <StackLayout orientation="vertical" padding="10">
+                            <Label [text]="item.text"></Label>
+                        </StackLayout>
+                    </ng-template>
+                </SuggestionView>
+            </RadAutoCompleteTextView> 
             <FAB 
                 height="50" 
                 width="50" 

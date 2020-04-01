@@ -6,73 +6,62 @@ import { Accuracy } from "tns-core-modules/ui/enums"; // used to describe at wha
 import { Mapbox, MapboxMarker, MapboxViewApi} from "nativescript-mapbox-enduco";
 import { registerElement } from "nativescript-angular/element-registry";
 import { Router, NavigationExtras } from "@angular/router";
-
-
-
 import * as http from "tns-core-modules/http";
-
-//TESTES
 import { ObservableArray } from "tns-core-modules/data/observable-array";
 import { TokenModel } from "nativescript-ui-autocomplete";
 import { RadAutoCompleteTextViewComponent } from "nativescript-ui-autocomplete/angular";
 
+
 registerElement("Mapbox", () => require("nativescript-mapbox-enduco").MapboxView);
 registerElement('Fab', () => require('@nstudio/nativescript-floatingactionbutton').Fab);
+
 
 @Component({
     selector: "Map",
     templateUrl: "./map.component.html"
 })
+
+
 export class MapComponent implements OnInit {
+    
     private _items: ObservableArray<TokenModel>;
-    private tiles = [{
-        "_id": "5e750549ab03535270a2eb12",
-        "Nome": "Palácio dos Marques de Fronteira"
-    },
-    {
-        "_id": "5e752079ab03535270a2eb16",
-        "Nome": "Casa no Campo de Santa Clara"
-    },
-    {
-        "_id": "5e75209fab03535270a2eb17",
-        "Nome": "Fábrica Viúva Lamego"
-    },
-    {
-        "_id": "5e7cd7e6ad7a4937cc9f01c7",
-        "Nome": "MARKER TESTE"
-    },
-    {
-        "_id": "5e7cdb19ad7a4937cc9f01c8",
-        "Nome": "MARKER TESTE 2"
-    }]
+    private jsonUrl = "http://192.168.1.11:3000/api/azulejos";
+    private markers;
+
     mapbox: MapboxViewApi; 
 
     constructor( private router: Router) {
-        this.initDataItems();
-    }
-    ngOnInit() {
         
     }
-    @ViewChild("autocomplete", { static: false }) autocomplete: RadAutoCompleteTextViewComponent;
+    ngOnInit() {
+        let that = this;
+        this.autocomplete.autoCompleteTextView.loadSuggestionsAsync = function (text) {
+            const promise = new Promise(function (resolve, reject) {
+                http.getJSON(that.jsonUrl).then(function (r: any) {
+                    console.log(r.docs);
+                    const airportsCollection = r.docs;
+                    const items: Array<TokenModel> = new Array();
+                    for (let i = 0; i < airportsCollection.length; i++) {
+                        items.push(new TokenModel(airportsCollection[i].Nome, null));
+                    }
+                    that.markers = r.docs;
+                    resolve(items);
+                }).catch((err) => {
+                    const message = 'Error fetching remote data from ' + that.jsonUrl + ': ' + err.message;
+                    console.log(message);
+                    alert(message);
+                    reject();
+                });
+            });
+
+            return promise;
+        };
+    }
+
+    @ViewChild("autocomplete", { static: true }) autocomplete: RadAutoCompleteTextViewComponent;
 
     get dataItems(): ObservableArray<TokenModel> {
         return this._items;
-    }
-
-    private initDataItems() {
-        this._items = new ObservableArray<TokenModel>();
-
-        for (let i = 0; i < this.tiles.length; i++) {
-            this._items.push(new TokenModel(this.tiles[i].Nome, undefined));
-        }
-    }
-
-    public onDidAutoComplete(args) {
-        //Does this break?
-        for(var i in this.tiles){
-            if(this.tiles[i].Nome === args.text) this.openDetails(this.tiles[i]._id)
-        }
-        alert('No such marker exists');
     }
 
     // When map is ready, focus on user and adds markers to map
@@ -107,7 +96,6 @@ export class MapComponent implements OnInit {
                                 onTap: marker => console.log("Marker tapped with title: '" + marker.title + "'"),
                                 onCalloutTap: marker => this.openDetails(marker.id)
                             })
-                            
                         }
                         this.mapbox.addMarkers(markers).then((s:any)=>{
                         });
@@ -123,7 +111,6 @@ export class MapComponent implements OnInit {
                 })
             })
         })
-    
     }
     // Button to center user
     centerUser(): void{
@@ -144,6 +131,15 @@ export class MapComponent implements OnInit {
             }
         }
         this.router.navigate(["/details"], navigationExtras)
+    }
+    public onDidAutoComplete(args) {
+        //Does this break?
+        for(var i in this.markers){
+            if(this.markers[i].Nome === args.text) {
+                this.openDetails(this.markers[i]._id);
+                break;
+            }
+        }
     }
 
     onDrawerButtonTap(): void {
