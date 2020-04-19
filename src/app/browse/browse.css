@@ -1,0 +1,15 @@
+.fas {
+    font-family: "Font Awesome 5 Free", "fa-solid-900";
+    font-weight: 500;
+    width: 100;
+    height: 100;
+    margin-top: auto;
+}
+/* Percentagens */
+.info {
+    text-align: center;
+}
+.user{
+    margin-top: auto;
+    margin-bottom: auto;
+}
