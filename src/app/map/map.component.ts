@@ -75,13 +75,9 @@ export class MapComponent implements OnInit {
                     lng: location.longitude
                 }).then(()=>{
                     http.request({
-                        url:"http://192.168.1.11:3000/api/sessoes/azulejos",
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        content: JSON.stringify({
-                            lat: location.latitude,
-                            lng: location.longitude
-                        })
+                        url: this.serverURL + "azulejos?lat="+location.latitude+"&lng="+location.longitude,
+                        method: "GET",
+                        headers: { "Content-Type": "application/json" }
                     }).then((r)=>{
                         //TRIGGER
                         var data = JSON.stringify(r.content)
@@ -123,6 +119,10 @@ export class MapComponent implements OnInit {
                 })
             })
         })
+    }
+    // Button to go to submit view
+    goToSubmit(): void{
+        this.router.navigate(['/submit-tile']);
     }
     // Opens view of single tile information
     openDetails(markerId: string):void{
