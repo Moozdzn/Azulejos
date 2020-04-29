@@ -26,7 +26,9 @@ registerElement('Fab', () => require('@nstudio/nativescript-floatingactionbutton
 export class MapComponent implements OnInit {
     
     private _items: ObservableArray<TokenModel>;
-    private jsonUrl = "http://192.168.1.11:3000/api/sessoes/azulejos/nome";
+    private jsonUrl = "http://192.168.0.106:3000/api/sessoes/azulejos/nome";
+    //TO BE REMOVED
+    public serverURL:string = "http://192.168.0.106:3000/api/sessoes/";
     private markers;
 
     mapbox: MapboxViewApi; 

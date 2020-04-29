@@ -5,6 +5,10 @@ import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angul
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
+//TESTE
+import { ModalComponent } from "./map-modal/map-modal";
+import { ModalDialogService } from "nativescript-angular/modal-dialog";
+
 
 
 @NgModule({
@@ -16,8 +20,15 @@ import { AppComponent } from "./app.component";
         NativeScriptModule,
         NativeScriptUISideDrawerModule
     ],
+    entryComponents: [
+        ModalComponent
+    ],
     declarations: [
-        AppComponent
+        AppComponent,
+        ModalComponent
+    ],
+    providers: [ 
+        ModalDialogService
     ],
     schemas: [
         NO_ERRORS_SCHEMA

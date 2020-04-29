@@ -43,6 +43,7 @@
                 </SuggestionView>
             </RadAutoCompleteTextView> 
             <FAB 
+                horizontalAlignment="right"
                 height="50" 
                 width="50" 
                 margin="28"
@@ -54,11 +55,12 @@
                 class="fab">    
             </FAB>
             <FAB 
+                horizontalAlignment="right"
                 height="50" 
                 width="50" 
                 margin="28"
-                horizontal-align="right" 
-                vertical-align="bottom"
+                horizontal-align="right"
+                (tap)="goToSubmit()" 
                 icon=""
                 rippleColor="#f1f1f1"
                 class="fab">    

@@ -3,9 +3,12 @@
 </ActionBar>
 
 <StackLayout orientation="vertical">
-    <Image src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Frontal_de_altar_azulejos_sec_XVII_IMG_1221.JPG"
+    <Image #tileImage 
+        src="https://www.fillmurray.com/640/360"
         loadMode="async"
-        stretch="aspectFit"
+        stretch="none"
+        decodeHeight="100"
+        decodeWidth="100"
         ></Image>
     <StackLayout orientation="horizontal">
         <Label text="Ano: {{ano}}" width="100" ></Label>
@@ -14,5 +17,5 @@
     <Label text="{{info}}" 
         horizontalAlignment="stretch" 
         textWrap="true" ></Label>
-    <Button *ngIf="sessao" text="Press Me" (tap)="openSessionList($event)"></Button>
+    <Button class ="my-button" *ngIf="sessao" text="Azulejos relacionados" (tap)="openSessionList($event)"></Button>
 </StackLayout>

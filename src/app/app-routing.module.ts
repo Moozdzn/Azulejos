@@ -10,7 +10,8 @@ const routes: Routes = [
     { path: "featured", loadChildren: () => import("~/app/featured/featured.module").then((m) => m.FeaturedModule) },
     { path: "settings", loadChildren: () => import("~/app/settings/settings.module").then((m) => m.SettingsModule) },
     { path: "details", loadChildren: () => import("~/app/details/details.module").then((m) => m.DetailsModule) },
-    { path: "session-list", loadChildren: () => import("~/app/session-list/session-list.module").then((m) => m.SessionListModule) }
+    { path: "session-list", loadChildren: () => import("~/app/session-list/session-list.module").then((m) => m.SessionListModule)},
+    { path: "submit-tile", loadChildren: () => import("~/app/submit-tile/submit-tile.module").then((m) => m.SubmitTileModule) }
 ];
 
 @NgModule({

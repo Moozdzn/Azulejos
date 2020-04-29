@@ -23,6 +23,9 @@ export class SessionListComponent implements OnInit {
   public myItems: RxObservable<Array<SessionItem>>;
   public items = [];
 
+  //TO BE REMOVED
+  public serverURL:string = "http://192.168.0.106:3000/api/";
+
   constructor(private route: ActivatedRoute,private router: Router) {
     this.route.queryParams.subscribe(params =>{
       this.id = params["id"];
@@ -38,7 +41,7 @@ export class SessionListComponent implements OnInit {
             console.log("Unsubscribe called!!!");
         }
     });
-    http.getJSON("http://192.168.1.11:3000/api/"+this.id+"/azulejos/nome").then((r:any)=>{
+    http.getJSON(this.serverURL+this.id+"/azulejos/nome").then((r:any)=>{
       for(var i in r.docs){
         this.items.push(new SessionItem(r.docs[i]._id,r.docs[i].Nome));
       }
