@@ -1,0 +1,39 @@
+
+<StackLayout orientation="vertical" (loaded)="onPageLoad()">
+    
+        <GridLayout rows="auto" columns="*">
+            <Image #tileImage  row="0" col="0" marginTop="-40" height="180" stretch="aspectFill"
+                class="card-img" 
+                src="https://azulejos.b-cdn.net/{{docs._id}}/1.jpg"
+                loadMode="async"></Image>
+            <Image verticalAlignment="top" horizontalAlignment="right" row="0" col="0"
+                src="font://&#xf00d;" 
+                width="20" height="20"
+                class="fas close"
+                (tap)="closeModal(0)"></Image>
+        </GridLayout>
+    <Label text="{{name}}" horizontalAlignment="center" class="tile-name"></Label>    
+    <StackLayout orientation="horizontal">
+        <Label text="Ano: {{ano}}" width="100" ></Label>
+        <Label text="Condição atual: {{condicao}}" width="auto" textWrap="true"></Label>
+    </StackLayout>
+    <StackLayout width="100%" class="lineBreak"></StackLayout>
+    
+    <Label class="description-text" 
+        text="Descrição"
+        textWrap="true"></Label>
+    <Textview editable="false" text="{{info}}" 
+        horizontalAlignment="stretch" 
+        textWrap="true" ></Textview>
+        <Label class="description-text" 
+        text="Azulejos relacionados"
+        textWrap="true"></Label>
+        <ListView [items]="myItems | async" (itemTap)="onItemTap($event)">
+            <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
+                <StackLayout [class.odd]="odd" [class.even]="even">
+                    <Label [text]='item.name'></Label>
+                </StackLayout>
+            </ng-template>
+        </ListView>
+</StackLayout>
+

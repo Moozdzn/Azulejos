@@ -27,7 +27,7 @@
         <item name="colorAccent">@color/ns_accent</item>
     </style>
 
-    <style name="AppTheme" parent="AppThemeBase">
+    <style name="AppTheme" parent="AppThemeBase">>
     </style>
 
     <!-- theme for action-bar -->

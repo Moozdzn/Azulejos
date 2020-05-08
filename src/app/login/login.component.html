@@ -1,0 +1,29 @@
+<FlexboxLayout class="page">
+    <StackLayout class="form">
+        <Image class="logo" src="~/images/logo.png"></Image>
+        <Label class="header" text="Azulej"></Label>
+
+        <PreviousNextView>
+            <GridLayout rows="auto, auto, auto">
+                <StackLayout row="0" class="input-field">
+                    <TextField class="input" hint="Username"
+                        autocorrect="false"
+                        autocapitalizationType="none" [(ngModel)]="user.username"
+                        returnKeyType="next" (returnPress)="focusPassword()"></TextField>
+                    <StackLayout class="hr-light"></StackLayout>
+                </StackLayout>
+
+                <StackLayout row="1" class="input-field">
+                    <TextField #password class="input"
+                        hint="Password" secure="true" [(ngModel)]="user.password"
+                        (returnPress)="focusPassword()"></TextField>
+                    <StackLayout class="hr-light"></StackLayout>
+                </StackLayout>
+
+            </GridLayout>
+        </PreviousNextView>
+
+        <Button text="Log In"
+            (tap)="login()" class="btn btn-primary m-t-20"></Button>
+    </StackLayout>
+</FlexboxLayout>

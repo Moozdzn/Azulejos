@@ -1,0 +1,25 @@
+<ActionBar>
+    <Label text="Submeter"></Label>
+</ActionBar>
+
+<StackLayout>
+    <TextField #nome hint="Introduza o nome do azulejo"  
+        returnKeyType="done"
+        (returnPress)="onBlur($event)"
+        maxLength="50">
+    </TextField>
+    <TextField #ano hint="Introduza o ano do azulejo" 
+        returnKeyType="done"
+        (returnPress)="onBlur($event)"
+        keyboardType="integer" 
+        maxLength="4">
+    </TextField>
+    <TextView #info hint="Introduza informação do azulejo" >
+    </TextView>
+    <Button  #dialogButton text="Escolha condição" (tap)="displayActionDialog()" class="btn btn-primary btn-active" ></Button>
+    <Button  text="Abrir galeria" (tap)="onSelectSingleTap()"></Button>
+    <Button  text="Tirar fotografia" (tap)="takePhoto()"></Button>
+    <Button text="Show Modal" (tap)="showModal()" class="btn btn-primary"></Button>
+    <!-- <Button  text="Alterar localização" (tap)="alterLocation()"></Button> -->
+    <Button  text="Submeter Azulejo" (tap)="onSubmit()"></Button>
+</StackLayout>

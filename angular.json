@@ -6,12 +6,12 @@
     "defaultCollection": "@nativescript/schematics"
   },
   "projects": {
-    "drawer-navigation": {
+    "tab-navigation": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
       "prefix": "ns"
     }
   },
-  "defaultProject": "drawer-navigation"
+  "defaultProject": "tab-navigation"
 }

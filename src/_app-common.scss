@@ -20,6 +20,14 @@
     font-weight: 400;
 }
 
+// Custom tabstrip item class
+.navigation__item {
+    &:active,
+    &:active Label {
+        @include colorize($contrasted-color: complementary background 20% 0%);
+    }
+}
+
 // Common page class
 .page__content {
     &-icon,
@@ -35,9 +43,4 @@
         vertical-align: top;
         margin-top: 20%;
     }
-}
-
-// Drawer navigation custom styles
-.nt-drawer__header-image {
-    color: const(grey);
 }

@@ -1,25 +1,57 @@
-import {NgModule, NO_ERRORS_SCHEMA} from "@angular/core";
-import {NativeScriptModule} from "nativescript-angular/nativescript.module";
-import {NativeScriptUISideDrawerModule} from "nativescript-ui-sidedrawer/angular";
+import { NgModule, NO_ERRORS_SCHEMA, ErrorHandler, NgModuleFactoryLoader } from "@angular/core";
+import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 
-import {AppRoutingModule} from "./app-routing.module";
-import {AppComponent} from "./app.component";
+import { AppRoutingModule, COMPONENTS } from "./app-routing.module";
+import { AppComponent } from "./app.component";
 
-// TESTE
-import {ModalComponent} from "./map-modal/map-modal";
+import {TileDetailComponent} from "./mapa/tile-detail/tile-detail"
+import {ModalComponent} from "./submeter/map-modal/map-modal";
 import {ModalDialogService} from "nativescript-angular/modal-dialog";
+
+import { enable as traceEnable, addCategories } from "tns-core-modules/trace";
+
+import { UserService } from "./shared/user.service";
+import { NSModuleFactoryLoader } from "nativescript-angular/router";
+
+import { NativeScriptFormsModule } from "nativescript-angular/forms";
+
+traceEnable();
+
+export class MyErrorHandler implements ErrorHandler {
+    handleError(error) {
+        console.log("### ErrorHandler Error: " + error.toString());
+        console.log("### ErrorHandler Stack: " + error.stack);
+    }
+}
 
 
 @NgModule({
-    bootstrap: [AppComponent],
+    bootstrap: [
+        AppComponent
+    ],
     imports: [
-        AppRoutingModule, NativeScriptModule, NativeScriptUISideDrawerModule
+        NativeScriptModule,
+        AppRoutingModule,
+        NativeScriptFormsModule
     ],
-    entryComponents: [ModalComponent],
+    entryComponents:[
+        ModalComponent,
+        TileDetailComponent
+    ],
     declarations: [
-        AppComponent, ModalComponent
+        AppComponent,
+        ModalComponent,
+        TileDetailComponent,
+        ...COMPONENTS
     ],
-    providers: [ModalDialogService],
-    schemas: [NO_ERRORS_SCHEMA]
+    providers: [
+        ModalDialogService,
+        UserService,
+        { provide: ErrorHandler, useClass: MyErrorHandler },
+        { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader }
+    ],
+    schemas: [
+        NO_ERRORS_SCHEMA
+    ]
 })
-export class AppModule {}
+export class AppModule { }
