@@ -32,7 +32,7 @@ export class SubmeterComponent implements OnInit {
     thumbSize : number = 80;
     previewSize : number = 300;
     // Server URL
-    url = "http://192.168.0.106:3000/api/sessoes/azulejos";
+    url = "http://192.168.42.9:3000/api/sessoes/azulejos";
     // Action Dialog Button
     @ViewChild('dialogButton', {static: true})dp : ElementRef;
     @ViewChild('nome', {static: true})dp1 : ElementRef;

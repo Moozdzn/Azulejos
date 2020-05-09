@@ -4,6 +4,8 @@ import { Page } from "tns-core-modules/ui/page";
 import { RouterExtensions } from "nativescript-angular/router";
 import * as http from "tns-core-modules/http";
 
+
+
 export class User {
     username: string;
     password: string;
@@ -18,14 +20,16 @@ export class User {
 })
 
 export class LoginComponent {
-    
-    public serverURL : string = "http://192.168.0.106:3000/api/auth";
+
+
+    public serverURL : string = "http://192.168.42.9:3000/api/auth";
 
     user: User;
     processing = false;
     @ViewChild("password", {static: false}) password: ElementRef;
 
-    constructor(private page: Page, private routerExtension: RouterExtensions) {
+    constructor(private page: Page, 
+        private routerExtension: RouterExtensions,) {
         this.user = new User();
         this.user.username = "username";
         this.user.password = "password";
@@ -33,6 +37,7 @@ export class LoginComponent {
 
     onAuthorize() {
         // Navigate to welcome page with clearHistory
+        
         this.routerExtension.navigate(['/tabs/default'], { clearHistory: true });
     }
 
@@ -47,9 +52,12 @@ export class LoginComponent {
                 username: this.user.username,
                 password: this.user.password
             })
-        }).then((r) => {
+        }).then((r: any) => {
             if(r.statusCode == 404) alert('User not found')
-            else if(r.statusCode == 200) this.onAuthorize()
+            else if(r.statusCode == 200) {
+                this.onAuthorize();
+            };
+                
         }, (e) => {
             console.log(e)
         })

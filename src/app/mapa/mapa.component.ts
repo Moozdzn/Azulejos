@@ -29,9 +29,9 @@ export class MapaComponent implements OnInit {
     //items: Array<DataItem>;
 
     private _items : ObservableArray < TokenModel >;
-    private jsonUrl = "http://192.168.0.106:3000/api/sessoes/azulejos/nome";
+    private jsonUrl = "http://192.168.42.9:3000/api/sessoes/azulejos/nome";
     // TO BE REMOVED
-    public serverURL : string = "http://192.168.0.106:3000/api/sessoes/";
+    public serverURL : string = "http://192.168.42.9:3000/api/sessoes/";
     private markers;
 
     mapbox : MapboxViewApi;
