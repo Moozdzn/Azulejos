@@ -1,0 +1,30 @@
+TextView {
+    border-width: 1;
+    border-color: #ffffff;
+}
+.card-img {
+    width: 100%;
+    height: 250;
+    margin-bottom: 5;
+}
+.tile-name {
+    font-size: 14;
+    font-weight: bold;
+}
+.description-text {
+    font-size: 14;
+    font-weight: bold;
+    color: black;
+    
+}
+.lineBreak {
+    height: 0.5;
+    border: none;
+    color: #e0e0e0;
+    background-color: #e0e0e0;
+}
+.close {
+    font-size: 20;
+    color: rgb(49, 47, 47);
+    margin: 15 0 0 15;
+}
