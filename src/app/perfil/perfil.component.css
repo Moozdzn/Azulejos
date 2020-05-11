@@ -1,0 +1,42 @@
+.home-panel{
+    vertical-align: center; 
+    font-size: 20;
+    margin: 15;
+}
+
+.description-label{
+    margin-bottom: 15;
+}
+
+ListView {
+    margin: 20;
+    
+}
+.innerStack {
+    background-color: rgba(0, 0, 0, 0.637);
+    border-radius: 20;
+    margin-right: 25;
+    margin-left: 25;
+    margin-top: 100;
+    margin-bottom: 100;
+}
+.outerStack {
+    padding: 20;
+}
+Label {
+    text-align: center;
+}
+.submissionTitle{
+    font-size: 25;
+}
+.tileName {
+    font-size:15;
+}
+.tileState {
+    font-size:11;
+    color: rgba(0, 0, 0, 0.5);
+}
+.username {
+    font-size: 45;
+    margin-top: 100; 
+}

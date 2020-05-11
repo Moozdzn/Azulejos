@@ -8,7 +8,7 @@ import { WelcomeComponent } from "./welcome/welcome.component";
 export const COMPONENTS = [LoginComponent, WelcomeComponent];
 
 const routes: Routes = [
-    { path: "", redirectTo: "/login", pathMatch: "full" },
+    { path: "", redirectTo: "/tabs/default", pathMatch: "full" },
     {
         path: "login", component: LoginComponent
     },

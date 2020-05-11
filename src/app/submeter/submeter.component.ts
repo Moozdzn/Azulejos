@@ -18,11 +18,18 @@ import * as imagepicker from "nativescript-imagepicker";
 import {ModalDialogService} from "nativescript-angular/directives/dialogs";
 import {ModalComponent} from "./map-modal/map-modal";
 
+import {UrlService} from "../shared/url.service"
+
+import * as dialogs from "tns-core-modules/ui/dialogs";
+
 @Component({
     selector: "Submeter",
-    templateUrl: "./submeter.component.html"
+    templateUrl: "./submeter.component.html",
+    styleUrls: ["./submeter.component.css"]
 })
 export class SubmeterComponent implements OnInit {
+
+    imageArray = [];
     
     imageAssets = [];
     imageSrc : any;
@@ -45,7 +52,7 @@ export class SubmeterComponent implements OnInit {
     info : TextView;
     location : any;
     
-    constructor(private page : Page, private modal : ModalDialogService, private vcRef : ViewContainerRef) {
+    constructor(private page : Page, private modal : ModalDialogService, private vcRef : ViewContainerRef, private _url: UrlService) {
         // Use the component constructor to inject providers.
     }
 
@@ -71,9 +78,9 @@ export class SubmeterComponent implements OnInit {
 
     //
     public onSelectSingleTap() {
-        this.isSingleMode = true;
+        this.isSingleMode = false;
 
-        let context = imagepicker.create({mode: "single"});
+        let context = imagepicker.create({mode: "multiple"});
         this.startSelection(context);
     }
 
@@ -81,20 +88,25 @@ export class SubmeterComponent implements OnInit {
         let that = this;
 
         context.authorize().then(() => {
-            that.imageAssets = [];
-            that.imageSrc = null;
+            //that.imageAssets = [];
+            //that.imageSrc = null;
             return context.present();
         }).then((selection) => {
             console.log("Selection done: " + JSON.stringify(selection));
-            that.imageSrc = that.isSingleMode && selection.length > 0 ? selection[0] : null;
+            if(selection.length > 0){
+                for(var i in selection){
+                    that.imageArray.push(selection[i]._android)
+                }
+                console.log(that.imageArray)
+            }
+            /*that.imageSrc = that.isSingleMode && selection.length > 0 ? selection[0] : null;
 
-            // set the images to be loaded from the assets with optimal sizes (optimize memory usage)
-            selection.forEach(function (element) {
+             //set the images to be loaded from the assets with optimal sizes (optimize memory usage)
+             selection.forEach(function (element) {
                 element.options.width = that.isSingleMode ? that.previewSize : that.thumbSize;
                 element.options.height = that.isSingleMode ? that.previewSize : that.thumbSize;
-            });
-
-            that.imageAssets = selection;
+            }); 
+            that.imageAssets = selection;*/
         }).catch(function (e) {
             console.log(e);
         });
@@ -112,43 +124,92 @@ export class SubmeterComponent implements OnInit {
         action(options).then((result) => {
             if (result !== options.cancelButtonText) 
                 this.dialogButton.text = result;
-            
-
-
             console.log(result);
         });
     }
     // Submit Tile
     onSubmit() {
+        dialogs.prompt({
+            title: "Quer submeter mais azulejos?",
+            message: "Dê um nome à sua sessão.",
+            okButtonText: "Confirmar",
+            cancelButtonText: "Não",
+            defaultText: "Exemplo: Grupo de Azulejos do prédio X.",
+            inputType: dialogs.inputType.text
+        }).then(r => {
+            var imagesToSubmit = [];
+            if(this.imageArray.length > 0){
+                for(var i in this.imageArray){
+                this.file = fs.path.normalize(this.imageArray[i]);
+                const ImageFromFilePath: ImageSource = <ImageSource> fromFile(this.file);
+                var ImageData = ImageFromFilePath.toBase64String("jpg");
+                imagesToSubmit.push(ImageData);
+                }
+            }
+        
+            var body = {
+                file: imagesToSubmit,
+                nome: this.nome.text,
+                ano: this.ano.text,
+                info: this.info.text,
+                condicao: this.dialogButton.text,
+                coordinates: [
+                    this.location[1], this.location[0]
+                 ]
+            }
+            if(r.result){
+                http.request({
+                    url: this._url.getUrl()+"sessoes",
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    content: JSON.stringify({
+                       info: r.text,
+                       userID: this._url.getID(),
+                    })
+                }).then((r: any) => {
+                    
+                    body["sessionID"] = r.content;
+                    alert(JSON.stringify(body));
+                    this.sendTile(body);
 
-        this.file = fs.path.normalize(this.imageSrc._android);
-        const ImageFromFilePath: ImageSource = <ImageSource> fromFile(this.file);
-        var ImageData = ImageFromFilePath.toBase64String("jpg");
+                    this.dialogButton.text = "Escolha condição";
+                    this.nome.text = "";
+                    this.info.text = "";
+                    this.ano.text = "";
+                    this.imageArray = [];
+        
+                }).catch(function (e) {
+                    console.log("Uh oh, something went wrong1", e);
+                    alert("The following error ocurred: " + e)
+                });
 
-        var body = {
-            file: ImageData,
-            nome: this.nome.text,
-            ano: this.ano.text,
-            info: this.info.text,
-            condicao: this.dialogButton.text,
-            coordinates: [
-                this.location[1], this.location[0]
-            ]
-        }
+            }
+            else if (r.result == false){
+                body["sessionID"] = false;
+                this.sendTile(body)
+            }
+            else {
+                 alert('An error occurred')
+            }
+            });
+    }
+    sendTile(content){
         http.request({
-            url: this.url,
+            url: this._url.getUrl()+"sessoes/azulejos",
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            content: JSON.stringify(body)
+            content: JSON.stringify(content)
         }).then(function (r: any) {
             alert("submitted succefully");
+
         }).catch(function (e) {
-            console.log("Uh oh, something went wrong", e);
+            console.log("Uh oh, something went wrong2", e);
             alert("The following error ocurred: " + e)
         });
-
     }
     // TAKE PHOTO
     takePhoto() {
@@ -156,8 +217,7 @@ export class SubmeterComponent implements OnInit {
             camera.requestCameraPermissions().then(() => {
                 camera.takePicture().then((imageAsset) => {
                     console.log("Result is an image asset instance");
-
-                    this.imageSrc = imageAsset;
+                    this.imageArray.push(imageAsset.android);
                 }).catch((err) => {
                     console.log("Error -> " + err.message);
                 });

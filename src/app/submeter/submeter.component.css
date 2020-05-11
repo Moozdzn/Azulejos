@@ -1,0 +1,19 @@
+
+.textInput {
+    border-radius: 5;
+    border-width: 2;
+    border-color: blue;
+    margin: 10;
+    padding: 10;
+}
+.btn {
+    color: white;
+    background-color: blue;
+    border-radius: 10;
+    margin: 10;
+    padding: 10;
+}
+.outerStack{
+    margin-top: 50;
+    margin-left: 5;
+}

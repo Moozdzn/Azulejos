@@ -10,7 +10,8 @@ import {ModalDialogService} from "nativescript-angular/modal-dialog";
 
 import { enable as traceEnable, addCategories } from "tns-core-modules/trace";
 
-import { UserService } from "./shared/user.service";
+import { UrlService } from "./shared/url.service"
+
 import { NSModuleFactoryLoader } from "nativescript-angular/router";
 
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
@@ -46,7 +47,7 @@ export class MyErrorHandler implements ErrorHandler {
     ],
     providers: [
         ModalDialogService,
-        UserService,
+        UrlService,
         { provide: ErrorHandler, useClass: MyErrorHandler },
         { provide: NgModuleFactoryLoader, useClass: NSModuleFactoryLoader }
     ],

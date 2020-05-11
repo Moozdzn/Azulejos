@@ -2,24 +2,36 @@
     <Label text="Submeter"></Label>
 </ActionBar>
 
-<StackLayout>
-    <TextField #nome hint="Introduza o nome do azulejo"  
-        returnKeyType="done"
-        (returnPress)="onBlur($event)"
-        maxLength="50">
+<StackLayout class="outerStack">
+    <Label text="Nome do Azulejo"></Label>
+    <TextField #nome class="textInput"
+        hint="Exemplo: Casa no campo de Santa Clara" returnKeyType="done"
+         maxLength="50">
     </TextField>
-    <TextField #ano hint="Introduza o ano do azulejo" 
-        returnKeyType="done"
-        (returnPress)="onBlur($event)"
-        keyboardType="integer" 
-        maxLength="4">
-    </TextField>
-    <TextView #info hint="Introduza informação do azulejo" >
+    <Label text="Descrição do Azulejo"></Label>
+    <TextView #info row="3" class="textInput"
+        hint="Exemplo: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et justo dignissim, malesuada odio vitae, ultricies turpis">
     </TextView>
-    <Button  #dialogButton text="Escolha condição" (tap)="displayActionDialog()" class="btn btn-primary btn-active" ></Button>
-    <Button  text="Abrir galeria" (tap)="onSelectSingleTap()"></Button>
-    <Button  text="Tirar fotografia" (tap)="takePhoto()"></Button>
-    <Button text="Show Modal" (tap)="showModal()" class="btn btn-primary"></Button>
-    <!-- <Button  text="Alterar localização" (tap)="alterLocation()"></Button> -->
-    <Button  text="Submeter Azulejo" (tap)="onSubmit()"></Button>
+    <GridLayout columns="150,auto" rows="auto,auto">
+        <Label row="0" col="0" text="Ano do Azulejo"></Label>
+        <TextField #ano row="1" col="0" class="textInput" hint="Exemplo: 1944"
+            returnKeyType="done" 
+            keyboardType="integer" maxLength="4">
+        </TextField>
+        <Label row="0" col="1" text="Condição do Azulejo"></Label>
+        <Button #dialogButton row="1" col="1" text="Escolha condição"
+            (tap)="displayActionDialog()" class="btn">
+        </Button>
+    </GridLayout>
+    <Label row="5" text="Fotografias"></Label>
+    <StackLayout orientation="horizontal">
+        <Button text="Abrir galeria" (tap)="onSelectSingleTap()" class="btn">
+        </Button>
+        <Button text="Tirar fotografia" (tap)="takePhoto()" class="btn">
+        </Button>
+    </StackLayout>
+    <Label text="Localização"></Label>
+    <Button text="Abrir mapa" (tap)="showModal()" class="btn">
+    </Button>
+    <Button text="Submeter Azulejo" (tap)="onSubmit()"></Button>
 </StackLayout>

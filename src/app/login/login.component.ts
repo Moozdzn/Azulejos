@@ -4,6 +4,8 @@ import { Page } from "tns-core-modules/ui/page";
 import { RouterExtensions } from "nativescript-angular/router";
 import * as http from "tns-core-modules/http";
 
+import {UrlService} from "../shared/url.service";
+
 
 
 export class User {
@@ -21,18 +23,15 @@ export class User {
 
 export class LoginComponent {
 
-
-    public serverURL : string = "http://192.168.42.9:3000/api/auth";
-
     user: User;
     processing = false;
     @ViewChild("password", {static: false}) password: ElementRef;
 
     constructor(private page: Page, 
-        private routerExtension: RouterExtensions,) {
+        private routerExtension: RouterExtensions, private _url: UrlService) {
         this.user = new User();
-        this.user.username = "username";
-        this.user.password = "password";
+        this.user.username = "Moozdzn";
+        this.user.password = "1234";
     }
 
     onAuthorize() {
@@ -43,7 +42,7 @@ export class LoginComponent {
 
     login() {
         http.request({
-            url: this.serverURL,
+            url: this._url.getUrl() + "user",
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

@@ -4,7 +4,7 @@
         <GridLayout rows="auto" columns="*">
             <Image #tileImage  row="0" col="0" marginTop="-40" height="180" stretch="aspectFill"
                 class="card-img" 
-                src="https://azulejos.b-cdn.net/{{docs._id}}/1.jpg"
+                src="https://azulejos.b-cdn.net/{{docs._id}}/0.jpg"
                 loadMode="async"></Image>
             <Image verticalAlignment="top" horizontalAlignment="right" row="0" col="0"
                 src="font://&#xf00d;" 
@@ -12,6 +12,15 @@
                 class="fas close"
                 (tap)="closeModal(0)"></Image>
         </GridLayout>
+        <ScrollView orientation="horizontal">
+            <StackLayout orientation="horizontal" class="">
+                <GridLayout *ngFor="let i of array" rows="auto"
+                    columns="*">
+                    <Image class="card-img-thumb" row="0" col="0" src="https://azulejos.b-cdn.net/{{docs._id}}/{{i}}.jpg"
+                        stretch="aspectFill"></Image>
+                    </GridLayout>
+            </StackLayout>
+        </ScrollView>
     <Label text="{{name}}" horizontalAlignment="center" class="tile-name"></Label>    
     <StackLayout orientation="horizontal">
         <Label text="Ano: {{ano}}" width="100" ></Label>

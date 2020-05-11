@@ -7,6 +7,7 @@ import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autoco
 
 
 
+
 //import { ItemDetailComponent } from "./item-detail/item-detail.component";
 
 @NgModule({

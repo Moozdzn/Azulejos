@@ -2,7 +2,24 @@
     <Label text="Perfil"></Label>
 </ActionBar>
 
-<GridLayout class="page__content">
-    <Label class="page__content-icon fas" text="&#xf002;"></Label>
-    <Label class="page__content-placeholder" text="<!-- Search page content goes here -->"></Label>
-</GridLayout>
+<StackLayout class="outerStack" orientation="vertical">
+    <Label class="username" text="Moozdzn">
+    </Label>
+    <StackLayout class="innerStack" orientation="vertical">
+        <Label class="submissionTitle" text="As minhas submissões">
+        </Label>
+        <ListView [items]="myItems | async" (itemTap)="onItemTap($event)">
+            <ng-template let-item="item">
+                <FlexboxLayout flexDirection="row">
+                    <Image src="https://azulejos.b-cdn.net/5e750549ab03535270a2eb12/1.jpg" class="thumb img-circle">
+                    </Image>
+                    <FlexboxLayout flexDirection="Column">
+                        <Label [text]='item.nome' class="t-12 tileName"></Label>
+                        <Label [text]='item.estado' class="tileState"></Label>
+                    </FlexboxLayout>
+
+                </FlexboxLayout>
+            </ng-template>
+        </ListView>
+    </StackLayout>
+</StackLayout>

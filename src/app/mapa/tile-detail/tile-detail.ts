@@ -1,17 +1,16 @@
 import {Component, OnInit ,ViewChild, ElementRef,ViewContainerRef} from "@angular/core";
 import {ModalDialogParams} from "nativescript-angular/directives/dialogs";
-import { Image } from "tns-core-modules/ui/image";
+
 import { Observable as RxObservable } from 'rxjs';
-import * as statusBar from 'nativescript-status-bar'
 
 import * as http from "tns-core-modules/http";
 import {ModalDialogService} from "nativescript-angular/directives/dialogs";
-//import {TileDetailComponent} from "./tile-detail/tile-detail";
+import {UrlService} from "../../shared/url.service"
 
 
 export class SessionItem{
     constructor(public id: string, public name:string) { }
-  }
+}
 
 @Component({selector: "tile-modal", templateUrl: "tile-detail.html",styleUrls: ["./tile-detail.css"]})
 
@@ -24,18 +23,21 @@ export class TileDetailComponent implements OnInit {
     public sessao: string;
     public myItems: RxObservable<Array<SessionItem>>;
     public items = [];
+    public array = [];
 
     public docs: any;
 
     //TO BE REMOVED
     public serverURL:string = "http://192.168.0.104:3000/api/";
 
-    
-
     public constructor(private params: ModalDialogParams,
         private modal : ModalDialogService, 
-        private vcRef : ViewContainerRef){
+        private vcRef : ViewContainerRef,
+        private _url: UrlService){
         this.docs = params.context.r;
+        for(var i = 1; i < this.docs.nrImages;i++){
+            this.array.push(i);
+        }
     }
 
     ngOnInit(): void {
@@ -57,13 +59,14 @@ export class TileDetailComponent implements OnInit {
                 console.log("Unsubscribe called!!!");
                 }
             });
-            http.getJSON(this.serverURL+this.sessao+"/azulejos/nome").then((r:any)=>{
+            http.getJSON(this._url.getUrl()+this.sessao+"/azulejos/nome").then((r:any)=>{
                 for(var i in r.docs){
                     if(r.docs[i].Nome != this.name) this.items.push(new SessionItem(r.docs[i]._id,r.docs[i].Nome));
             }
             subscr.next(this.items);
             })
         }
+
         
         }
 
@@ -84,7 +87,6 @@ export class TileDetailComponent implements OnInit {
                 
             };
             this.modal.showModal(TileDetailComponent, options).then(() => {
-                
             });
         })
     }
