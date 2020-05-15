@@ -11,8 +11,8 @@ TextView {
     background-color: #828282;
     vertical-align: center;
     border-radius: 5;
-    width: 130;
-    height: 70;
+    width: 430;
+    height: 250;
     margin-left: 5;
 }
 .tile-name {
@@ -23,7 +23,7 @@ TextView {
     font-size: 14;
     font-weight: bold;
     color: black;
-    
+
 }
 .lineBreak {
     height: 0.5;

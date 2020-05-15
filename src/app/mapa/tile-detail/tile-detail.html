@@ -1,7 +1,6 @@
-
 <StackLayout orientation="vertical" (loaded)="onPageLoad()">
-    
-        <GridLayout rows="auto" columns="*">
+
+    <!-- <GridLayout rows="auto" columns="*">
             <Image #tileImage  row="0" col="0" marginTop="-40" height="180" stretch="aspectFill"
                 class="card-img" 
                 src="https://azulejos.b-cdn.net/{{docs._id}}/0.jpg"
@@ -11,38 +10,30 @@
                 width="20" height="20"
                 class="fas close"
                 (tap)="closeModal(0)"></Image>
-        </GridLayout>
-        <ScrollView orientation="horizontal">
-            <StackLayout orientation="horizontal" class="">
-                <GridLayout *ngFor="let i of array" rows="auto"
-                    columns="*">
-                    <Image class="card-img-thumb" row="0" col="0" src="https://azulejos.b-cdn.net/{{docs._id}}/{{i}}.jpg"
-                        stretch="aspectFill"></Image>
-                    </GridLayout>
-            </StackLayout>
-        </ScrollView>
-    <Label text="{{name}}" horizontalAlignment="center" class="tile-name"></Label>    
+        </GridLayout> -->
+    <ScrollView orientation="horizontal">
+        <StackLayout orientation="horizontal" class="">
+            <GridLayout *ngFor="let i of array" rows="auto" columns="*">
+                <Image class="card-img-thumb" row="0" col="0" src="https://azulejos.b-cdn.net/{{docs._id}}/{{i}}.jpg"
+                    stretch="aspectFill"></Image>
+            </GridLayout>
+        </StackLayout>
+    </ScrollView>
+    <Label text="{{name}}" horizontalAlignment="center" class="tile-name"></Label>
     <StackLayout orientation="horizontal">
-        <Label text="Ano: {{ano}}" width="100" ></Label>
+        <Label text="Ano: {{ano}}" width="100"></Label>
         <Label text="Condição atual: {{condicao}}" width="auto" textWrap="true"></Label>
     </StackLayout>
     <StackLayout width="100%" class="lineBreak"></StackLayout>
-    
-    <Label class="description-text" 
-        text="Descrição"
-        textWrap="true"></Label>
-    <Textview editable="false" text="{{info}}" 
-        horizontalAlignment="stretch" 
-        textWrap="true" ></Textview>
-        <Label class="description-text" 
-        text="Azulejos relacionados"
-        textWrap="true"></Label>
-        <ListView [items]="myItems | async" (itemTap)="onItemTap($event)">
-            <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
-                <StackLayout [class.odd]="odd" [class.even]="even">
-                    <Label [text]='item.name'></Label>
-                </StackLayout>
-            </ng-template>
-        </ListView>
-</StackLayout>
 
+    <Label class="description-text" text="Descrição" textWrap="true"></Label>
+    <Textview editable="false" text="{{info}}" horizontalAlignment="stretch" textWrap="true"></Textview>
+    <Label class="description-text" text="Azulejos relacionados" textWrap="true"></Label>
+    <ListView [items]="myItems | async" (itemTap)="onItemTap($event)">
+        <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
+            <StackLayout [class.odd]="odd" [class.even]="even">
+                <Label [text]='item.name'></Label>
+            </StackLayout>
+        </ng-template>
+    </ListView>
+</StackLayout>

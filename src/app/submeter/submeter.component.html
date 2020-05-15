@@ -4,14 +4,11 @@
 
 <StackLayout class="outerStack">
     <Label text="Nome da Sessão"></Label>
-    <TextField #sessao class="inputSession"
-        hint="Exemplo: Nome do prédio/casa onde está o azulejo" returnKeyType="done"
+    <TextField #sessao class="inputSession" hint="Exemplo: Nome do prédio/casa onde está o azulejo" returnKeyType="done"
         maxLength="50">
     </TextField>
     <Label text="Nome do Azulejo"></Label>
-    <TextField #nome class="textInput"
-        hint="Exemplo: Casa no campo de Santa Clara" returnKeyType="done"
-        maxLength="50">
+    <TextField #nome class="textInput" hint="Exemplo: Casa no campo de Santa Clara" returnKeyType="done" maxLength="50">
     </TextField>
     <Label text="Descrição do Azulejo"></Label>
     <TextView #info row="3" class="textInput"
@@ -19,12 +16,12 @@
     </TextView>
     <GridLayout columns="150,auto" rows="auto,auto">
         <Label row="0" col="0" text="Ano do Azulejo"></Label>
-        <TextField #ano row="1" col="0" class="textInput" hint="Exemplo: 1944"
-            returnKeyType="done" keyboardType="integer" maxLength="4">
+        <TextField #ano row="1" col="0" class="textInput" hint="Exemplo: 1944" returnKeyType="done"
+            keyboardType="integer" maxLength="4">
         </TextField>
         <Label row="0" col="1" text="Condição do Azulejo"></Label>
-        <Button #dialogButton row="1" col="1" text="Escolha condição"
-            (tap)="displayActionDialog()" class="btn btnInput">
+        <Button #dialogButton row="1" col="1" text="Escolha condição" (tap)="displayActionDialog()"
+            class="btn btnInput">
         </Button>
     </GridLayout>
     <Label row="5" text="Fotografias"></Label>

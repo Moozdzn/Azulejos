@@ -1,27 +1,27 @@
 import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
+import { RouterExtensions } from "nativescript-angular/router";
+import { ModalDialogService } from "nativescript-angular/directives/dialogs";
+
+import * as dialogs from "tns-core-modules/ui/dialogs";
+import * as http from "tns-core-modules/http";
 import { action } from "tns-core-modules/ui/dialogs";
 import { Page } from 'tns-core-modules/ui/page';
 import { Button } from 'tns-core-modules/ui/button';
 import { TextField } from "tns-core-modules/ui/text-field";
 import { TextView } from "tns-core-modules/ui/text-view";
-// USED TO SEND THE NEW SUBMISSION
-import * as http from "tns-core-modules/http";
-import { RouterExtensions } from "nativescript-angular/router";
-// USED TO GET SUBMISSION LOCATION
-import * as geolocation from "nativescript-geolocation";
 import { Accuracy } from "tns-core-modules/ui/enums";
-// FOR CAMERA AND GALLERY USE/ACESS
-import * as camera from "nativescript-camera";
 import { ImageSource, fromFile, fromResource, fromBase64 } from "tns-core-modules/image-source";
 import * as fs from "tns-core-modules/file-system";
+
+import * as geolocation from "nativescript-geolocation";
+import * as camera from "nativescript-camera";
 import * as imagepicker from "nativescript-imagepicker";
-// MODAL
-import { ModalDialogService } from "nativescript-angular/directives/dialogs";
+
 import { ModalComponent } from "./map-modal/map-modal";
 
 import { UrlService } from "../shared/url.service"
 
-import * as dialogs from "tns-core-modules/ui/dialogs";
+
 
 @Component({
     selector: "Submeter",
