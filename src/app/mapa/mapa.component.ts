@@ -11,6 +11,7 @@ import * as http from "tns-core-modules/http";
 import {ObservableArray} from "tns-core-modules/data/observable-array";
 import {TokenModel} from "nativescript-ui-autocomplete";
 import {RadAutoCompleteTextViewComponent} from "nativescript-ui-autocomplete/angular";
+import { Slider } from "tns-core-modules/ui/slider";
 
 import { UrlService } from "../shared/url.service"
 
@@ -149,6 +150,10 @@ export class MapaComponent implements OnInit {
         }
     }
 
+    onSliderValueChange(args) {
+        let slider = <Slider>args.object;
+        console.log(`Slider new value ${args.value}`);
+    }
     /* id = setInterval(() => {
         this.mapbox.removeMarkers();
         geolocation.enableLocationRequest().then(() => {

@@ -2,22 +2,33 @@
     <Label text="Perfil"></Label>
 </ActionBar>
 
-<StackLayout class="outerStack" orientation="vertical">
-    <Label class="username" text="Moozdzn">
-    </Label>
-    <StackLayout class="innerStack" orientation="vertical">
-        <Label class="submissionTitle" text="As minhas submissões">
+<StackLayout class="pageContent"orientation="vertical">
+    <StackLayout class="nameContainer" orientation="vertical">
+        <Label class="username" text="Moozdzn"></Label>
+    </StackLayout>
+    <StackLayout orientation="vertical">
+        <Label class="submissionTitle" text="Submissões">
         </Label>
+        <GridLayout columns="*, *, *" rows="auto,auto,auto">
+            <Label text="Públicas" row="0" col="0" class="statLabel">
+            </Label>
+            <Label text="Submetidas" row="0" col="1" class="statLabel">
+            </Label>
+            <Label text="Em análise" row="0" col="2" class="statLabel">
+            </Label>
+            <Label text="20" row="1" col="0" class="statLabel">
+            </Label>
+            <Label text="50" row="1" col="1" class="statLabel">
+            </Label>
+            <Label text="30" row="1" col="2" class="statLabel">
+            </Label>
+        </GridLayout>
         <ListView [items]="myItems | async" (itemTap)="onItemTap($event)">
             <ng-template let-item="item">
-                <FlexboxLayout flexDirection="row">
-                    <Image src="https://azulejos.b-cdn.net/5e750549ab03535270a2eb12/1.jpg" class="thumb img-circle">
-                    </Image>
-                    <FlexboxLayout flexDirection="Column">
-                        <Label [text]='item.nome' class="t-12 tileName"></Label>
-                        <Label [text]='item.estado' class="tileState"></Label>
-                    </FlexboxLayout>
-
+                <FlexboxLayout flexDirection="Column">
+                    <Label [text]='item.nome' class="t-12 tileName">
+                    </Label>
+                    <Label [text]='item.estado' class="tileState"></Label>
                 </FlexboxLayout>
             </ng-template>
         </ListView>

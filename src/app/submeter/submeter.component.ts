@@ -1,24 +1,25 @@
-import {Component,OnInit,ViewChild,ElementRef,ViewContainerRef} from '@angular/core';
-import {action} from "tns-core-modules/ui/dialogs";
-import {Page} from 'tns-core-modules/ui/page';
-import {Button} from 'tns-core-modules/ui/button';
-import {TextField} from "tns-core-modules/ui/text-field";
-import {TextView} from "tns-core-modules/ui/text-view";
+import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
+import { action } from "tns-core-modules/ui/dialogs";
+import { Page } from 'tns-core-modules/ui/page';
+import { Button } from 'tns-core-modules/ui/button';
+import { TextField } from "tns-core-modules/ui/text-field";
+import { TextView } from "tns-core-modules/ui/text-view";
 // USED TO SEND THE NEW SUBMISSION
 import * as http from "tns-core-modules/http";
+import { RouterExtensions } from "nativescript-angular/router";
 // USED TO GET SUBMISSION LOCATION
 import * as geolocation from "nativescript-geolocation";
-import {Accuracy} from "tns-core-modules/ui/enums";
+import { Accuracy } from "tns-core-modules/ui/enums";
 // FOR CAMERA AND GALLERY USE/ACESS
 import * as camera from "nativescript-camera";
-import {ImageSource, fromFile, fromResource, fromBase64} from "tns-core-modules/image-source";
+import { ImageSource, fromFile, fromResource, fromBase64 } from "tns-core-modules/image-source";
 import * as fs from "tns-core-modules/file-system";
 import * as imagepicker from "nativescript-imagepicker";
 // MODAL
-import {ModalDialogService} from "nativescript-angular/directives/dialogs";
-import {ModalComponent} from "./map-modal/map-modal";
+import { ModalDialogService } from "nativescript-angular/directives/dialogs";
+import { ModalComponent } from "./map-modal/map-modal";
 
-import {UrlService} from "../shared/url.service"
+import { UrlService } from "../shared/url.service"
 
 import * as dialogs from "tns-core-modules/ui/dialogs";
 
@@ -29,30 +30,40 @@ import * as dialogs from "tns-core-modules/ui/dialogs";
 })
 export class SubmeterComponent implements OnInit {
 
+    ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) =>
+        s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h));
+
+    submittedTiles = [];
+    sessionID = this.ObjectId();
     imageArray = [];
-    
+
     imageAssets = [];
-    imageSrc : any;
-    isSingleMode : boolean = true;
-    private file : string;
+    imageSrc: any;
+    isSingleMode: boolean = true;
+    private file: string;
+
+
+
     // Image Picker Preview - Not working
-    thumbSize : number = 80;
-    previewSize : number = 300;
+    //thumbSize : number = 80;
+    //previewSize : number = 300;
     // Server URL
     url = "http://192.168.42.9:3000/api/sessoes/azulejos";
     // Action Dialog Button
-    @ViewChild('dialogButton', {static: true})dp : ElementRef;
-    @ViewChild('nome', {static: true})dp1 : ElementRef;
-    @ViewChild('ano', {static: true})dp2 : ElementRef;
-    @ViewChild('info', {static: true})dp3 : ElementRef;
+    @ViewChild('dialogButton', { static: true }) db: ElementRef;
+    @ViewChild('nome', { static: true }) n: ElementRef;
+    @ViewChild('sessao', { static: true }) s: ElementRef;
+    @ViewChild('ano', { static: true }) a: ElementRef;
+    @ViewChild('info', { static: true }) i: ElementRef;
 
-    dialogButton : Button;
-    nome : TextField;
-    ano : TextField;
-    info : TextView;
-    location : any;
-    
-    constructor(private page : Page, private modal : ModalDialogService, private vcRef : ViewContainerRef, private _url: UrlService) {
+    dialogButton: Button;
+    nome: TextField;
+    sessao: TextField;
+    ano: TextField;
+    info: TextView;
+    location: any;
+
+    constructor(private page: Page, private modal: ModalDialogService, private vcRef: ViewContainerRef, private _url: UrlService, private routerExtension: RouterExtensions) {
         // Use the component constructor to inject providers.
     }
 
@@ -70,17 +81,19 @@ export class SubmeterComponent implements OnInit {
 
     ngOnInit(): void {
         // Use the "ngOnInit" handler to initialize data for the view.
-        this.dialogButton = <Button> this.dp.nativeElement;
-        this.nome = <TextField> this.dp1.nativeElement;
-        this.ano = <TextField> this.dp2.nativeElement;
-        this.info = <TextView> this.dp3.nativeElement;
+        this.dialogButton = <Button>this.db.nativeElement;
+        this.nome = <TextField>this.n.nativeElement;
+        this.sessao = <TextField>this.s.nativeElement;
+        this.ano = <TextField>this.a.nativeElement;
+        this.info = <TextView>this.i.nativeElement;
+
     }
 
     //
     public onSelectSingleTap() {
         this.isSingleMode = false;
 
-        let context = imagepicker.create({mode: "multiple"});
+        let context = imagepicker.create({ mode: "multiple" });
         this.startSelection(context);
     }
 
@@ -93,8 +106,8 @@ export class SubmeterComponent implements OnInit {
             return context.present();
         }).then((selection) => {
             console.log("Selection done: " + JSON.stringify(selection));
-            if(selection.length > 0){
-                for(var i in selection){
+            if (selection.length > 0) {
+                for (var i in selection) {
                     that.imageArray.push(selection[i]._android)
                 }
                 console.log(that.imageArray)
@@ -122,94 +135,93 @@ export class SubmeterComponent implements OnInit {
         };
 
         action(options).then((result) => {
-            if (result !== options.cancelButtonText) 
+            if (result !== options.cancelButtonText)
                 this.dialogButton.text = result;
             console.log(result);
         });
     }
-    // Submit Tile
-    onSubmit() {
-        dialogs.prompt({
-            title: "Quer submeter mais azulejos?",
-            message: "Dê um nome à sua sessão.",
-            okButtonText: "Confirmar",
-            cancelButtonText: "Não",
-            defaultText: "Exemplo: Grupo de Azulejos do prédio X.",
-            inputType: dialogs.inputType.text
-        }).then(r => {
-            var imagesToSubmit = [];
-            if(this.imageArray.length > 0){
-                for(var i in this.imageArray){
+
+    saveTile() {
+        var imagesToSubmit = [];
+        if (this.imageArray.length > 0) {
+            for (var i in this.imageArray) {
                 this.file = fs.path.normalize(this.imageArray[i]);
-                const ImageFromFilePath: ImageSource = <ImageSource> fromFile(this.file);
+                const ImageFromFilePath: ImageSource = <ImageSource>fromFile(this.file);
                 var ImageData = ImageFromFilePath.toBase64String("jpg");
                 imagesToSubmit.push(ImageData);
+            }
+        }
+        var tile = {
+            "_id": this.ObjectId(),
+            "Nome": this.nome.text,
+            "Ano": this.ano.text,
+            "Info": this.info.text,
+            "Condicao": this.dialogButton.text,
+            "Localizacao": [this.location[1], this.location[0]],
+            "Sessao": this.sessionID,
+            "Files": imagesToSubmit
+        }
+        this.submittedTiles.push(tile);
+        this.dialogButton.text = "Escolha condição";
+        this.nome.text = "";
+        this.info.text = "";
+        this.ano.text = "";
+        this.imageArray = [];
+    }
+    // Submit Tile
+    onSubmit() {
+        dialogs.confirm({
+            title: "Submeter azujelo(s)?",
+            message: "Não vai puder alterar as informações que inseriu!",
+            okButtonText: "Sim",
+            cancelButtonText: "Rever",
+            neutralButtonText: "Submeter outro azulejo"
+        }).then(result => {
+
+            if (result) {
+                this.saveTile()
+                var tilesID = [];
+                for (var i in this.submittedTiles) {
+                    tilesID.push(this.submittedTiles[i]._id)
                 }
-            }
-        
-            var body = {
-                file: imagesToSubmit,
-                nome: this.nome.text,
-                ano: this.ano.text,
-                info: this.info.text,
-                condicao: this.dialogButton.text,
-                coordinates: [
-                    this.location[1], this.location[0]
-                 ]
-            }
-            if(r.result){
+
+                var body = {
+                    sessao: {
+                        "_id": this.sessionID,
+                        "estado": "SUBMETIDA",
+                        "info": this.sessao.text,
+                        "idAutor": this._url.getID(),
+                        "azulejos": tilesID
+                    },
+                    azulejos: this.submittedTiles
+                }
                 http.request({
-                    url: this._url.getUrl()+"sessoes",
+                    url: this._url.getUrl() + "sessoes",
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    content: JSON.stringify({
-                       info: r.text,
-                       userID: this._url.getID(),
-                    })
+                    content: JSON.stringify(body)
                 }).then((r: any) => {
-                    
-                    body["sessionID"] = r.content;
-                    alert(JSON.stringify(body));
-                    this.sendTile(body);
+                    console.log(r.content)
+                    this.sessao.text = "";
+                    this.sessao.editable = true;
+                    this.routerExtension.navigate(['/tabs/default'], { clearHistory: true });
 
-                    this.dialogButton.text = "Escolha condição";
-                    this.nome.text = "";
-                    this.info.text = "";
-                    this.ano.text = "";
-                    this.imageArray = [];
-        
                 }).catch(function (e) {
                     console.log("Uh oh, something went wrong1", e);
                     alert("The following error ocurred: " + e)
                 });
-
             }
-            else if (r.result == false){
-                body["sessionID"] = false;
-                this.sendTile(body)
+            else if (result === false) {
+
             }
             else {
-                 alert('An error occurred')
+                this.sessao.editable = false;
+                this.saveTile();
             }
-            });
-    }
-    sendTile(content){
-        http.request({
-            url: this._url.getUrl()+"sessoes/azulejos",
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            content: JSON.stringify(content)
-        }).then(function (r: any) {
-            alert("submitted succefully");
-
-        }).catch(function (e) {
-            console.log("Uh oh, something went wrong2", e);
-            alert("The following error ocurred: " + e)
         });
+
     }
     // TAKE PHOTO
     takePhoto() {
