@@ -60,6 +60,7 @@ export class TileDetailComponent implements OnInit {
                 }
             });
             http.getJSON(this._url.getUrl() + this.sessao + "/azulejos/nome").then((r: any) => {
+                console.log(r.docs)
                 for (var i in r.docs) {
                     if (r.docs[i].Nome != this.name) this.items.push(new SessionItem(r.docs[i]._id, r.docs[i].Nome));
                 }
@@ -84,7 +85,6 @@ export class TileDetailComponent implements OnInit {
                 context: { r },
                 fullscreen: true,
                 viewContainerRef: this.vcRef,
-
             };
             this.modal.showModal(TileDetailComponent, options).then(() => {
             });

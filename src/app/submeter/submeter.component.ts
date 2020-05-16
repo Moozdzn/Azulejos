@@ -182,7 +182,7 @@ export class SubmeterComponent implements OnInit {
                 this.saveTile()
                 var tilesID = [];
                 for (var i in this.submittedTiles) {
-                    tilesID.push(this.submittedTiles[i]._id)
+                    tilesID.push({"_id": this.submittedTiles[i]._id,"Nome":this.submittedTiles[i].Nome})
                 }
 
                 var body = {
@@ -206,7 +206,7 @@ export class SubmeterComponent implements OnInit {
                     console.log(r.content)
                     this.sessao.text = "";
                     this.sessao.editable = true;
-                    this.routerExtension.navigate(['/tabs/default'], { clearHistory: true });
+                    
 
                 }).catch(function (e) {
                     console.log("Uh oh, something went wrong1", e);

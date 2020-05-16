@@ -7,12 +7,13 @@
     vertical-align: middle;
     margin: 75;
     font-size: 45;
-    color: grey;
+    color: black;
     
 }
 
 .statLabel{
-    padding: 5;
+    padding: 2;
+    font-size: 15;
 }
 .pageContent{
     background-color: #4e597a;
@@ -32,7 +33,7 @@ Label {
     color:wheat;
 }
 .submissionTitle{
-    font-size: 15;
+    font-size: 20;
     margin:10;
     
 }

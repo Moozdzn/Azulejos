@@ -9,6 +9,7 @@
     <StackLayout orientation="vertical">
         <Label class="submissionTitle" text="Submissões">
         </Label>
+        
         <GridLayout columns="*, *, *" rows="auto,auto,auto">
             <Label text="Públicas" row="0" col="0" class="statLabel">
             </Label>
@@ -16,11 +17,11 @@
             </Label>
             <Label text="Em análise" row="0" col="2" class="statLabel">
             </Label>
-            <Label text="20" row="1" col="0" class="statLabel">
+            <Label text="{{state.public}}" row="1" col="0" class="statLabel">
             </Label>
-            <Label text="50" row="1" col="1" class="statLabel">
+            <Label text="{{state.submitted}}" row="1" col="1" class="statLabel">
             </Label>
-            <Label text="30" row="1" col="2" class="statLabel">
+            <Label text="{{state.inAnalysis}}" row="1" col="2" class="statLabel">
             </Label>
         </GridLayout>
         <ListView [items]="myItems | async" (itemTap)="onItemTap($event)">

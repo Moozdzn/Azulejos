@@ -20,13 +20,13 @@ TextView{
     background-color: green; 
 }
 .btnInput {
-    background-color: blue; 
+    background-color: #809fff; 
 }
 
 .textInput {
     border-radius: 5;
     border-width: 2;
-    border-color: blue;
+    border-color: #809fff;
     margin: 10;
     padding: 10;
 }
