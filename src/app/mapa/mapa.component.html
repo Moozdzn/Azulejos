@@ -2,24 +2,12 @@
     <Label text="Mapa"></Label>
 </ActionBar>
 
-<GridLayout class="page__content">
 
-    <ContentView height="100%" width="100%">
-        
-    </ContentView>
-    <StackLayout orientation="vertical">
-        <RadAutoCompleteTextView #autocomplete >
-        </RadAutoCompleteTextView>
-    </StackLayout>
-</GridLayout>
 <!-- (selectedIndexChanged)="onSelectedIndexchanged($event)" -->
 <TabView selectedIndex="1" >
     <StackLayout class="listView" *tabItem="{title: 'Lista'}">
         <ListView class="listView" [items]="myItems | async" (itemTap)="onItemTap($event)">
             <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
-                <!-- <StackLayout [class.odd]="odd" [class.even]="even">
-                    <Label class="tile" [text]='item.name'></Label>
-                </StackLayout> -->
                 <!-- https://azulejos.b-cdn.net/item.id/0.jpg -->
                 <FlexboxLayout flexDirection="row">
                     <Image src="https://abrilcasa.files.wordpress.com/2018/02/azulejos.jpg" class="thumb img-circle"></Image>

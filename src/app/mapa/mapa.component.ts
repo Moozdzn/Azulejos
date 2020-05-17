@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ViewContainerRef } from "@angular/core";
+import { Component, ViewChild, OnInit, ViewContainerRef, AfterViewInit } from "@angular/core";
 import { Router, NavigationExtras } from "@angular/router";
 
 import * as geolocation from "nativescript-geolocation";
@@ -57,16 +57,17 @@ export class MapaComponent implements OnInit {
         //private _itemService: DataService
     ) { }
 
-    ngOnInit(): void {
+    ngOnInit(): void {}
+    ngAfterViewInit():void{
         let that = this;
         this.autocomplete.autoCompleteTextView.loadSuggestionsAsync = function (text) {
             const promise = new Promise(function (resolve, reject) {
                 http.getJSON(that._url.getUrl() + "sessoes/azulejos/nome").then(function (r: any) {
                     console.log(r.docs);
-                    const airportsCollection = r.docs;
+                    const tilesCollection = r.docs;
                     const items: Array<TokenModel> = new Array();
-                    for (let i = 0; i < airportsCollection.length; i++) {
-                        items.push(new TokenModel(airportsCollection[i].Nome, null));
+                    for (let i = 0; i < tilesCollection.length; i++) {
+                        items.push(new TokenModel(tilesCollection[i].Nome, null));
                     }
                     that.markers = r.docs;
                     resolve(items);
@@ -79,11 +80,10 @@ export class MapaComponent implements OnInit {
             });
 
             return promise;
-        }; 
-        //this.items = this._itemService.getItems();
+        };
     }
 
-    @ViewChild("autocomplete", { static: true }) autocomplete: RadAutoCompleteTextViewComponent;
+    @ViewChild("autocomplete", { static: false }) autocomplete: RadAutoCompleteTextViewComponent;
 
     get dataItems(): ObservableArray<TokenModel> {
         return this._items;
@@ -131,7 +131,7 @@ export class MapaComponent implements OnInit {
                             this.tiles.push(new TileItem(json.docs[i]._id, json.docs[i].Nome));
                         }
                         this.mapbox.addMarkers(markers).then((s: any) => { });
-                        subscr.next(this.tiles);
+                        //subscr.next(this.tiles);
                     }, (e) => {
                         console.error(JSON.stringify(e))
                         alert(e)
@@ -173,9 +173,7 @@ export class MapaComponent implements OnInit {
         }
     }
 
-    
-
-    onItemTap(args){
+    onItemTap(args) {
         this.openDetails(this.tiles[args.index].id)
     }
     /* id = setInterval(() => {
