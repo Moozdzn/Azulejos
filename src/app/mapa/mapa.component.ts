@@ -21,14 +21,16 @@ import { UrlService } from "../shared/url.service"
 
 import { TileDetailComponent } from "./tile-detail/tile-detail";
 
-
+import { Observable as RxObservable } from 'rxjs';
 
 registerElement("Mapbox", () => require("nativescript-mapbox-enduco").MapboxView);
 registerElement('Fab', () => require('@nstudio/nativescript-floatingactionbutton').Fab);
 
 
 //import { DataService, DataItem } from "../shared/data.service";
-
+export class TileItem {
+    constructor(public id: string, public name: string) { }
+}
 @Component({
     selector: "Mapa",
     templateUrl: "./mapa.component.html",
@@ -38,6 +40,10 @@ registerElement('Fab', () => require('@nstudio/nativescript-floatingactionbutton
 export class MapaComponent implements OnInit {
     //items: Array<DataItem>;
 
+    //Tile List View
+    public myItems: RxObservable<Array<TileItem>>;
+    public tiles = [];
+    //
     private _items: ObservableArray<TokenModel>;
     // TO BE REMOVED
     private markers;
@@ -73,7 +79,7 @@ export class MapaComponent implements OnInit {
             });
 
             return promise;
-        };
+        }; 
         //this.items = this._itemService.getItems();
     }
 
@@ -99,6 +105,16 @@ export class MapaComponent implements OnInit {
                         var data = JSON.stringify(r.content)
                         var json = JSON.parse(data)
                         var markers = [];
+                        //ListView
+                        var subscr;
+                        this.myItems = RxObservable.create(subscriber => {
+                            subscr = subscriber;
+                            subscriber.next(this.tiles);
+                            return function () {
+                                console.log("Unsubscribe called!!!");
+                            }
+                        });
+
                         for (var i in json.docs) {
                             markers.push(<MapboxMarker>{
                                 id: json.docs[i]._id,
@@ -112,8 +128,10 @@ export class MapaComponent implements OnInit {
                                 },
                                 onCalloutTap: marker => this.openDetails(marker.id)
                             })
+                            this.tiles.push(new TileItem(json.docs[i]._id, json.docs[i].Nome));
                         }
                         this.mapbox.addMarkers(markers).then((s: any) => { });
+                        subscr.next(this.tiles);
                     }, (e) => {
                         console.error(JSON.stringify(e))
                         alert(e)
@@ -155,9 +173,10 @@ export class MapaComponent implements OnInit {
         }
     }
 
-    onSliderValueChange(args) {
-        let slider = <Slider>args.object;
-        console.log(`Slider new value ${args.value}`);
+    
+
+    onItemTap(args){
+        this.openDetails(this.tiles[args.index].id)
     }
     /* id = setInterval(() => {
         this.mapbox.removeMarkers();

@@ -5,12 +5,11 @@ import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 import * as dialogs from "tns-core-modules/ui/dialogs";
 import * as http from "tns-core-modules/http";
 import { action } from "tns-core-modules/ui/dialogs";
-import { Page } from 'tns-core-modules/ui/page';
 import { Button } from 'tns-core-modules/ui/button';
 import { TextField } from "tns-core-modules/ui/text-field";
 import { TextView } from "tns-core-modules/ui/text-view";
 import { Accuracy } from "tns-core-modules/ui/enums";
-import { ImageSource, fromFile, fromResource, fromBase64 } from "tns-core-modules/image-source";
+import { ImageSource, fromFile} from "tns-core-modules/image-source";
 import * as fs from "tns-core-modules/file-system";
 
 import * as geolocation from "nativescript-geolocation";
@@ -63,7 +62,7 @@ export class SubmeterComponent implements OnInit {
     info: TextView;
     location = [];
 
-    constructor(private page: Page, private modal: ModalDialogService, private vcRef: ViewContainerRef, private _url: UrlService, private routerExtension: RouterExtensions) {
+    constructor(private modal: ModalDialogService, private vcRef: ViewContainerRef, private _url: UrlService, private routerExtension: RouterExtensions) {
         // Use the component constructor to inject providers.
     }
 
@@ -86,11 +85,6 @@ export class SubmeterComponent implements OnInit {
         this.sessao = <TextField>this.s.nativeElement;
         this.ano = <TextField>this.a.nativeElement;
         this.info = <TextView>this.i.nativeElement;
-
-        /*  */
-
-
-
     }
 
     //
@@ -146,6 +140,11 @@ export class SubmeterComponent implements OnInit {
     }
 
     saveTile() {
+        let options = {
+            title: "Erro no formulário",
+            message: "Não adicionou imagens do azulejo",
+            okButtonText: "OK"
+        };
         if (this.location.length == 0) {
             geolocation.enableLocationRequest().then(() => {
                 geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
@@ -163,7 +162,10 @@ export class SubmeterComponent implements OnInit {
             }
         }
         else {
-            alert('Não adicionou imagens do azulejo');
+
+            options.message = "Não adicionou imagens do azulejo";
+
+            dialogs.alert(options);
             return false;
         }
 
@@ -183,7 +185,8 @@ export class SubmeterComponent implements OnInit {
         for (i in keys) {
 
             if (tile[keys[i]].length == 0 || (keys[i] == "Condicao" && tile[keys[i]] == "Escolha condição")) {
-                alert(keys[i] + ' do azulejo não pode estar vazio')
+                options.message = keys[i] + ' do azulejo não pode estar vazio';
+                dialogs.alert(options);
                 return false
             }
         }

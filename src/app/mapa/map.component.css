@@ -5,5 +5,16 @@ RadAutoCompleteTextView {
     margin: 10 10 5 10;
     font-weight: bold;
     font-size: 20;
-    }
+}
 
+.listView{
+    background: #444444;
+}
+.tile{
+    color:white;
+    font-size: 20;
+    text-align: center;
+}
+.tileImg{
+    width:50%; height:50%; border-radius:50%;
+}
