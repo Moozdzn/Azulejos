@@ -52,7 +52,7 @@ export class PerfilComponent implements OnInit {
         });
         http.getJSON(this._url.getUrl() + "user/" + this.id + "/sessoes").then((r: any) => {
             for (var i in r.docs) {
-                console.log(r.docs[i])
+                
                 switch (r.docs[i].estado) {
                     case "PÚBLICA":
                         this.state.public += 1;
@@ -69,15 +69,14 @@ export class PerfilComponent implements OnInit {
                 }
                 this.items.push(new SessionItem(r.docs[i]._id, r.docs[i].data, r.docs[i].estado, r.docs[i].info, r.docs[i].azulejos));
             }
-            console.log(this.items)
+            
             subscr.next(this.items);
         })
     }
 
     onItemTap(args: ItemEventData): void {
         if (this.items[args.index].estado === 'PÚBLICA') {
-            console.log('Item with index: ' + args.index + ' tapped');
-            console.log(this.items[args.index].tiles)
+            
             var actions = [];
             for (var i in this.items[args.index].tiles) {
                 actions.push(this.items[args.index].tiles[i].Nome)
@@ -91,9 +90,9 @@ export class PerfilComponent implements OnInit {
 
             action(options).then((result) => {
                 if (result != "Cancelar") {
-                    console.log(result);
+                    
                     let found = actions.indexOf(result)
-                    console.log(found);
+                   
                     this.openDetails(this.items[args.index].tiles[i]._id)
                 }
             });

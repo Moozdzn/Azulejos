@@ -9,6 +9,7 @@ RadAutoCompleteTextView {
 
 .listView{
     background: #444444;
+    
 }
 .tile{
     color:white;
@@ -17,4 +18,12 @@ RadAutoCompleteTextView {
 }
 .tileImg{
     width:50%; height:50%; border-radius:50%;
+}
+
+TabView{
+    tab-text-color: white;
+    selected-tab-text-color: white;
+    tab-background-color: #444444;
+    android-selected-tab-highlight-color: #185a9d;
+    font-size: 15;
 }

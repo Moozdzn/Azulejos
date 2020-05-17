@@ -1,10 +1,10 @@
 <ActionBar>
-    <Label text="Mapa"></Label>
+    <Label text="Explorar"></Label>
 </ActionBar>
 
 
 <!-- (selectedIndexChanged)="onSelectedIndexchanged($event)" -->
-<TabView selectedIndex="1" >
+<TabView selectedIndex="1">
     <StackLayout class="listView" *tabItem="{title: 'Lista'}">
         <ListView class="listView" [items]="myItems | async" (itemTap)="onItemTap($event)">
             <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">

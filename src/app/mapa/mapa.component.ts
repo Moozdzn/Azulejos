@@ -63,7 +63,6 @@ export class MapaComponent implements OnInit {
         this.autocomplete.autoCompleteTextView.loadSuggestionsAsync = function (text) {
             const promise = new Promise(function (resolve, reject) {
                 http.getJSON(that._url.getUrl() + "sessoes/azulejos/nome").then(function (r: any) {
-                    console.log(r.docs);
                     const tilesCollection = r.docs;
                     const items: Array<TokenModel> = new Array();
                     for (let i = 0; i < tilesCollection.length; i++) {
@@ -155,7 +154,6 @@ export class MapaComponent implements OnInit {
                 context: { r },
                 fullscreen: true,
                 viewContainerRef: this.vcRef,
-
             };
             this.modal.showModal(TileDetailComponent, options).then((cb) => {
                 if (cb == 0) return

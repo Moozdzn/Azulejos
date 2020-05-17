@@ -1,20 +1,16 @@
 <BottomNavigation>
     <TabStrip>
-        <TabStripItem class="navigation__item">
-            <!--
-                Note TabStripItem will only accept single Label and/or single Image elements that it
-                will "adopt"; any other layout elements you try to specify will be ignored
-            -->
-            <Label text="Explorar"></Label>
-            <Image src="res://discover" class="fas t-36"></Image>
+        <TabStripItem #tab1 (tap)="onTabSelect('tab1')" class="selected">
+            <Label text="Explorar" color="#444444"></Label>
+            <Image src="res://discover" class="icon t-36"></Image>
         </TabStripItem>
-        <TabStripItem class="navigation__item">
-            <Label text="Submeter"></Label>
-            <Image src="res://plus_circle" class="far t-36"></Image>
+        <TabStripItem #tab2 (tap)="onTabSelect('tab2')" >
+            <Label text="Submeter" color="#444444"></Label>
+            <Image src="res://plus_circle" class="icon t-36"></Image>
         </TabStripItem>
-        <TabStripItem class="navigation__item">
-            <Label text="Perfil"></Label>
-            <Image src="res://profileicon" class="fas t-36"></Image>
+        <TabStripItem #tab3 (tap)="onTabSelect('tab3')" c>
+            <Label text="Perfil" color="#444444"></Label>
+            <Image src="res://profileicon" class="icon t-36"></Image>
         </TabStripItem>
     </TabStrip>
 

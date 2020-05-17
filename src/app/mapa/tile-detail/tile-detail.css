@@ -1,6 +1,9 @@
 TextView {
-    border-width: 1;
-    border-color: #ffffff;
+    
+    color:white;
+}
+Label {
+    color:white;
 }
 .card-img {
     width: 100%;
@@ -16,13 +19,13 @@ TextView {
     margin-left: 5;
 }
 .tile-name {
-    font-size: 14;
+    font-size: 20;
     font-weight: bold;
+    margin: 10 10 ;
 }
 .description-text {
     font-size: 14;
     font-weight: bold;
-    color: black;
 
 }
 .lineBreak {
@@ -30,9 +33,10 @@ TextView {
     border: none;
     color: #e0e0e0;
     background-color: #e0e0e0;
+    margin: 10;
 }
-.close {
-    font-size: 20;
-    color: rgb(49, 47, 47);
-    margin: 15 0 0 15;
+
+.outerStack {
+    background-color:#444444;
+    padding: 15;
 }

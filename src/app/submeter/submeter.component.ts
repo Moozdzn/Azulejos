@@ -73,7 +73,7 @@ export class SubmeterComponent implements OnInit {
             viewContainerRef: this.vcRef
         };
         this.modal.showModal(ModalComponent, options).then(res => {
-            console.log(res);
+           
             this.location = res;
         });
     }
@@ -135,7 +135,7 @@ export class SubmeterComponent implements OnInit {
         action(options).then((result) => {
             if (result !== options.cancelButtonText)
                 this.dialogButton.text = result;
-            console.log(result);
+            
         });
     }
 
@@ -235,7 +235,7 @@ export class SubmeterComponent implements OnInit {
                         },
                         content: JSON.stringify(body)
                     }).then((r: any) => {
-                        console.log(r.content)
+                        
                         this.sessao.text = "";
                         this.sessao.editable = true;
 
