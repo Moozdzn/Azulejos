@@ -61,7 +61,7 @@ export class SubmeterComponent implements OnInit {
     sessao: TextField;
     ano: TextField;
     info: TextView;
-    location: any;
+    location = [];
 
     constructor(private page: Page, private modal: ModalDialogService, private vcRef: ViewContainerRef, private _url: UrlService, private routerExtension: RouterExtensions) {
         // Use the component constructor to inject providers.
@@ -86,6 +86,10 @@ export class SubmeterComponent implements OnInit {
         this.sessao = <TextField>this.s.nativeElement;
         this.ano = <TextField>this.a.nativeElement;
         this.info = <TextView>this.i.nativeElement;
+
+        /*  */
+
+
 
     }
 
@@ -142,6 +146,13 @@ export class SubmeterComponent implements OnInit {
     }
 
     saveTile() {
+        if (this.location.length == 0) {
+            geolocation.enableLocationRequest().then(() => {
+                geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
+                    this.location = [location.longitude, location.altitude]
+                })
+            })
+        }
         var imagesToSubmit = [];
         if (this.imageArray.length > 0) {
             for (var i in this.imageArray) {
@@ -151,6 +162,11 @@ export class SubmeterComponent implements OnInit {
                 imagesToSubmit.push(ImageData);
             }
         }
+        else {
+            alert('Não adicionou imagens do azulejo');
+            return false;
+        }
+
         var tile = {
             "_id": this.ObjectId(),
             "Nome": this.nome.text,
@@ -161,12 +177,25 @@ export class SubmeterComponent implements OnInit {
             "Sessao": this.sessionID,
             "Files": imagesToSubmit
         }
+
+        var keys = Object.keys(tile);
+
+        for (i in keys) {
+
+            if (tile[keys[i]].length == 0 || (keys[i] == "Condicao" && tile[keys[i]] == "Escolha condição")) {
+                alert(keys[i] + ' do azulejo não pode estar vazio')
+                return false
+            }
+        }
+
         this.submittedTiles.push(tile);
         this.dialogButton.text = "Escolha condição";
         this.nome.text = "";
         this.info.text = "";
         this.ano.text = "";
         this.imageArray = [];
+        this.location = [];
+        return true;
     }
     // Submit Tile
     onSubmit() {
@@ -177,48 +206,55 @@ export class SubmeterComponent implements OnInit {
             cancelButtonText: "Rever",
             neutralButtonText: "Submeter outro azulejo"
         }).then(result => {
-
             if (result) {
-                this.saveTile()
-                var tilesID = [];
-                for (var i in this.submittedTiles) {
-                    tilesID.push({"_id": this.submittedTiles[i]._id,"Nome":this.submittedTiles[i].Nome})
+                var flag = this.saveTile();
+                if (flag) {
+                    var tilesID = [];
+                    for (var i in this.submittedTiles) {
+                        tilesID.push({ "_id": this.submittedTiles[i]._id, "Nome": this.submittedTiles[i].Nome })
+                    }
+
+                    var body = {
+                        sessao: {
+                            "_id": this.sessionID,
+                            "estado": "SUBMETIDA",
+                            "info": this.sessao.text,
+                            "idAutor": this._url.getID(),
+                            "azulejos": tilesID
+                        },
+                        azulejos: this.submittedTiles
+                    }
+                    http.request({
+                        url: this._url.getUrl() + "sessoes",
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        content: JSON.stringify(body)
+                    }).then((r: any) => {
+                        console.log(r.content)
+                        this.sessao.text = "";
+                        this.sessao.editable = true;
+
+
+                    }).catch(function (e) {
+                        console.log("Uh oh, something went wrong1", e);
+                        alert("The following error ocurred: " + e)
+                    });
                 }
-
-                var body = {
-                    sessao: {
-                        "_id": this.sessionID,
-                        "estado": "SUBMETIDA",
-                        "info": this.sessao.text,
-                        "idAutor": this._url.getID(),
-                        "azulejos": tilesID
-                    },
-                    azulejos: this.submittedTiles
+                else {
+                    return
                 }
-                http.request({
-                    url: this._url.getUrl() + "sessoes",
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    content: JSON.stringify(body)
-                }).then((r: any) => {
-                    console.log(r.content)
-                    this.sessao.text = "";
-                    this.sessao.editable = true;
-                    
-
-                }).catch(function (e) {
-                    console.log("Uh oh, something went wrong1", e);
-                    alert("The following error ocurred: " + e)
-                });
             }
-            else if (result === false) {
-
-            }
+            else if (result === false) { }
             else {
-                this.sessao.editable = false;
-                this.saveTile();
+                var flag = this.saveTile();
+                if (flag) {
+                    this.sessao.editable = false;
+                }
+                else {
+                    return
+                }
             }
         });
 
