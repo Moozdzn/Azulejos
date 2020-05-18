@@ -27,8 +27,6 @@ export class TileDetailComponent implements OnInit {
 
     public docs: any;
 
-    //TO BE REMOVED
-    public serverURL: string = "http://192.168.0.104:3000/api/";
 
     public constructor(private params: ModalDialogParams,
         private modal: ModalDialogService,
@@ -40,9 +38,7 @@ export class TileDetailComponent implements OnInit {
         }
     }
 
-    ngOnInit(): void {
-
-    }
+    ngOnInit(): void {}
 
     public onPageLoad() {
         this.name = this.docs.Nome;
@@ -66,8 +62,6 @@ export class TileDetailComponent implements OnInit {
                 subscr.next(this.items);
             })
         }
-
-
     }
 
     onItemTap(args): void {
@@ -79,7 +73,7 @@ export class TileDetailComponent implements OnInit {
     }
 
     public openDetails(ID) {
-        http.getJSON(this.serverURL + "" + ID).then((r: any) => {
+        http.getJSON(this._url.getUrl() + ID).then((r: any) => {
             let options = {
                 context: { r },
                 fullscreen: true,

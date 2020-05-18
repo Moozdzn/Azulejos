@@ -1,8 +1,9 @@
-Label{
+Label {
     font-size: 15;
     margin-left: 10;
     color:white;
 }
+
 TextField{
     background-color:white;
 }
@@ -12,7 +13,7 @@ TextView{
 .inputSession {
     border-radius: 5;
     border-width: 2;
-    border-color: green;
+    border-color: #444444;
     margin: 10;
     padding: 10;
 }
@@ -26,7 +27,7 @@ TextView{
 .textInput {
     border-radius: 5;
     border-width: 2;
-    border-color: #809fff;
+    border-color: #444444;
     margin: 10;
     padding: 10;
 }
@@ -38,4 +39,12 @@ TextView{
 }
 .outerStack{
     background-color: #444444;
+}
+
+.lineBreak {
+    height: 0.5;
+    border: none;
+    color: #e0e0e0;
+    background-color: #e0e0e0;
+    margin: 10;
 }

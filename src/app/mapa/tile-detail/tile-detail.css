@@ -40,3 +40,6 @@ Label {
     background-color:#444444;
     padding: 15;
 }
+.error {
+    border-color: red;
+}

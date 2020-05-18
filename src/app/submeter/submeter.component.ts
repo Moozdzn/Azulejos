@@ -40,7 +40,7 @@ export class SubmeterComponent implements OnInit {
     imageSrc: any;
     isSingleMode: boolean = true;
     private file: string;
-
+    public wError = true;
 
 
     // Image Picker Preview - Not working
