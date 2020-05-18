@@ -37,20 +37,23 @@ The user using this aplication should be able to view information about the tile
  The user acesses an interface where the user can see their submissions and their state (Submitted, Reviewed and Public).
 
 ## Work Plan
-![WorkPlanImage](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/WorkPlan-V3-Updated.png)
+![WorkPlanImage](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/WorkPlan-V4.png)
 
 ## Functional Requirements
-![Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/FR-V2.png)
+![Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/FR-V3.png)
 
 ## Non Functional Requirements
-![Non Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/NFR-V1.png)
+![Non Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/NFR-V2.png)
 
 ## Mockups e Interfaces
 ![Mockups](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/Mockups-V2.png)
 [Adobe XD link](https://xd.adobe.com/view/cac3ce1b-bc83-45f9-52ae-82d713068e32-bcf2/?fullscreen)
 
+## Block Diagram
+![WBS](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/Azulejos-BlockDiagram.png)
+
 ## Domain Model
-![Domain Model](https://github.com/Moozdzn/Azulejos/blob/master/Deliverables/attachments/App-azulejos-diagrama-V2.png)
+![Domain Model](https://raw.githubusercontent.com/AppleJackPOR/InfoAzulejo/master/Terceira%20Entrega/ModeloDominio.png)
 
 ## State Machine
 ![State Machine](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/StateMachine-V1.png)
