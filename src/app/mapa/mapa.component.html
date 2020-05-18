@@ -10,8 +10,11 @@
             <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
                 <!-- https://azulejos.b-cdn.net/item.id/0.jpg -->
                 <FlexboxLayout flexDirection="row">
+                    <Label [text]="item.distance" class="t-12 distance"
+                    verticalAlignment="center" textWrap="true"></Label>
                     <Label [text]="item.name" class="t-12 tile"
-                    verticalAlignment="center" style="width: 80%" textWrap="true"></Label>
+                    verticalAlignment="center" style="width: 60%" textWrap="true"></Label>
+                    
                     <Image src="https://abrilcasa.files.wordpress.com/2018/02/azulejos.jpg" class="thumb img-circle"></Image>
                 </FlexboxLayout>
             </ng-template>

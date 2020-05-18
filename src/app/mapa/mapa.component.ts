@@ -29,7 +29,7 @@ registerElement('Fab', () => require('@nstudio/nativescript-floatingactionbutton
 
 //import { DataService, DataItem } from "../shared/data.service";
 export class TileItem {
-    constructor(public id: string, public name: string) { }
+    constructor(public id: string, public name: string, public distance: string) { }
 }
 @Component({
     selector: "Mapa",
@@ -100,9 +100,10 @@ export class MapaComponent implements OnInit {
                         headers: {
                             "Content-Type": "application/json"
                         }
-                    }).then((r) => { // TRIGGER
+                    }).then((r:any) => { // TRIGGER
                         var data = JSON.stringify(r.content)
-                        var json = JSON.parse(data)
+                        var json = JSON.parse(data);
+                        console.log(json[0])
                         var markers = [];
                         //ListView
                         var subscr;
@@ -114,12 +115,12 @@ export class MapaComponent implements OnInit {
                             }
                         });
 
-                        for (var i in json.docs) {
+                        for (var i in json) {
                             markers.push(<MapboxMarker>{
-                                id: json.docs[i]._id,
-                                lat: json.docs[i].Localizacao.coordinates[1],
-                                lng: json.docs[i].Localizacao.coordinates[0],
-                                title: json.docs[i].Nome,
+                                id: json[i]._id,
+                                lat: json[i].Localizacao.coordinates[1],
+                                lng: json[i].Localizacao.coordinates[0],
+                                title: json[i].Nome,
                                 subtitle: 'Carrega para ver mais',
                                 onTap: marker => {
                                     console.log("Marker tapped with title: '" + marker.title + "'");
@@ -127,7 +128,7 @@ export class MapaComponent implements OnInit {
                                 },
                                 onCalloutTap: marker => this.openDetails(marker.id)
                             })
-                            this.tiles.push(new TileItem(json.docs[i]._id, json.docs[i].Nome));
+                            this.tiles.push(new TileItem(json[i]._id, json[i].Nome, (json[i].distance / 1000).toFixed(2) +"km"));
                         }
                         this.mapbox.addMarkers(markers).then((s: any) => { });
                         //subscr.next(this.tiles);

@@ -16,6 +16,12 @@ RadAutoCompleteTextView {
     font-size: 20;
     text-align: center;
 }
+.distance{
+    color:white;
+    font-size: 15;
+    text-align: center;
+}
+
 .tileImg{
     width:50%; height:50%; border-radius:50%;
 }
