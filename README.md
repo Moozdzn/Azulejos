@@ -1,6 +1,6 @@
 ![University](https://www.iade.europeia.pt/hs-fs/hubfs/IADE-SITE/static/ue-iade-h75.png?width=444&name=ue-iade-h75.png)
 # Azulejos Mobile App - Project Report 
-[Portuguese Vesion](../master/Relatório%20de%20Projeto%20-%20App%20Azulejos.pdf)
+[Portuguese Vesion](../master/Deliverables/Relat%C3%B3rio%20de%20Projeto%20-%20App%20Azulejos.pdf)
 
 ### Degree in Computer Engineering | School Year 2019/2020 
 
@@ -45,12 +45,17 @@ The user using this aplication should be able to view information about the tile
 ## Non Functional Requirements
 ![Non Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/NFR-V2.png)
 
-## Mockups e Interfaces
+## Mockups
 ![Mockups](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/Mockups-V2.png)
 [Adobe XD link](https://xd.adobe.com/view/cac3ce1b-bc83-45f9-52ae-82d713068e32-bcf2/?fullscreen)
 
+## Interfaces Implemented
+![Interfaces](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/Interfaces/InterfacesGrouped.png)
+
+
+
 ## Block Diagram
-![WBS](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/Azulejos-BlockDiagram.png)
+![Block Diagram](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/azulejos-blockdiagram.png)
 
 ## Domain Model
 ![Domain Model](https://raw.githubusercontent.com/AppleJackPOR/InfoAzulejo/master/Terceira%20Entrega/ModeloDominio.png)
