@@ -53,6 +53,6 @@ export class ModalComponent {
         if (decision == "cancel")
             this.params.closeCallback(this.oldCoords);
         else
-            this.params.closeCallback([this.locationMarker.lat, this.locationMarker.lng]);
+            this.params.closeCallback([this.locationMarker.lng, this.locationMarker.lat]);
     }
 }

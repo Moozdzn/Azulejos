@@ -178,20 +178,16 @@ export class MapaComponent implements OnInit {
         })
     }
 
-    checkUserLocation = setInterval(() => {
-        geolocation.enableLocationRequest().then(() => {
-            geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
-                var currentUserLocation = { lat: location.latitude, lng: location.longitude }
-                this.mapbox.getDistanceBetween(this.userLocation, currentUserLocation).then((value: number) => {
+    checkUserPos = setInterval(() => {
+        var newLocation = this._url.getUserLocation();
+        this.mapbox.getDistanceBetween(this.userLocation,newLocation).then((value: number) => {
                     if (value > 2000) {
-                        this.userLocation = currentUserLocation;
+                        this.userLocation = newLocation;
                         this.setTiles(this.userLocation);
                         console.log('Getting new markers');
                     } else {
                         console.log('New markers not needed');
                     }
                 })
-            })
-        })
     }, 600000);
 }

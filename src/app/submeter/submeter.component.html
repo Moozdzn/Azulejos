@@ -27,9 +27,9 @@
     </GridLayout>
     <Label row="5" text="Fotografias"></Label>
     <StackLayout orientation="horizontal">
-        <Button text="Abrir galeria" (tap)="onSelectSingleTap()" class="btn btnInput">
+        <Button #btnGaleria text="Abrir galeria" (tap)="onSelectSingleTap()" class="btn btnInput">
         </Button>
-        <Button text="Tirar fotografia" (tap)="takePhoto()" class="btn btnInput">
+        <Button #btnFoto text="Tirar fotografia" (tap)="takePhoto()" class="btn btnInput">
         </Button>
     </StackLayout>
     <Label text="Localização"></Label>

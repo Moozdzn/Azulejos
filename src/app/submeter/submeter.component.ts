@@ -9,7 +9,7 @@ import { Button } from 'tns-core-modules/ui/button';
 import { TextField } from "tns-core-modules/ui/text-field";
 import { TextView } from "tns-core-modules/ui/text-view";
 import { Accuracy } from "tns-core-modules/ui/enums";
-import { ImageSource, fromFile} from "tns-core-modules/image-source";
+import { ImageSource, fromFile } from "tns-core-modules/image-source";
 import * as fs from "tns-core-modules/file-system";
 
 import * as geolocation from "nativescript-geolocation";
@@ -50,16 +50,21 @@ export class SubmeterComponent implements OnInit {
     url = "http://192.168.42.9:3000/api/sessoes/azulejos";
     // Action Dialog Button
     @ViewChild('dialogButton', { static: true }) db: ElementRef;
+    @ViewChild('btnGaleria', { static: true }) galeria: ElementRef;
+    @ViewChild('btnFoto', { static: true }) foto: ElementRef;
     @ViewChild('nome', { static: true }) n: ElementRef;
     @ViewChild('sessao', { static: true }) s: ElementRef;
     @ViewChild('ano', { static: true }) a: ElementRef;
     @ViewChild('info', { static: true }) i: ElementRef;
 
     dialogButton: Button;
+    fotoButton: Button;
+    galeriaButton: Button;
     nome: TextField;
     sessao: TextField;
     ano: TextField;
     info: TextView;
+    fieldsToValidate = [];
     location = [];
 
     constructor(private modal: ModalDialogService, private vcRef: ViewContainerRef, private _url: UrlService, private routerExtension: RouterExtensions) {
@@ -73,7 +78,7 @@ export class SubmeterComponent implements OnInit {
             viewContainerRef: this.vcRef
         };
         this.modal.showModal(ModalComponent, options).then(res => {
-           
+
             this.location = res;
         });
     }
@@ -81,10 +86,14 @@ export class SubmeterComponent implements OnInit {
     ngOnInit(): void {
         // Use the "ngOnInit" handler to initialize data for the view.
         this.dialogButton = <Button>this.db.nativeElement;
+        this.galeriaButton = <Button>this.galeria.nativeElement;
+        this.fotoButton = <Button>this.foto.nativeElement;
         this.nome = <TextField>this.n.nativeElement;
         this.sessao = <TextField>this.s.nativeElement;
         this.ano = <TextField>this.a.nativeElement;
         this.info = <TextView>this.i.nativeElement;
+        this.fieldsToValidate = [this.sessao, this.nome, this.info, this.ano, this.dialogButton];
+
     }
 
     //
@@ -135,70 +144,40 @@ export class SubmeterComponent implements OnInit {
         action(options).then((result) => {
             if (result !== options.cancelButtonText)
                 this.dialogButton.text = result;
-            
+
         });
     }
 
     saveTile() {
-        let options = {
-            title: "Erro no formulário",
-            message: "Não adicionou imagens do azulejo",
-            okButtonText: "OK"
-        };
-        if (this.location.length == 0) {
-            geolocation.enableLocationRequest().then(() => {
-                geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
-                    this.location = [location.longitude, location.altitude]
-                })
-            })
-        }
-        var imagesToSubmit = [];
-        if (this.imageArray.length > 0) {
-            for (var i in this.imageArray) {
-                this.file = fs.path.normalize(this.imageArray[i]);
-                const ImageFromFilePath: ImageSource = <ImageSource>fromFile(this.file);
-                var ImageData = ImageFromFilePath.toBase64String("jpg");
-                imagesToSubmit.push(ImageData);
-            }
-        }
-        else {
-
-            options.message = "Não adicionou imagens do azulejo";
-
-            dialogs.alert(options);
+        var validated = this.validateInputs();
+        if (!validated) {
+            alert('Por favor preencha todos os campos antes de submeter');
             return false;
-        }
-
-        var tile = {
-            "_id": this.ObjectId(),
-            "Nome": this.nome.text,
-            "Ano": this.ano.text,
-            "Info": this.info.text,
-            "Condicao": this.dialogButton.text,
-            "Localizacao": [this.location[1], this.location[0]],
-            "Sessao": this.sessionID,
-            "Files": imagesToSubmit
-        }
-
-        var keys = Object.keys(tile);
-
-        for (i in keys) {
-
-            if (tile[keys[i]].length == 0 || (keys[i] == "Condicao" && tile[keys[i]] == "Escolha condição")) {
-                options.message = keys[i] + ' do azulejo não pode estar vazio';
-                dialogs.alert(options);
-                return false
+        } else {
+            if (this.location.length == 0) {
+                var updatedLocation = this._url.getUserLocation();
+                this.location = [updatedLocation.lng,updatedLocation.lat]
             }
+            var b64Images = this.imagesToBase64();
+            var tile = {
+                "_id": this.ObjectId(),
+                "Nome": this.nome.text,
+                "Ano": this.ano.text,
+                "Info": this.info.text,
+                "Condicao": this.dialogButton.text,
+                "Localizacao": this.location,
+                "Sessao": this.sessionID,
+                "Files": b64Images
+            }
+            this.submittedTiles.push(tile);
+            this.dialogButton.text = "Escolha condição";
+            this.nome.text = "";
+            this.info.text = "";
+            this.ano.text = "";
+            this.imageArray = [];
+            this.location = [];
+            return true;
         }
-
-        this.submittedTiles.push(tile);
-        this.dialogButton.text = "Escolha condição";
-        this.nome.text = "";
-        this.info.text = "";
-        this.ano.text = "";
-        this.imageArray = [];
-        this.location = [];
-        return true;
     }
     // Submit Tile
     onSubmit() {
@@ -216,7 +195,6 @@ export class SubmeterComponent implements OnInit {
                     for (var i in this.submittedTiles) {
                         tilesID.push({ "_id": this.submittedTiles[i]._id, "Nome": this.submittedTiles[i].Nome })
                     }
-
                     var body = {
                         sessao: {
                             "_id": this.sessionID,
@@ -227,18 +205,17 @@ export class SubmeterComponent implements OnInit {
                         },
                         azulejos: this.submittedTiles
                     }
-                    this._url.submitTiles(body).then((r:any)=>{
+                    this._url.submitTiles(body).then((r: any) => {
                         this.sessao.text = "";
                         this.sessao.editable = true;
+                        this.sessionID = this.ObjectId();
                     })
-                    .catch(function (e) {
-                        console.log("Uh oh, something went wrong1", e);
-                        alert("The following error ocurred: " + e)
-                    });
+                        .catch(function (e) {
+                            console.log("Uh oh, something went wrong1", e);
+                            alert("The following error ocurred: " + e)
+                        });
                 }
-                else {
-                    return
-                }
+                else {return}
             }
             else if (result === false) { }
             else {
@@ -265,5 +242,48 @@ export class SubmeterComponent implements OnInit {
                 });
             }, () => alert('permissions rejected'))
         }
+    }
+
+    validateInputs() {
+        var valid = true;
+        for (var i in this.fieldsToValidate) {
+            if (this.fieldsToValidate[i].text.length == 0 || this.fieldsToValidate[i].text == "Escolha condição") {
+                this.errorCss(this.fieldsToValidate[i], true)
+                valid = false;
+            } else {
+                this.errorCss(this.fieldsToValidate[i], false)
+            }
+        }
+        if (this.imageArray.length == 0) {
+            this.errorCss(this.galeriaButton, true)
+            this.errorCss(this.fotoButton, true)
+            valid = false;
+        } else {
+            this.errorCss(this.galeriaButton, false)
+            this.errorCss(this.fotoButton, false)
+        }
+        return valid;
+    }
+
+    errorCss(element, set) {
+        if (set) {
+            element.borderWidth = "2";
+            element.borderColor = "red";
+        }
+        else {
+            element.borderWidth = "0";
+        }
+    }
+
+    imagesToBase64() {
+        var imagesToSubmit = [];
+
+        for (var i in this.imageArray) {
+            this.file = fs.path.normalize(this.imageArray[i]);
+            const ImageFromFilePath: ImageSource = <ImageSource>fromFile(this.file);
+            var ImageData = ImageFromFilePath.toBase64String("jpg");
+            imagesToSubmit.push(ImageData);
+        }
+        return imagesToSubmit;
     }
 }

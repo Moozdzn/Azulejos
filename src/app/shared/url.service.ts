@@ -12,8 +12,13 @@ export class UrlService{
 
     private userID: string = "5e8b49d6343d6d38c8d96d6b";
 
+    private currentUserLocation;
+
     getUrl(): string {
         return this.serverUrl;
+    }
+    getUserLocation(){
+        return this.currentUserLocation;
     }
     getID(): string {
         return this.userID;
@@ -50,4 +55,11 @@ export class UrlService{
         return response;
     }
 
+    checkUserLocation = setInterval(() => {
+        geolocation.enableLocationRequest().then(() => {
+            geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
+                this.currentUserLocation = { lat: location.latitude, lng: location.longitude }
+            })
+        })
+    }, 30000);
 }
