@@ -14,7 +14,6 @@ import { RadAutoCompleteTextViewComponent } from "nativescript-ui-autocomplete/a
 import { ObservableArray } from "tns-core-modules/data/observable-array";
 import * as http from "tns-core-modules/http";
 import { Accuracy } from "tns-core-modules/ui/enums";
-import { Slider } from "tns-core-modules/ui/slider";
 import { setInterval, clearInterval } from "tns-core-modules/timer";
 
 import { UrlService } from "../shared/url.service"
@@ -38,14 +37,15 @@ export class TileItem {
 
 })
 export class MapaComponent implements OnInit {
-    //items: Array<DataItem>;
+
+    //User location
+    public userLocation;
 
     //Tile List View
     public myItems: RxObservable<Array<TileItem>>;
     public tiles = [];
     //
     private _items: ObservableArray<TokenModel>;
-    // TO BE REMOVED
     private markers;
 
     mapbox: MapboxViewApi;
@@ -54,24 +54,24 @@ export class MapaComponent implements OnInit {
         private modal: ModalDialogService,
         private vcRef: ViewContainerRef,
         private _url: UrlService
-        //private _itemService: DataService
     ) { }
 
-    ngOnInit(): void {}
-    ngAfterViewInit():void{
+    ngOnInit(): void { }
+
+    ngAfterViewInit(): void {
         let that = this;
-        this.autocomplete.autoCompleteTextView.loadSuggestionsAsync = function (text) {
-            const promise = new Promise(function (resolve, reject) {
-                http.getJSON(that._url.getUrl() + "sessoes/azulejos/nome").then(function (r: any) {
+        this.autocomplete.autoCompleteTextView.loadSuggestionsAsync = () => {
+            const promise = new Promise((resolve, reject) => {
+                this._url.getTilesName().then((r: any) => {
                     const tilesCollection = r.docs;
                     const items: Array<TokenModel> = new Array();
                     for (let i = 0; i < tilesCollection.length; i++) {
                         items.push(new TokenModel(tilesCollection[i].Nome, null));
                     }
-                    that.markers = r.docs;
+                    this.markers = r.docs;
                     resolve(items);
                 }).catch((err) => {
-                    const message = 'Error fetching remote data from ' + that._url.getUrl() + "sessoes/azulejos/nome" + ': ' + err.message;
+                    const message = 'Error fetching remote data from ' + this._url.getUrl() + "sessoes/azulejos/nome" + ': ' + err.message;
                     console.log(message);
                     alert(message);
                     reject();
@@ -80,6 +80,7 @@ export class MapaComponent implements OnInit {
 
             return promise;
         };
+
     }
 
     @ViewChild("autocomplete", { static: false }) autocomplete: RadAutoCompleteTextViewComponent;
@@ -93,50 +94,9 @@ export class MapaComponent implements OnInit {
         this.mapbox = args.map;
         geolocation.enableLocationRequest().then(() => {
             geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
-                this.mapbox.setCenter({ lat: location.latitude, lng: location.longitude }).then(() => {
-                    http.request({
-                        url: this._url.getUrl() + "sessoes/azulejos?lat=" + location.latitude + "&lng=" + location.longitude,
-                        method: "GET",
-                        headers: {
-                            "Content-Type": "application/json"
-                        }
-                    }).then((r:any) => { // TRIGGER
-                        var data = JSON.stringify(r.content)
-                        var json = JSON.parse(data);
-                        console.log(json[0])
-                        var markers = [];
-                        //ListView
-                        var subscr;
-                        this.myItems = RxObservable.create(subscriber => {
-                            subscr = subscriber;
-                            subscriber.next(this.tiles);
-                            return function () {
-                                console.log("Unsubscribe called!!!");
-                            }
-                        });
-
-                        for (var i in json) {
-                            markers.push(<MapboxMarker>{
-                                id: json[i]._id,
-                                lat: json[i].Localizacao.coordinates[1],
-                                lng: json[i].Localizacao.coordinates[0],
-                                title: json[i].Nome,
-                                subtitle: 'Carrega para ver mais',
-                                onTap: marker => {
-                                    console.log("Marker tapped with title: '" + marker.title + "'");
-                                    this.mapbox.setCenter({ lat: marker.lat, lng: marker.lng })
-                                },
-                                onCalloutTap: marker => this.openDetails(marker.id)
-                            })
-                            this.tiles.push(new TileItem(json[i]._id, json[i].Nome, (json[i].distance / 1000).toFixed(2) +"km"));
-                        }
-                        this.mapbox.addMarkers(markers).then((s: any) => { });
-                        //subscr.next(this.tiles);
-                    }, (e) => {
-                        console.error(JSON.stringify(e))
-                        alert(e)
-                    })
-                })
+                this.mapbox.setCenter({ lat: location.latitude, lng: location.longitude });
+                this.userLocation = { lat: location.latitude, lng: location.longitude };
+                this.setTiles(this.userLocation);
             })
         })
     }
@@ -145,8 +105,12 @@ export class MapaComponent implements OnInit {
         geolocation.enableLocationRequest().then(() => {
             geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
                 this.mapbox.setCenter({ lat: location.latitude, lng: location.longitude })
+                var currentUserLocation = { lat: location.latitude, lng: location.longitude }
+                this.userLocation = currentUserLocation;
+                this.setTiles(this.userLocation);
             })
         })
+
     }
     // Opens view of single tile information
     public openDetails(ID) {
@@ -175,38 +139,59 @@ export class MapaComponent implements OnInit {
     onItemTap(args) {
         this.openDetails(this.tiles[args.index].id)
     }
-    /* id = setInterval(() => {
-        this.mapbox.removeMarkers();
-        geolocation.enableLocationRequest().then(() => {
-            geolocation.getCurrentLocation({desiredAccuracy: Accuracy.high}).then((location) => {
-                http.request({
-                    url: this._url.getUrl() + "sessoes/azulejos?lat=" + location.latitude + "&lng=" + location.longitude,
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                }).then((r) => { // TRIGGER
-                    var data = JSON.stringify(r.content)
-                    var json = JSON.parse(data)
-                    var markers = [];
-                    for (var i in json.docs) {
-                        markers.push(< MapboxMarker > {
-                            id: json.docs[i]._id,
-                            lat: json.docs[i].Localizacao.coordinates[1],
-                            lng: json.docs[i].Localizacao.coordinates[0],
-                            title: json.docs[i].Nome,
-                            subtitle: 'Carrega para ver mais',
-                            onTap: marker => {console.log("Marker tapped with title: '" + marker.title + "'");
-                            this.mapbox.setCenter({lat: marker.lat,lng: marker.lng})},
-                            onCalloutTap: marker => this.openDetails(marker.id)
-                        })
-                    }
-                    this.mapbox.addMarkers(markers).then((s : any) => {});
-                }, (e) => {
-                    console.error(JSON.stringify(e))
-                    alert(e)
+
+    setTiles(location) {
+        this._url.getTilesNearUser(location).then((r: any) => {
+            //Markers array to pass to map
+            var markers = [];
+            //Array for ListView
+            var subscr;
+            this.myItems = RxObservable.create(subscriber => {
+                subscr = subscriber;
+                subscriber.next(this.tiles);
+                return function () {
+                    console.log("Unsubscribe called!!!");
+                }
+            });
+
+            for (var i in r) {
+                markers.push(<MapboxMarker>{
+                    id: r[i]._id,
+                    lat: r[i].Localizacao.coordinates[1],
+                    lng: r[i].Localizacao.coordinates[0],
+                    title: r[i].Nome,
+                    subtitle: 'Carrega para ver mais',
+                    onTap: marker => {
+                        console.log("Marker tapped with title: '" + marker.title + "'");
+                        this.mapbox.setCenter({ lat: marker.lat, lng: marker.lng })
+                    },
+                    onCalloutTap: marker => this.openDetails(marker.id)
                 })
+                this.tiles.push(new TileItem(r[i]._id, r[i].Nome, (r[i].distance / 1000).toFixed(2) + "km"));
+            }
+            this.mapbox.removeMarkers();
+            this.mapbox.addMarkers(markers)
+            //subscr.next(this.tiles);
+        }, (e) => {
+            console.error(JSON.stringify(e))
+            alert(e)
         })
-    })
-    }, 10000); */
+    }
+
+    checkUserLocation = setInterval(() => {
+        geolocation.enableLocationRequest().then(() => {
+            geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
+                var currentUserLocation = { lat: location.latitude, lng: location.longitude }
+                this.mapbox.getDistanceBetween(this.userLocation, currentUserLocation).then((value: number) => {
+                    if (value > 2000) {
+                        this.userLocation = currentUserLocation;
+                        this.setTiles(this.userLocation);
+                        console.log('Getting new markers');
+                    } else {
+                        console.log('New markers not needed');
+                    }
+                })
+            })
+        })
+    }, 600000);
 }

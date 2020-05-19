@@ -3,7 +3,7 @@ import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 import { action, ActionOptions } from "tns-core-modules/ui/dialogs";
 
 import * as http from "tns-core-modules/http";
-import { ItemEventData, iosEstimatedRowHeightProperty } from "tns-core-modules/ui/list-view"
+import { ItemEventData } from "tns-core-modules/ui/list-view"
 import { Observable as RxObservable } from 'rxjs';
 
 import { UrlService } from "../shared/url.service";
@@ -25,7 +25,6 @@ export class SessionItem {
 
 export class PerfilComponent implements OnInit {
 
-    private id = "5e8b49d6343d6d38c8d96d6b";
     public myItems: RxObservable<Array<SessionItem>>;
     public items = [];
     public state = {
@@ -50,7 +49,7 @@ export class PerfilComponent implements OnInit {
                 console.log("Unsubscribe called!!!");
             }
         });
-        http.getJSON(this._url.getUrl() + "user/" + this.id + "/sessoes").then((r: any) => {
+        this._url.getUserSubmissions().then((r:any)=>{
             for (var i in r.docs) {
                 
                 switch (r.docs[i].estado) {
@@ -69,9 +68,8 @@ export class PerfilComponent implements OnInit {
                 }
                 this.items.push(new SessionItem(r.docs[i]._id, r.docs[i].data, r.docs[i].estado, r.docs[i].info, r.docs[i].azulejos));
             }
-            
             subscr.next(this.items);
-        })
+        });
     }
 
     onItemTap(args: ItemEventData): void {

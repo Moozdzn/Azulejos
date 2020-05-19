@@ -227,20 +227,11 @@ export class SubmeterComponent implements OnInit {
                         },
                         azulejos: this.submittedTiles
                     }
-                    http.request({
-                        url: this._url.getUrl() + "sessoes",
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        content: JSON.stringify(body)
-                    }).then((r: any) => {
-                        
+                    this._url.submitTiles(body).then((r:any)=>{
                         this.sessao.text = "";
                         this.sessao.editable = true;
-
-
-                    }).catch(function (e) {
+                    })
+                    .catch(function (e) {
                         console.log("Uh oh, something went wrong1", e);
                         alert("The following error ocurred: " + e)
                     });
