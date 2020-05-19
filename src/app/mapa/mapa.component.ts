@@ -12,9 +12,8 @@ import { TokenModel } from "nativescript-ui-autocomplete";
 import { RadAutoCompleteTextViewComponent } from "nativescript-ui-autocomplete/angular";
 
 import { ObservableArray } from "tns-core-modules/data/observable-array";
-import * as http from "tns-core-modules/http";
 import { Accuracy } from "tns-core-modules/ui/enums";
-import { setInterval, clearInterval } from "tns-core-modules/timer";
+import { setInterval } from "tns-core-modules/timer";
 
 import { UrlService } from "../shared/url.service"
 
@@ -59,7 +58,6 @@ export class MapaComponent implements OnInit {
     ngOnInit(): void { }
 
     ngAfterViewInit(): void {
-        let that = this;
         this.autocomplete.autoCompleteTextView.loadSuggestionsAsync = () => {
             const promise = new Promise((resolve, reject) => {
                 this._url.getTilesName().then((r: any) => {
@@ -114,7 +112,7 @@ export class MapaComponent implements OnInit {
     }
     // Opens view of single tile information
     public openDetails(ID) {
-        http.getJSON(this._url.getUrl() + "sessoes/" + ID).then((r: any) => {
+        this._url.getTileInfo(ID).then((r) => {
             let options = {
                 context: { r },
                 fullscreen: true,
@@ -180,14 +178,14 @@ export class MapaComponent implements OnInit {
 
     checkUserPos = setInterval(() => {
         var newLocation = this._url.getUserLocation();
-        this.mapbox.getDistanceBetween(this.userLocation,newLocation).then((value: number) => {
-                    if (value > 2000) {
-                        this.userLocation = newLocation;
-                        this.setTiles(this.userLocation);
-                        console.log('Getting new markers');
-                    } else {
-                        console.log('New markers not needed');
-                    }
-                })
+        this.mapbox.getDistanceBetween(this.userLocation, newLocation).then((value: number) => {
+            if (value > 2000) {
+                this.userLocation = newLocation;
+                this.setTiles(this.userLocation);
+                console.log('Getting new markers');
+            } else {
+                console.log('New markers not needed');
+            }
+        })
     }, 600000);
 }

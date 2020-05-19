@@ -2,7 +2,7 @@
     <Label text="Perfil" color="white"></Label>
 </ActionBar>
 
-<StackLayout class="pageContent" orientation="vertical">
+<StackLayout class="pageContent" orientation="vertical" (unloaded)="onProfileUnload()">
     <StackLayout class="nameContainer" orientation="vertical">
         <Label class="username" text="Moozdzn"></Label>
     </StackLayout>

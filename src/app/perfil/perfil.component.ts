@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewContainerRef } from "@angular/core";
 import { ModalDialogService } from "nativescript-angular/directives/dialogs";
-import { action, ActionOptions } from "tns-core-modules/ui/dialogs";
+import { action } from "tns-core-modules/ui/dialogs";
 
-import * as http from "tns-core-modules/http";
 import { ItemEventData } from "tns-core-modules/ui/list-view"
 import { Observable as RxObservable } from 'rxjs';
 
@@ -26,12 +25,8 @@ export class SessionItem {
 export class PerfilComponent implements OnInit {
 
     public myItems: RxObservable<Array<SessionItem>>;
-    public items = [];
-    public state = {
-        public: 0,
-        submitted: 0,
-        inAnalysis: 0
-    };
+    public items;
+    public state;
 
     constructor(private _url: UrlService,
         private modal: ModalDialogService,
@@ -41,40 +36,12 @@ export class PerfilComponent implements OnInit {
 
     ngOnInit(): void {
         // Use the "ngOnInit" handler to initialize data for the view.
-        var subscr;
-        this.myItems = RxObservable.create(subscriber => {
-            subscr = subscriber;
-            subscriber.next(this.items);
-            return function () {
-                console.log("Unsubscribe called!!!");
-            }
-        });
-        this._url.getUserSubmissions().then((r:any)=>{
-            for (var i in r.docs) {
-                
-                switch (r.docs[i].estado) {
-                    case "PÚBLICA":
-                        this.state.public += 1;
-                        break;
-                    case "ANALISADA":
-                        this.state.inAnalysis += 1;
-                        break;
-                    case "SUBMETIDA":
-                        this.state.submitted += 1;
-                        break;
-                    default:
-                        console.log('Wrong value/ New value in db')
-
-                }
-                this.items.push(new SessionItem(r.docs[i]._id, r.docs[i].data, r.docs[i].estado, r.docs[i].info, r.docs[i].azulejos));
-            }
-            subscr.next(this.items);
-        });
+        this.loadUserStats();
     }
 
     onItemTap(args: ItemEventData): void {
         if (this.items[args.index].estado === 'PÚBLICA') {
-            
+
             var actions = [];
             for (var i in this.items[args.index].tiles) {
                 actions.push(this.items[args.index].tiles[i].Nome)
@@ -88,9 +55,9 @@ export class PerfilComponent implements OnInit {
 
             action(options).then((result) => {
                 if (result != "Cancelar") {
-                    
+
                     let found = actions.indexOf(result)
-                   
+
                     this.openDetails(this.items[args.index].tiles[i]._id)
                 }
             });
@@ -103,7 +70,7 @@ export class PerfilComponent implements OnInit {
         }
     }
     public openDetails(ID) {
-        http.getJSON(this._url.getUrl() + "sessoes/" + ID).then((r: any) => {
+        this._url.getTileInfo(ID).then((r: any) => {
             let options = {
                 context: { r },
                 fullscreen: true,
@@ -115,5 +82,45 @@ export class PerfilComponent implements OnInit {
                 else this.openDetails(cb);
             });
         })
+    }
+
+    public loadUserStats() {
+        var subscr;
+        this.items = [];
+        this.state = {
+            public: 0,
+            submitted: 0,
+            inAnalysis: 0
+        }
+        this.myItems = RxObservable.create(subscriber => {
+            subscr = subscriber;
+            subscriber.next(this.items);
+            return function () {
+                console.log("Unsubscribe called!!!");
+            }
+        });
+        this._url.getUserSubmissions().then((r: any) => {
+            for (var i in r.docs) {
+
+                switch (r.docs[i].estado) {
+                    case "PÚBLICA":
+                        this.state.public += 1;
+                        break;
+                    case "ANALISADA":
+                        this.state.inAnalysis += 1;
+                        break;
+                    case "SUBMETIDA":
+                        this.state.submitted += 1;
+                        break;
+                    default:
+                        console.log('Wrong value/ New value in db')
+                }
+                this.items.push(new SessionItem(r.docs[i]._id, r.docs[i].data, r.docs[i].estado, r.docs[i].info, r.docs[i].azulejos));
+            }
+            subscr.next(this.items);
+        });
+    }
+    public onProfileUnload() {
+        this.loadUserStats();
     }
 }

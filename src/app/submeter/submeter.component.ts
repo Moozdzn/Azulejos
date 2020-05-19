@@ -3,16 +3,15 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 
 import * as dialogs from "tns-core-modules/ui/dialogs";
-import * as http from "tns-core-modules/http";
+
 import { action } from "tns-core-modules/ui/dialogs";
 import { Button } from 'tns-core-modules/ui/button';
 import { TextField } from "tns-core-modules/ui/text-field";
 import { TextView } from "tns-core-modules/ui/text-view";
-import { Accuracy } from "tns-core-modules/ui/enums";
+
 import { ImageSource, fromFile } from "tns-core-modules/image-source";
 import * as fs from "tns-core-modules/file-system";
 
-import * as geolocation from "nativescript-geolocation";
 import * as camera from "nativescript-camera";
 import * as imagepicker from "nativescript-imagepicker";
 
@@ -286,4 +285,5 @@ export class SubmeterComponent implements OnInit {
         }
         return imagesToSubmit;
     }
+
 }
