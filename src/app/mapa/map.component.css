@@ -33,3 +33,18 @@ TabView{
     android-selected-tab-highlight-color: #185a9d;
     font-size: 15;
 }
+
+.lineBreak {
+    height: 0.5;
+    border: none;
+    color: #e0e0e0;
+    background-color: #e0e0e0;
+    margin: 10;
+}
+Label {
+    text-align: center;
+    color:white;
+    font-size: 17;
+    font-weight: bolder;
+    margin-top: 5;
+}

@@ -45,8 +45,8 @@ export class UrlService {
         return response;
     }
 
-    async getTilesNearUser(location) {
-        const response = await http.getJSON(this.serverUrl + "sessoes/azulejos?lat=" + location.lat + "&lng=" + location.lng);
+    async getTilesNearUser(location,radius) {
+        const response = await http.getJSON(this.serverUrl + "sessoes/azulejos?lat=" + location.lat + "&lng=" + location.lng+"&radius="+radius);
         return response;
     }
 

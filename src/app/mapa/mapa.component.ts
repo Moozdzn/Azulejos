@@ -42,11 +42,12 @@ export class MapaComponent implements OnInit {
 
     //Tile List View
     public myItems: RxObservable<Array<TileItem>>;
-    public tiles = [];
+    public tiles;
     //
     private _items: ObservableArray<TokenModel>;
     private markers;
 
+    private radius: number = 5;
     mapbox: MapboxViewApi;
 
     constructor(
@@ -110,6 +111,11 @@ export class MapaComponent implements OnInit {
         })
 
     }
+
+    onSliderValueChange(args) {
+        this.radius = args.value;
+        this.setTiles(this.userLocation)
+    }
     // Opens view of single tile information
     public openDetails(ID) {
         this._url.getTileInfo(ID).then((r) => {
@@ -139,10 +145,11 @@ export class MapaComponent implements OnInit {
     }
 
     setTiles(location) {
-        this._url.getTilesNearUser(location).then((r: any) => {
+        this._url.getTilesNearUser(location,this.radius).then((r: any) => {
             //Markers array to pass to map
             var markers = [];
             //Array for ListView
+            this.tiles=[];
             var subscr;
             this.myItems = RxObservable.create(subscriber => {
                 subscr = subscriber;
