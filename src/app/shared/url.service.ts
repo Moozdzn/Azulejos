@@ -3,12 +3,15 @@ import { Injectable } from "@angular/core";
 import * as http from "tns-core-modules/http";
 import * as geolocation from "nativescript-geolocation";
 import { Accuracy } from "tns-core-modules/ui/enums";
+import { connectableObservableDescriptor } from "rxjs/internal/observable/ConnectableObservable";
 
 @Injectable({
     providedIn: "root"
 })
 export class UrlService {
-    private serverUrl = "http://192.168.1.9:3000/api/"
+    //private serverUrl = "http://192.168.1.9:3000/api/"
+    private serverUrl = "https://azueljos.herokuapp.com/api/"
+
 
     private userID: string = "5e8b49d6343d6d38c8d96d6b";
 
@@ -51,11 +54,11 @@ export class UrlService {
     }
 
     async getTilesName() {
-        const response = http.getJSON(this.serverUrl + "sessoes/azulejos/nome");
+        const response = await http.getJSON(this.serverUrl + "sessoes/azulejos/nome");
         return response;
     }
     async getTileInfo(tileID) {
-        const response = http.getJSON(this.serverUrl + "sessoes/" + tileID);
+        const response = await http.getJSON(this.serverUrl + "sessoes/" + tileID);
         return response;
     }
 
