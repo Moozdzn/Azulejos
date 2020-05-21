@@ -1,10 +1,15 @@
 RadAutoCompleteTextView {
     color:black;
-    background: white;
+    background: #c4c4c4;
     padding: 8;
     margin: 10 10 5 10;
     font-weight: bold;
     font-size: 20;
+    border-radius: 5;
+}
+SuggestionView{
+    border-radius: 5;
+    background: #c4c4c4;
 }
 
 .listView{
@@ -47,4 +52,11 @@ Label {
     font-size: 17;
     font-weight: bold;
     margin-top: 5;
+}
+Slider{
+    background-color: #809fff;
+}
+.sliderBG{
+    background-color: #2c2c2b;
+    padding: 20%;
 }

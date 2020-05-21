@@ -5,11 +5,11 @@
 <!-- (selectedIndexChanged)="onSelectedIndexchanged($event)" -->
 <TabView selectedIndex="1">
     <StackLayout class="listView" *tabItem="{title: 'Lista'}">
-        <ListView height="80%"class="listView" [items]="myItems | async" (itemTap)="onItemTap($event)">
+        <ListView height="80%" class="listView" [items]="myItems | async" (itemTap)="onItemTap($event)">
             <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
                 <!-- https://azulejos.b-cdn.net/item.id/0.jpg -->
                 <FlexboxLayout flexDirection="row">
-                    <Label [text]="item.distance" class="t-12 distance" verticalAlignment="center"
+                    <Label [text]="item.distance" class="t-12 distance" VerticalAlignment="center"
                         textWrap="true"></Label>
                     <Label [text]="item.name" class="t-12 tile" verticalAlignment="center" style="width: 60%"
                         textWrap="true"></Label>
@@ -19,10 +19,12 @@
                 </FlexboxLayout>
             </ng-template>
         </ListView>
-        <StackLayout width="100%" class="lineBreak"></StackLayout>
-        <Label text="Raio de procura: {{radius}} km"></Label>
-        <Slider value="5" minValue="1" maxValue="10" (valueChange)="onSliderValueChange($event)">
-        </Slider>
+        
+        <StackLayout height="20%"class="sliderBG">
+            <Label text="Raio de procura: {{radius}} km"></Label>
+            <Slider value="6" minValue="1" maxValue="11" (valueChange)="onSliderValueChange($event)">
+            </Slider>
+        </StackLayout>
     </StackLayout>
     <StackLayout *tabItem="{title: 'Mapa'}">
         <GridLayout class="page__content">
@@ -41,7 +43,7 @@
                     <SuggestionView tkAutoCompleteSuggestionView suggestionViewHeight="300">
                         <ng-template tkSuggestionItemTemplate let-item="item">
                             <StackLayout orientation="vertical" padding="10">
-                                <Label [text]="item.text"></Label>
+                                <Label style="color:black;" [text]="item.text"></Label>
                             </StackLayout>
                         </ng-template>
                     </SuggestionView>

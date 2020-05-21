@@ -48,7 +48,7 @@ export class MapaComponent implements OnInit {
     private _items: ObservableArray<TokenModel>;
     private markers;
 
-    private radius: number = 5;
+    private radius: number = 6;
     mapbox: MapboxViewApi;
 
     constructor(
