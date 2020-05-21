@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewContainerRef } from "@angular/core";
 import { ModalDialogService } from "nativescript-angular/directives/dialogs";
+import * as Toast from 'nativescript-toast';
+
 import { action } from "tns-core-modules/ui/dialogs";
 
 import { ItemEventData } from "tns-core-modules/ui/list-view"
@@ -63,10 +65,11 @@ export class PerfilComponent implements OnInit {
             });
         }
         else if (this.items[args.index].estado === 'ANALISADA') {
-            alert('A sua submissão está a ser analisada por um dos nosso especialistas.')
+            
+            Toast.makeText("A sua submissão está a ser analisada por um dos nosso especialistas.", "short").show();
         }
         else {
-            alert('A sua submissão aguarda análise dos nossos especialistas.');
+            Toast.makeText('A sua submissão aguarda análise dos nossos especialistas.', "short").show();
         }
     }
     public openDetails(ID) {

@@ -8,10 +8,12 @@ import { action } from "tns-core-modules/ui/dialogs";
 import { Button } from 'tns-core-modules/ui/button';
 import { TextField } from "tns-core-modules/ui/text-field";
 import { TextView } from "tns-core-modules/ui/text-view";
+//import { StackLayout } from "tns-core-modules/"
 
 import { ImageSource, fromFile } from "tns-core-modules/image-source";
 import * as fs from "tns-core-modules/file-system";
 
+import * as Toast from 'nativescript-toast';
 import * as camera from "nativescript-camera";
 import * as imagepicker from "nativescript-imagepicker";
 
@@ -40,6 +42,7 @@ export class SubmeterComponent implements OnInit {
     isSingleMode: boolean = true;
     private file: string;
     public wError = true;
+    processing = false;
 
 
     // Image Picker Preview - Not working
@@ -55,6 +58,7 @@ export class SubmeterComponent implements OnInit {
     @ViewChild('sessao', { static: true }) s: ElementRef;
     @ViewChild('ano', { static: true }) a: ElementRef;
     @ViewChild('info', { static: true }) i: ElementRef;
+    @ViewChild('darken', { static: true }) dark: ElementRef;
 
     dialogButton: Button;
     fotoButton: Button;
@@ -63,6 +67,7 @@ export class SubmeterComponent implements OnInit {
     sessao: TextField;
     ano: TextField;
     info: TextView;
+    darkenStack;
     fieldsToValidate = [];
     location = [];
 
@@ -84,6 +89,7 @@ export class SubmeterComponent implements OnInit {
 
     ngOnInit(): void {
         // Use the "ngOnInit" handler to initialize data for the view.
+        this.darkenStack = this.dark.nativeElement;
         this.dialogButton = <Button>this.db.nativeElement;
         this.galeriaButton = <Button>this.galeria.nativeElement;
         this.fotoButton = <Button>this.foto.nativeElement;
@@ -190,6 +196,8 @@ export class SubmeterComponent implements OnInit {
             if (result) {
                 var flag = this.saveTile();
                 if (flag) {
+                    this.darkenStack.class="darken";
+                    this.processing = true;
                     var tilesID = [];
                     for (var i in this.submittedTiles) {
                         tilesID.push({ "_id": this.submittedTiles[i]._id, "Nome": this.submittedTiles[i].Nome })
@@ -208,6 +216,9 @@ export class SubmeterComponent implements OnInit {
                         this.sessao.text = "";
                         this.sessao.editable = true;
                         this.sessionID = this.ObjectId();
+                        this.darkenStack.class="";
+                        this.processing = false;
+                        Toast.makeText('Azulejo submetido com sucesso','short').show();   
                     })
                         .catch(function (e) {
                             console.log("Uh oh, something went wrong1", e);
@@ -285,5 +296,4 @@ export class SubmeterComponent implements OnInit {
         }
         return imagesToSubmit;
     }
-
 }

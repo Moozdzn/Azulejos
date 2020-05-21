@@ -3,6 +3,8 @@
 </ActionBar>
 
 <StackLayout class="outerStack">
+    
+    
     <Label text="Nome da Sessão"></Label>
     <TextField #sessao class="inputSession" hint="Exemplo: Nome do prédio/casa onde está o azulejo" returnKeyType="done"
         maxLength="50">
@@ -37,3 +39,5 @@
     </Button>
     <Button class="btn submit" text="Submeter Azulejo" (tap)="onSubmit()"></Button>
 </StackLayout>
+<StackLayout #darken width="100%" heigth="100%" class=""></StackLayout>
+<ActivityIndicator [busy]="processing" width="150" height="150"></ActivityIndicator>

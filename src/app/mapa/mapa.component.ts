@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit, ViewContainerRef, AfterViewInit } from "@
 import { Router, NavigationExtras } from "@angular/router";
 
 import * as geolocation from "nativescript-geolocation";
+import * as Toast from 'nativescript-toast';
 
 import { Mapbox, MapboxMarker, MapboxViewApi } from "nativescript-mapbox-enduco";
 import { registerElement } from "nativescript-angular/element-registry";
@@ -72,7 +73,7 @@ export class MapaComponent implements OnInit {
                 }).catch((err) => {
                     const message = 'Error fetching remote data from ' + this._url.getUrl() + "sessoes/azulejos/nome" + ': ' + err.message;
                     console.log(message);
-                    alert(message);
+                    Toast.makeText(message, "short").show();
                     reject();
                 });
             });
@@ -110,6 +111,10 @@ export class MapaComponent implements OnInit {
             })
         })
 
+    }
+
+    focusOnMap(args){
+        alert(args.value);
     }
 
     onSliderValueChange(args) {

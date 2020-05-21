@@ -48,3 +48,7 @@ TextView{
     background-color: #e0e0e0;
     margin: 10;
 }
+
+.darken{
+    background-color:rgba(0,0,0,0.6);
+}

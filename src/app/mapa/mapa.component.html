@@ -5,13 +5,7 @@
 <!-- (selectedIndexChanged)="onSelectedIndexchanged($event)" -->
 <TabView selectedIndex="1">
     <StackLayout class="listView" *tabItem="{title: 'Lista'}">
-        <Label text="Raio de procura: {{radius}} km"></Label>
-
-
-        <Slider value="5" minValue="1" maxValue="10" (valueChange)="onSliderValueChange($event)">
-        </Slider>
-        <StackLayout width="100%" class="lineBreak"></StackLayout>
-        <ListView class="listView" [items]="myItems | async" (itemTap)="onItemTap($event)">
+        <ListView height="80%"class="listView" [items]="myItems | async" (itemTap)="onItemTap($event)">
             <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
                 <!-- https://azulejos.b-cdn.net/item.id/0.jpg -->
                 <FlexboxLayout flexDirection="row">
@@ -25,6 +19,10 @@
                 </FlexboxLayout>
             </ng-template>
         </ListView>
+        <StackLayout width="100%" class="lineBreak"></StackLayout>
+        <Label text="Raio de procura: {{radius}} km"></Label>
+        <Slider value="5" minValue="1" maxValue="10" (valueChange)="onSliderValueChange($event)">
+        </Slider>
     </StackLayout>
     <StackLayout *tabItem="{title: 'Mapa'}">
         <GridLayout class="page__content">
