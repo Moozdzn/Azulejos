@@ -11,7 +11,8 @@ import { UrlService } from "../shared/url.service";
 import { TileDetailComponent } from "../mapa/tile-detail/tile-detail";
 
 export class SessionItem {
-    constructor(public id: string,
+    constructor(
+        public id: string,
         public data: string,
         public estado: string,
         public nome: string,

@@ -113,10 +113,6 @@ export class MapaComponent implements OnInit {
 
     }
 
-    focusOnMap(args){
-        alert(args.value);
-    }
-
     onSliderValueChange(args) {
         this.radius = args.value;
         this.setTiles(this.userLocation)
@@ -184,7 +180,7 @@ export class MapaComponent implements OnInit {
             //subscr.next(this.tiles);
         }, (e) => {
             console.error(JSON.stringify(e))
-            alert(e)
+            alert('hello'+e)
         })
     }
 

@@ -9,15 +9,15 @@
             </GridLayout>
         </StackLayout>
     </ScrollView>
-    <Label class="anim-title" text="{{name}}" horizontalAlignment="center" class="tile-name"></Label>
+    <Label class="anim-title" text="{{tile.name}}" horizontalAlignment="center" class="tile-name"></Label>
     <StackLayout orientation="horizontal">
-        <Label class="anim-title description-text" text="Ano: {{ano}}" width="100"></Label>
-        <Label class="anim-title description-text" text="Condição atual: {{condicao}}" width="auto" textWrap="true"></Label>
+        <Label class="anim-title description-text" text="Ano: {{tile.ano}}" width="100"></Label>
+        <Label class="anim-title description-text" text="Condição atual: {{tile.condicao}}" width="auto" textWrap="true"></Label>
     </StackLayout>
     <StackLayout width="100%" class="lineBreak"></StackLayout>
 
     <Label class="anim-title description-text" text="Descrição" textWrap="true"></Label>
-    <Textview class="anim-content"editable="false" text="{{info}}" horizontalAlignment="stretch" textWrap="true"></Textview>
+    <Textview class="anim-content"editable="false" text="{{tile.info}}" horizontalAlignment="stretch" textWrap="true"></Textview>
     <Label class="anim-title description-text" text="Azulejos relacionados" textWrap="true"></Label>
     <ListView [items]="myItems | async" (itemTap)="onItemTap($event)">
         <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
@@ -26,4 +26,5 @@
             </StackLayout>
         </ng-template>
     </ListView>
+    <Button text="Ver sessão no mapa" (tap)="seeSession()"></Button>
 </StackLayout>
