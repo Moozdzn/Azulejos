@@ -38,6 +38,9 @@ export class TileItem {
 })
 export class MapaComponent implements OnInit {
 
+    public isMap: boolean = true;
+    public isList: boolean = false;
+
     //User location
     public userLocation;
 
@@ -87,6 +90,10 @@ export class MapaComponent implements OnInit {
 
     get dataItems(): ObservableArray<TokenModel> {
         return this._items;
+    }
+    toggleView(){
+        this.isMap = !this.isMap;
+        this.isList = !this.isList;
     }
 
     // When map is ready, focus on user and adds markers to map

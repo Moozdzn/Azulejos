@@ -1,57 +1,51 @@
 <ActionBar>
     <Label text="Explorar"></Label>
 </ActionBar>
-
-<!-- (selectedIndexChanged)="onSelectedIndexchanged($event)" -->
-<TabView selectedIndex="1">
-    <StackLayout class="listView" *tabItem="{title: 'Lista'}">
-        <ListView height="80%" class="listView" [items]="myItems | async" (itemTap)="onItemTap($event)">
-            <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
-                <!-- https://azulejos.b-cdn.net/item.id/0.jpg -->
-                <FlexboxLayout flexDirection="row">
-                    <Label [text]="item.distance" class="t-12 distance" VerticalAlignment="center"
-                        textWrap="true"></Label>
-                    <Label [text]="item.name" class="t-12 tile" verticalAlignment="center" style="width: 60%"
-                        textWrap="true"></Label>
-
-                    <Image src="https://abrilcasa.files.wordpress.com/2018/02/azulejos.jpg" class="thumb img-circle">
-                    </Image>
-                </FlexboxLayout>
-            </ng-template>
-        </ListView>
-        
-        <StackLayout height="20%"class="sliderBG">
+<GridLayout class="page__content">
+    <ContentView *ngIf="isMap" height="100%" width="100%">
+        <Mapbox accessToken="pk.eyJ1IjoibW9vemR6biIsImEiOiJjazd5eGh6bjAwMGl1M21vOTdjMTI1d3NzIn0.cxQh0B_dBFEc7xNjtn0-zQ"
+            mapStyle="dark" latitude="38.736946" longitude="-9.142685" hideCompass="false" zoomLevel="15"
+            showUserLocation="true" disableZoom="false" disableRotation="false" disableScroll="false"
+            disableTilt="false" (mapReady)="onMapReady($event)">
+        </Mapbox>
+    </ContentView>
+    <StackLayout orientation="vertical">
+        <RadAutoCompleteTextView #autocomplete [items]="dataItems" suggestMode="Suggest" displayMode="Plain"
+            (didAutoComplete)="onDidAutoComplete($event)" hint="Digite para procurar azulejos">
+            <SuggestionView tkAutoCompleteSuggestionView suggestionViewHeight="300">
+                <ng-template tkSuggestionItemTemplate let-item="item">
+                    <StackLayout orientation="vertical" padding="10">
+                        <Label style="color:black;" [text]="item.text"></Label>
+                    </StackLayout>
+                </ng-template>
+            </SuggestionView>
+        </RadAutoCompleteTextView>
+        <FAB horizontalAlignment="right" height="50" width="50" margin="28" horizontal-align="right"
+            vertical-align="bottom" (tap)="centerUser()" icon="res://center" rippleColor="#f1f1f1" class="fab">
+        </FAB>
+    </StackLayout>
+</GridLayout>
+<StackLayout *ngIf="isList" class="listView">
+    <ListView height="80%" class="listView" [items]="myItems | async" (itemTap)="onItemTap($event)">
+        <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
+            <FlexboxLayout flexDirection="row">
+                <Label [text]="item.distance" class="t-12 distance" VerticalAlignment="center" textWrap="false"></Label>
+                <Label [text]="item.name" class="t-12 tile" verticalAlignment="center" style="width: 60%"
+                    textWrap="false"></Label>
+                <Image src="https://abrilcasa.files.wordpress.com/2018/02/azulejos.jpg" class="thumb img-circle">
+                </Image>
+            </FlexboxLayout>
+        </ng-template>
+    </ListView>
+</StackLayout>
+<DockLayout stretchLastChild="false">
+    <DockLayout dock="bottom" class="sliderBG">
+        <Button dock="right" text="Alterar vista" (tap)="toggleView()" textwrap="true"></Button>
+        <StackLayout dock="left">
             <Label text="Raio de procura: {{radius}} km"></Label>
             <Slider value="6" minValue="1" maxValue="11" (valueChange)="onSliderValueChange($event)">
             </Slider>
         </StackLayout>
-    </StackLayout>
-    <StackLayout *tabItem="{title: 'Mapa'}">
-        <GridLayout class="page__content">
-
-            <ContentView height="100%" width="100%">
-                <Mapbox
-                    accessToken="pk.eyJ1IjoibW9vemR6biIsImEiOiJjazd5eGh6bjAwMGl1M21vOTdjMTI1d3NzIn0.cxQh0B_dBFEc7xNjtn0-zQ"
-                    mapStyle="dark" latitude="38.736946" longitude="-9.142685" hideCompass="false" zoomLevel="15"
-                    showUserLocation="true" disableZoom="false" disableRotation="false" disableScroll="false"
-                    disableTilt="false" (mapReady)="onMapReady($event)">
-                </Mapbox>
-            </ContentView>
-            <StackLayout orientation="vertical">
-                <RadAutoCompleteTextView #autocomplete [items]="dataItems" suggestMode="Suggest" displayMode="Plain"
-                    (didAutoComplete)="onDidAutoComplete($event)" hint="Digite para procurar azulejos">
-                    <SuggestionView tkAutoCompleteSuggestionView suggestionViewHeight="300">
-                        <ng-template tkSuggestionItemTemplate let-item="item">
-                            <StackLayout orientation="vertical" padding="10">
-                                <Label style="color:black;" [text]="item.text"></Label>
-                            </StackLayout>
-                        </ng-template>
-                    </SuggestionView>
-                </RadAutoCompleteTextView>
-                <FAB horizontalAlignment="right" height="50" width="50" margin="28" horizontal-align="right"
-                    vertical-align="bottom" (tap)="centerUser()" icon="res://center" rippleColor="#f1f1f1" class="fab">
-                </FAB>
-            </StackLayout>
-        </GridLayout>
-    </StackLayout>
-</TabView>
+    </DockLayout>
+</DockLayout>
+<!-- https://azulejos.b-cdn.net/item.id/0.jpg -->
