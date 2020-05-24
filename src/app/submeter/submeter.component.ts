@@ -281,7 +281,8 @@ export class SubmeterComponent implements OnInit {
             element.borderColor = "red";
         }
         else {
-            element.borderWidth = "0";
+            element.borderWidth = "2";
+            element.borderColor = "#035aa6";
         }
     }
 

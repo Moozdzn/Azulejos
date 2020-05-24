@@ -1,44 +1,58 @@
+ActionBar{
+    background-color: #035aa6;
+}
+
 Label {
     font-size: 15;
     margin-left: 10;
-    color:white;
+    color:#eeeeee;
 }
 
 TextField{
-    background-color:white;
+    background-color:#393e46;
+    placeholder-color:#eeeeee;
+    border-radius: 10;
+    color:#eeeeee;
 }
 TextView{
-    background-color:white;
+    background-color:#393e46;
+    placeholder-color:#eeeeee;
+    color:#eeeeee;
+    border-radius: 10;
 }
 .inputSession {
-    border-radius: 5;
     border-width: 2;
     border-color: #444444;
     margin: 10;
     padding: 10;
+    border-width: 2;
+    border-color: #035aa6;
 }
 .submit {
-    background-color: green; 
+    background-color: #035aa6; 
 }
 .btnInput {
-    background-color: #809fff; 
+    background-color: #393e46; 
 }
 
 .textInput {
-    border-radius: 5;
     border-width: 2;
-    border-color: #444444;
+    border-color: #035aa6;
     margin: 10;
     padding: 10;
+
 }
 .btn {
-    color: white;
+    color: #eeeeee;
     border-radius: 10;
     margin: 10;
     padding: 10;
+    android-elevation: 12;
+    border-width: 2;
+    border-color: #035aa6;
 }
 .outerStack{
-    background-color: #444444;
+    background-color: #222831;
 }
 
 .lineBreak {

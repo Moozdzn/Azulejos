@@ -1,12 +1,9 @@
 .selected{
-    background-color:#809fff;
+    background-color:#71a4d1;
 }
 .icon{
     background-color:white;
 }
 Label{
     color:#444444;
-}
-TabStripItem{
-    background: #c4c4c4;
 }

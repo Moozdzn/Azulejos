@@ -1,6 +1,10 @@
+ActionBar{
+    background-color: #035aa6;
+}
+
 RadAutoCompleteTextView {
     color: black;
-    background: #c4c4c4;
+    background: #eeeeee;
     padding: 8;
     margin: 10 10 5;
     font-weight: bold;
@@ -9,19 +13,19 @@ RadAutoCompleteTextView {
 }
 SuggestionView {
     border-radius: 5;
-    background: #c4c4c4;
+    background: #eeeeee;
 }
 .listView {
     background: #444444;
 
 }
 .tile {
-    color: white;
+    color: #eeeeee;
     font-size: 20;
     text-align: center;
 }
 .distance {
-    color: white;
+    color: #eeeeee;
     font-size: 15;
     text-align: center;
 }
@@ -35,29 +39,34 @@ SuggestionView {
 .lineBreak {
     height: 0.5;
     border: none;
-    color: #e0e0e0;
-    background-color: #e0e0e0;
+    color: #eeeeee;
+    background-color: #eeeeee;
     margin: 10;
 }
 Label {
     text-align: center;
-    color: white;
+    color: #eeeeee;
     font-size: 17;
     font-weight: bold;
 
 }
 Slider {
-    background-color: #809fff;
+    background-color: #2e6fa8;
+    color: #035aa6;
 }
 .sliderBG {
     background-color: rgba(44, 44, 43, 0.8);
     height: 20%;
 }
 DockLayout.sliderBG Button {
-    background-color: #185a9d;
-    color: white;
+    background-color: #035aa6;
+    color: #eeeeee;
     border-radius: 10;
+    
 }
 DockLayout.sliderBG StackLayout {
     margin: 20% 0;
+}
+.fab{
+    background-color: #035aa6;
 }

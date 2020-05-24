@@ -69,7 +69,7 @@ export class TileDetailComponent implements OnInit {
     onItemTap(args): void {
         this.closeModal(this.items[args.index].id)
     }
-
+    
     public closeModal(ID) {
         this.params.closeCallback(ID);
     }
