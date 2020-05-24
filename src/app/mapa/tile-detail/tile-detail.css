@@ -116,3 +116,13 @@ Label {
         animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
     }
 }
+Button {
+    color: #eeeeee;
+    border-radius: 10;
+    margin: 10;
+    padding: 10;
+    android-elevation: 12;
+    border-width: 2;
+    border-color: #035aa6;
+    background-color: #035aa6; 
+}

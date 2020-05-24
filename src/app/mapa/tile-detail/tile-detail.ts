@@ -1,7 +1,9 @@
-import { Component, OnInit} from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ModalDialogParams } from "nativescript-angular/directives/dialogs";
 
 import { Observable as RxObservable } from 'rxjs';
+
+import { openUrl } from "tns-core-modules/utils/utils";
 
 import * as http from "tns-core-modules/http";
 import { UrlService } from "../../shared/url.service"
@@ -9,7 +11,7 @@ import { UrlService } from "../../shared/url.service"
 export class SessionItem {
     constructor(
         public id: string,
-        public name: string) {}
+        public name: string) { }
 }
 export class TileItem {
     constructor(
@@ -18,6 +20,7 @@ export class TileItem {
         public info: string,
         public ano: string,
         public condicao: string,
+        public localizacao,
         public sessao: string,
         public nrImages: string) { }
 }
@@ -36,7 +39,8 @@ export class TileDetailComponent implements OnInit {
 
     public constructor(private params: ModalDialogParams,
         private _url: UrlService) {
-        this.docs = JSON.parse(params.context.r);   
+        this.docs = JSON.parse(params.context.r);
+        console.log(this.docs)
     }
 
     ngOnInit(): void { }
@@ -45,7 +49,7 @@ export class TileDetailComponent implements OnInit {
         for (var i = 0; i < this.docs.nrImages; i++) {
             this.array.push(i);
         }
-        this.tile = new TileItem(this.docs.id, this.docs.Nome, this.docs.Info, this.docs.Ano, this.docs.Condicao, this.docs.Sessao, this.docs.nrImages)
+        this.tile = new TileItem(this.docs.id, this.docs.Nome, this.docs.Info, this.docs.Ano, this.docs.Condicao,this.docs.Localizacao.coordinates, this.docs.Sessao, this.docs.nrImages)
         if (this.tile.sessao != undefined) {
             var subscr;
             this.myItems = RxObservable.create(subscriber => {
@@ -69,9 +73,13 @@ export class TileDetailComponent implements OnInit {
     onItemTap(args): void {
         this.closeModal(this.items[args.index].id)
     }
-    
+
     public closeModal(ID) {
         this.params.closeCallback(ID);
+    }
+
+    openGmaps() {
+        openUrl("https://www.google.com/maps/dir/?api=1&destination="+this.tile.localizacao[1]+","+this.tile.localizacao[0]+"&travelmode=walking");
     }
 }
 

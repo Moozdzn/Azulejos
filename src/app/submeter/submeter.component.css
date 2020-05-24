@@ -30,9 +30,11 @@ TextView{
 }
 .submit {
     background-color: #035aa6; 
+    color: #eeeeee;
 }
 .btnInput {
-    background-color: #393e46; 
+    color: #393e46;
+    background-color: #eeeeee; 
 }
 
 .textInput {
@@ -43,7 +45,6 @@ TextView{
 
 }
 .btn {
-    color: #eeeeee;
     border-radius: 10;
     margin: 10;
     padding: 10;
