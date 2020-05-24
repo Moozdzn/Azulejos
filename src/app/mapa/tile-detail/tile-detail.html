@@ -18,13 +18,12 @@
 
     <Label class="anim-title description-text" text="Descrição" textWrap="true"></Label>
     <Textview class="anim-content"editable="false" text="{{tile.info}}" horizontalAlignment="stretch" textWrap="true"></Textview>
-    <Label class="anim-title description-text" text="Azulejos relacionados" textWrap="true"></Label>
-    <ListView [items]="myItems | async" (itemTap)="onItemTap($event)">
+    <Label *ngIf="relatedTiles" class="anim-title description-text" text="Azulejos relacionados" textWrap="true"></Label>
+    <ListView *ngIf="relatedTiles" [items]="myItems | async" (itemTap)="onItemTap($event)">
         <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
             <StackLayout [class.odd]="odd" [class.even]="even">
                 <Label [text]='item.name'></Label>
             </StackLayout>
         </ng-template>
     </ListView>
-    <Button text="Ver sessão no mapa" (tap)="seeSession()"></Button>
 </StackLayout>

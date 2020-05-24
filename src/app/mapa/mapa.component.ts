@@ -133,7 +133,7 @@ export class MapaComponent implements OnInit {
                 viewContainerRef: this.vcRef,
             };
             this.modal.showModal(TileDetailComponent, options).then((cb) => {
-                if (cb == 0) return
+                if (cb == null) return
                 else this.openDetails(cb);
             });
         })

@@ -56,6 +56,7 @@ Slider {
 DockLayout.sliderBG Button {
     background-color: #185a9d;
     color: white;
+    border-radius: 10;
 }
 DockLayout.sliderBG StackLayout {
     margin: 20% 0;

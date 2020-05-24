@@ -77,8 +77,17 @@ export class UrlService {
     }
     async getTileInfo(tileID) {
         try {
-            const response = await http.getJSON(this.serverUrl + "sessoes/" + tileID);
-            return response;
+            var httpOptions = {
+                url: this.serverUrl + "sessoes/" + tileID,
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }
+            const response = await http.request(httpOptions);
+            if(response.statusCode == 200){
+                return response.content
+            } return
         } catch (e) {
             console.log(JSON.stringify(e))
         }

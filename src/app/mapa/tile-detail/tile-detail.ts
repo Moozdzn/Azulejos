@@ -1,18 +1,15 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from "@angular/core";
+import { Component, OnInit} from "@angular/core";
 import { ModalDialogParams } from "nativescript-angular/directives/dialogs";
 
 import { Observable as RxObservable } from 'rxjs';
 
 import * as http from "tns-core-modules/http";
-import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 import { UrlService } from "../../shared/url.service"
-
-import { ModalComponent } from "../../submeter/map-modal/map-modal";
 
 export class SessionItem {
     constructor(
         public id: string,
-        public name: string) { }
+        public name: string) {}
 }
 export class TileItem {
     constructor(
@@ -32,14 +29,14 @@ export class TileDetailComponent implements OnInit {
     public array = [];
 
     public docs: any;
-
     public tile: TileItem;
+
+    public relatedTiles: boolean = false;
 
 
     public constructor(private params: ModalDialogParams,
         private _url: UrlService) {
-        this.docs = params.context.r;
-
+        this.docs = JSON.parse(params.context.r);   
     }
 
     ngOnInit(): void { }
@@ -60,9 +57,11 @@ export class TileDetailComponent implements OnInit {
             });
             http.getJSON(this._url.getUrl() + this.tile.sessao + "/azulejos/nome").then((r: any) => {
                 for (var i in r.docs) {
-                    if (r.docs[i].Nome != this.tile.name) this.items.push(new SessionItem(r.docs[i]._id, r.docs[i].Nome));
+                    if (r.docs[i].Nome != this.tile.name) {
+                        this.items.push(new SessionItem(r.docs[i]._id, r.docs[i].Nome));
+                        this.relatedTiles = true;
+                    }
                 }
-                subscr.next(this.items);
             })
         }
     }
@@ -73,10 +72,6 @@ export class TileDetailComponent implements OnInit {
 
     public closeModal(ID) {
         this.params.closeCallback(ID);
-    }
-
-    seeSession() {
-
     }
 }
 
