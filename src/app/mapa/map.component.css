@@ -1,72 +1,36 @@
-ActionBar{
-    background-color: #035aa6;
-}
-
 RadAutoCompleteTextView {
-    color: black;
     background: #eeeeee;
     padding: 8;
     margin: 10 10 5;
     font-weight: bold;
     font-size: 20;
-    border-radius: 5;
+    border-radius: 50;
+    border-width: 1;
+    border-color: #31bbff;
+    android-elevation:12;
 }
 SuggestionView {
-    border-radius: 5;
+    android-elevation:12;
     background: #eeeeee;
-}
-.listView {
-    background: #444444;
 
-}
-.tile {
-    color: #eeeeee;
-    font-size: 20;
-    text-align: center;
-}
-.distance {
-    color: #eeeeee;
-    font-size: 15;
-    text-align: center;
 }
 
 .tileImg {
     width: 50%;
     height: 50%;
-    border-radius: 50%;
 }
 
-.lineBreak {
-    height: 0.5;
-    border: none;
-    color: #eeeeee;
-    background-color: #eeeeee;
-    margin: 10;
-}
-Label {
-    text-align: center;
-    color: #eeeeee;
-    font-size: 17;
-    font-weight: bold;
-
-}
-Slider {
-    background-color: #2e6fa8;
-    color: #035aa6;
-}
-.sliderBG {
-    background-color: rgba(44, 44, 43, 0.8);
+DockLayout DockLayout {
+    background-color: rgba(0, 0, 0, 0.5);
     height: 20%;
 }
-DockLayout.sliderBG Button {
-    background-color: #035aa6;
-    color: #eeeeee;
-    border-radius: 10;
-    
-}
-DockLayout.sliderBG StackLayout {
+
+DockLayout DockLayout StackLayout {
     margin: 20% 0;
 }
+DockLayout DockLayout StackLayout Label {
+    color: #eeeeee;
+}
 .fab{
-    background-color: #035aa6;
+    background-color:#31bbff;
 }

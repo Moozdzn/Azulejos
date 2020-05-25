@@ -49,7 +49,6 @@ export class SubmeterComponent implements OnInit {
     //thumbSize : number = 80;
     //previewSize : number = 300;
     // Server URL
-    url = "http://192.168.42.9:3000/api/sessoes/azulejos";
     // Action Dialog Button
     @ViewChild('dialogButton', { static: true }) db: ElementRef;
     @ViewChild('btnGaleria', { static: true }) galeria: ElementRef;
@@ -277,12 +276,12 @@ export class SubmeterComponent implements OnInit {
 
     errorCss(element, set) {
         if (set) {
-            element.borderWidth = "2";
+            element.borderWidth = "1";
             element.borderColor = "red";
         }
         else {
-            element.borderWidth = "2";
-            element.borderColor = "#035aa6";
+            element.borderWidth = "1";
+            element.borderColor = "#d4d4d4";
         }
     }
 

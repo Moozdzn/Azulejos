@@ -1,37 +1,33 @@
 <ActionBar>
-    <Label text="Perfil" color="white"></Label>
+    <Label text="Perfil" class="font-weight-bold"></Label>
 </ActionBar>
 
 <StackLayout class="pageContent" orientation="vertical" (unloaded)="onProfileUnload()">
-    <StackLayout class="nameContainer" orientation="vertical">
-        <Label class="username" text="Moozdzn"></Label>
-    </StackLayout>
-    <StackLayout orientation="vertical">
-        <Label class="submissionTitle" text="Submissões">
+        <Label class="h1 font-weight-bold m-x-auto m-y-30 text-center" text="Moozdzn"></Label>
+        <StackLayout class="hr m-10"></StackLayout>
+        <Label class="h2 font-weight-bold m-10 text-center" text="Submissões">
         </Label>
-        
-        <GridLayout columns="*, *, *" rows="auto,auto,auto">
-            <Label text="Públicas" row="0" col="0" class="statLabel">
+        <GridLayout class="m-10" columns="*, *, *" rows="auto,auto,auto">
+            <Label text="Públicas" row="0" col="0" class="h3 text-center font-weight-bold">
             </Label>
-            <Label text="Submetidas" row="0" col="1" class="statLabel">
+            <Label text="Submetidas" row="0" col="1" class="h3 text-center font-weight-bold">
             </Label>
-            <Label text="Em análise" row="0" col="2" class="statLabel">
+            <Label text="Em análise" row="0" col="2" class="h3 text-center font-weight-bold">
             </Label>
-            <Label text="{{state.public}}" row="1" col="0" class="statLabel">
+            <Label text="{{state.public}}" row="1" col="0" class="h3 text-center">
             </Label>
-            <Label text="{{state.submitted}}" row="1" col="1" class="statLabel">
+            <Label text="{{state.submitted}}" row="1" col="1" class="h3 text-center">
             </Label>
-            <Label text="{{state.inAnalysis}}" row="1" col="2" class="statLabel">
+            <Label text="{{state.inAnalysis}}" row="1" col="2" class="h3 text-center">
             </Label>
         </GridLayout>
-        <ListView [items]="myItems | async" (itemTap)="onItemTap($event)">
+        <ListView height="70%" width="95%" [items]="myItems | async" (itemTap)="onItemTap($event)">
             <ng-template let-item="item">
                 <FlexboxLayout flexDirection="Column">
-                    <Label [text]='item.nome' class="t-12 tileName">
+                    <Label [text]='item.nome' class="h3 text-center">
                     </Label>
-                    <Label [text]='item.estado' class="tileState"></Label>
+                    <Label [text]='item.estado' class="text-center text-primary"></Label>
                 </FlexboxLayout>
             </ng-template>
         </ListView>
-    </StackLayout>
 </StackLayout>

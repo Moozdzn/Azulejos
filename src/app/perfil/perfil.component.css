@@ -1,61 +1,12 @@
-ActionBar{
-    background-color: #035aa6;
-}
-.nameContainer{
-    background-color: #71a4d1; 
-    border-color: rgba(0, 0, 0, 0.1);
-    border-width: 2; 
-}
-.username {
-    vertical-align: middle;
-    margin: 75;
-    font-size: 45;
-    color: #393e46;
-    
-}
-
-.statLabel{
-    padding: 2;
-    font-size: 15;
-}
-.pageContent{
-    background-color: #222831;
-}
-
-
-.description-label{
-    margin-bottom: 15;
-}
-
-ListView {
-    margin: 20; 
-}
-
-Label {
-    text-align: center;
-    color:#eeeeee;
-}
-.submissionTitle{
-    font-size: 20;
-    margin:10;
-    
-}
-.tileName {
-    font-size:15;
-}
-.tileState {
-    font-size:11;
-    color: #eeeeee;
-}
 GridLayout{
     border-color: rgba(0, 0, 0, 0.1);
     border-width: 2;
-    background-color: #393e46;
+    background-color: #eeeeee;
     android-elevation: 12;
 }
 ListView{
     border-color: rgba(0, 0, 0, 0.1);
     border-width: 2;
-    background-color: #393e46;
+    background-color: #eeeeee;
     android-elevation: 12;
 }

@@ -21,6 +21,9 @@ import { UrlService } from "../shared/url.service"
 import { TileDetailComponent } from "./tile-detail/tile-detail";
 
 import { Observable as RxObservable } from 'rxjs';
+import { isDarkModeEnabled } from "nativescript-dark-mode";
+
+
 
 registerElement("Mapbox", () => require("nativescript-mapbox-enduco").MapboxView);
 registerElement('Fab', () => require('@nstudio/nativescript-floatingactionbutton').Fab);
@@ -40,6 +43,7 @@ export class MapaComponent implements OnInit {
 
     public isMap: boolean = true;
     public isList: boolean = false;
+    public darkMode: string = "light";
 
     //User location
     public userLocation;
@@ -58,9 +62,13 @@ export class MapaComponent implements OnInit {
         private modal: ModalDialogService,
         private vcRef: ViewContainerRef,
         private _url: UrlService
-    ) { }
+    ) {
+        
+     }
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+         if(isDarkModeEnabled()) this.darkMode = "dark";
+    }
 
     ngAfterViewInit(): void {
         this.autocomplete.autoCompleteTextView.loadSuggestionsAsync = () => {

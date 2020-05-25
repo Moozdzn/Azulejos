@@ -27,6 +27,7 @@
     "@nstudio/nativescript-floatingactionbutton": "^2.0.0",
     "nativescript-angular": "~8.21.0",
     "nativescript-camera": "^4.5.0",
+    "nativescript-dark-mode": "^1.0.0",
     "nativescript-geolocation": "^5.1.0",
     "nativescript-imagepicker": "^7.1.0",
     "nativescript-mapbox-enduco": "^2.0.3",

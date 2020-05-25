@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { ModalDialogParams } from "nativescript-angular/directives/dialogs";
 import { registerElement } from "nativescript-angular/element-registry";
 
@@ -6,6 +6,8 @@ import { Mapbox, MapboxMarker, MapboxViewApi } from "nativescript-mapbox-enduco"
 import * as geolocation from "nativescript-geolocation";
 
 import { Accuracy } from "tns-core-modules/ui/enums";
+import { isDarkModeEnabled } from "nativescript-dark-mode";
+
 
 
 registerElement("Mapbox", () => require("nativescript-mapbox-enduco").MapboxView);
@@ -17,8 +19,13 @@ export class ModalComponent {
     mapbox: MapboxViewApi;
     public locationMarker;
     public oldCoords;
+    public darkMode: string = "light";
 
-    public constructor(private params: ModalDialogParams) { }
+    public constructor(private params: ModalDialogParams) {}
+
+    ngOnInit(): void {
+        if(isDarkModeEnabled()) this.darkMode = "dark";
+    }
 
     onMapReady(args) {
         this.mapbox = args.map;

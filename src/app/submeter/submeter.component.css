@@ -1,69 +1,18 @@
-ActionBar{
-    background-color: #035aa6;
-}
-
 Label {
-    font-size: 15;
-    margin-left: 10;
-    color:#eeeeee;
+    margin-left: 5%;
 }
 
 TextField{
-    background-color:#393e46;
-    placeholder-color:#eeeeee;
-    border-radius: 10;
-    color:#eeeeee;
+    android-elevation: 12;
+    background-color: white;
 }
 TextView{
-    background-color:#393e46;
-    placeholder-color:#eeeeee;
-    color:#eeeeee;
-    border-radius: 10;
-}
-.inputSession {
-    border-width: 2;
-    border-color: #444444;
-    margin: 10;
-    padding: 10;
-    border-width: 2;
-    border-color: #035aa6;
-}
-.submit {
-    background-color: #035aa6; 
-    color: #eeeeee;
-}
-.btnInput {
-    color: #393e46;
-    background-color: #eeeeee; 
-}
-
-.textInput {
-    border-width: 2;
-    border-color: #035aa6;
-    margin: 10;
-    padding: 10;
-
-}
-.btn {
-    border-radius: 10;
-    margin: 10;
-    padding: 10;
     android-elevation: 12;
-    border-width: 2;
-    border-color: #035aa6;
+    background-color: white;
 }
-.outerStack{
-    background-color: #222831;
+Button{
+    android-elevation: 12;
 }
-
-.lineBreak {
-    height: 0.5;
-    border: none;
-    color: #e0e0e0;
-    background-color: #e0e0e0;
-    margin: 10;
-}
-
 .darken{
     background-color:rgba(0,0,0,0.6);
 }

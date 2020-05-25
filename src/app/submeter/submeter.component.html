@@ -2,42 +2,42 @@
     <Label text="Submeter"></Label>
 </ActionBar>
 
-<StackLayout class="outerStack">
+<StackLayout class="nt-form">
     
     
-    <Label text="Nome da Sessão"></Label>
-    <TextField #sessao class="inputSession" hint="Exemplo: Nome do prédio/casa onde está o azulejo" returnKeyType="done"
+    <Label text="Nome da Sessão" class="font-weight-bold m-b-5 text-primary"></Label>
+    <TextField #sessao class="inputSession -border m-t-10" hint="Exemplo: Nome do prédio/casa onde está o azulejo" returnKeyType="done"
         maxLength="50">
     </TextField>
-    <StackLayout width="100%" class="lineBreak"></StackLayout>
-    <Label text="Nome do Azulejo"></Label>
-    <TextField #nome class="textInput" hint="Exemplo: Casa no campo de Santa Clara" returnKeyType="done" maxLength="50">
+    <StackLayout class="hr m-10"></StackLayout>
+    <Label text="Nome do Azulejo" class="font-weight-bold m-b-5 text-primary" ></Label>
+    <TextField #nome class="textInput -border m-t-10" hint="Exemplo: Casa no campo de Santa Clara" returnKeyType="done" maxLength="50">
     </TextField>
-    <Label text="Descrição do Azulejo"></Label>
-    <TextView #info row="3" class="textInput"
+    <Label text="Descrição do Azulejo" class="font-weight-bold m-b-5 text-primary"></Label>
+    <TextView #info row="3" class="textInput -border m-t-10"
         hint="Exemplo: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur et justo dignissim, malesuada odio vitae, ultricies turpis">
     </TextView>
     <GridLayout columns="150,auto" rows="auto,auto">
-        <Label row="0" col="0" text="Ano do Azulejo"></Label>
-        <TextField #ano row="1" col="0" class="textInput" hint="Exemplo: 1944" returnKeyType="done"
+        <Label row="0" col="0" text="Ano do Azulejo" class="font-weight-bold m-b-5 text-primary"></Label>
+        <TextField #ano row="1" col="0" class="textInput -border m-t-10" hint="Exemplo: 1944" returnKeyType="done"
             keyboardType="integer" maxLength="4">
         </TextField>
-        <Label row="0" col="1" text="Condição do Azulejo"></Label>
+        <Label row="0" col="1" text="Condição do Azulejo" class="font-weight-bold m-b-5 text-primary"></Label>
         <Button #dialogButton row="1" col="1" text="Escolha condição" (tap)="displayActionDialog()"
-            class="btn btnInput">
+            class="-outline -rounded-sm">
         </Button>
     </GridLayout>
-    <Label row="5" text="Fotografias"></Label>
+    <Label row="5" text="Fotografias" class="font-weight-bold m-b-5 text-primary"></Label>
     <StackLayout orientation="horizontal">
-        <Button #btnGaleria text="Abrir galeria" (tap)="onSelectSingleTap()" class="btn btnInput">
+        <Button #btnGaleria text="Abrir galeria" (tap)="onSelectSingleTap()" class="-outline -rounded-sm">
         </Button>
-        <Button #btnFoto text="Tirar fotografia" (tap)="takePhoto()" class="btn btnInput">
+        <Button #btnFoto text="Tirar fotografia" (tap)="takePhoto()" class="-outline -rounded-sm">
         </Button>
     </StackLayout>
-    <Label text="Localização"></Label>
-    <Button text="Escolher Localização" (tap)="showModal()" class="btn btnInput">
-    </Button>
-    <Button class="btn submit" text="Submeter Azulejo" (tap)="onSubmit()"></Button>
+    <Label text="Localização" class="font-weight-bold m-b-5 text-primary"></Label>
+    <Button text="Escolher Localização" (tap)="showModal()" class="-outline -rounded-sm"></Button>
+    <StackLayout class="hr m-10"></StackLayout>
+    <Button class="-primary -rounded-sm" text="Submeter Azulejo" (tap)="onSubmit()"></Button>
 </StackLayout>
 <StackLayout #darken width="100%" heigth="100%" class=""></StackLayout>
 <ActivityIndicator [busy]="processing" width="150" height="150"></ActivityIndicator>
