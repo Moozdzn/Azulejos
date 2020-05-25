@@ -1,5 +1,5 @@
 <ActionBar>
-    <Label text="Explorar"></Label>
+    <Label text="{{ 'discover.tab' | L }}"></Label>
 </ActionBar>
 <GridLayout *ngIf="isMap">
     <ContentView height="100%" width="100%">
@@ -11,7 +11,7 @@
     </ContentView>
     <StackLayout orientation="vertical">
         <RadAutoCompleteTextView #autocomplete [items]="dataItems" suggestMode="Suggest" displayMode="Plain"
-            (didAutoComplete)="onDidAutoComplete($event)" hint="Digite para procurar azulejos">
+            (didAutoComplete)="onDidAutoComplete($event)" hint="{{ 'discover.autocomplete' | L }}">
             <SuggestionView tkAutoCompleteSuggestionView suggestionViewHeight="300">
                 <ng-template tkSuggestionItemTemplate let-item="item">
                     <StackLayout orientation="vertical" padding="10">
@@ -40,11 +40,11 @@
 </StackLayout>
 <DockLayout stretchLastChild="false">
     <DockLayout dock="bottom">
-        <Button class="-outline -rounded-sm"dock="right" text="Alterar vista" (tap)="toggleView()" textwrap="true"></Button>
+        <Button class="-outline -rounded-sm"dock="right" text="{{ 'discover.view' | L }}" (tap)="toggleView()" textwrap="true"></Button>
         <StackLayout dock="left">
             <Label class="text-center h3 ">
                 <FormattedString>
-                    <Span class="font-weight-bold" text="Raio de procura: "></Span>
+                    <Span class="font-weight-bold" text="{{ 'discover.radius' | L }} "></Span>
                     <Span class="text-primary font-weight-bold"text="{{radius}} "></Span>
                     <Span class="font-weight-bold" text="km"></Span>
                 </FormattedString>

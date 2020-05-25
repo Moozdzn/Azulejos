@@ -7,6 +7,7 @@ import * as geolocation from "nativescript-geolocation";
 
 import { Accuracy } from "tns-core-modules/ui/enums";
 import { isDarkModeEnabled } from "nativescript-dark-mode";
+import { localize } from "nativescript-localize";
 
 
 
@@ -37,8 +38,8 @@ export class ModalComponent {
                     id: 1, // can be user in 'removeMarkers()'
                     lat: location.latitude, // mandatory
                     lng: location.longitude, // mandatory
-                    title: 'Localizacao azulejo', // recommended to pass in
-                    subtitle: 'Pressione outro local para mudar a localização', // one line is available on iOS, multiple on Android
+                    title: localize("tile.location.marker.title"), // recommended to pass in
+                    subtitle: localize("tile.location.marker.subtitle"), // one line is available on iOS, multiple on Android
                     selected: true, // makes the callout show immediately when the marker is added (note: only 1 marker can be selected at a time)
                     onTap: function (marker) {
                         console.log("This marker was tapped");

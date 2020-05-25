@@ -9,6 +9,8 @@ import { Observable as RxObservable } from 'rxjs';
 
 import { UrlService } from "../shared/url.service";
 import { TileDetailComponent } from "../mapa/tile-detail/tile-detail";
+import { localize } from "nativescript-localize";
+
 
 export class SessionItem {
     constructor(
@@ -50,16 +52,14 @@ export class PerfilComponent implements OnInit {
                 actions.push(this.items[args.index].tiles[i].Nome)
             }
             let options = {
-                title: "Azulejos",
-                message: "Selecione um azulejo para ver as informações",
-                cancelButtonText: "Cancelar",
+                title: localize("app.name"),
+                message: localize("profile.sessiontap.message"),
+                cancelButtonText: localize("tile.conditions.dialog.cancel"),
                 actions: actions
             };
 
             action(options).then((result) => {
-                if (result != "Cancelar") {
-
-                    let found = actions.indexOf(result)
+                if (result != localize("tile.conditions.dialog.cancel")) {
 
                     this.openDetails(this.items[args.index].tiles[i]._id)
                 }
@@ -67,10 +67,10 @@ export class PerfilComponent implements OnInit {
         }
         else if (this.items[args.index].estado === 'ANALISADA') {
             
-            Toast.makeText("A sua submissão está a ser analisada por um dos nosso especialistas.", "short").show();
+            Toast.makeText(localize("profile.alert.analysis"), "short").show();
         }
         else {
-            Toast.makeText('A sua submissão aguarda análise dos nossos especialistas.', "short").show();
+            Toast.makeText(localize("profile.alert.submitted"), "short").show();
         }
     }
     public openDetails(ID) {

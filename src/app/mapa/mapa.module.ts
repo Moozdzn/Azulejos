@@ -3,10 +3,7 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { MapaComponent } from "./mapa.component";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autocomplete/angular";
-//import { MapaRoutingModule } from "./mapa-routing.module";
-
-
-
+import { NativeScriptLocalizeModule } from "nativescript-localize/angular";
 
 //import { ItemDetailComponent } from "./item-detail/item-detail.component";
 
@@ -15,6 +12,7 @@ import { NativeScriptUIAutoCompleteTextViewModule } from "nativescript-ui-autoco
         NativeScriptCommonModule,
         NativeScriptUIAutoCompleteTextViewModule,
         NativeScriptRouterModule,
+        NativeScriptLocalizeModule,
         NativeScriptRouterModule.forChild([
             { path: "", redirectTo: "mapa"},
             { path: "mapa", component: MapaComponent}

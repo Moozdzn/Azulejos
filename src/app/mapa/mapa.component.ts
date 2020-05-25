@@ -22,6 +22,7 @@ import { TileDetailComponent } from "./tile-detail/tile-detail";
 
 import { Observable as RxObservable } from 'rxjs';
 import { isDarkModeEnabled } from "nativescript-dark-mode";
+import { localize } from "nativescript-localize";
 
 
 
@@ -181,7 +182,7 @@ export class MapaComponent implements OnInit {
                     lat: r[i].Localizacao.coordinates[1],
                     lng: r[i].Localizacao.coordinates[0],
                     title: r[i].Nome,
-                    subtitle: 'Carrega para ver mais',
+                    subtitle: localize('discover.marker.subtitle'),
                     onTap: marker => {
                         console.log("Marker tapped with title: '" + marker.title + "'");
                         this.mapbox.setCenter({ lat: marker.lat, lng: marker.lng })

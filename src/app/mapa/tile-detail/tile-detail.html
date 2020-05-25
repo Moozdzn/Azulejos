@@ -1,5 +1,5 @@
 <StackLayout class="m-t-25" orientation="vertical" (loaded)="onPageLoad()">
-    <Label text='Desliza para veres mais imagens -->' horizontalAlignment="center">
+    <Label text="{{ 'tile.detail.image.info' | L }}" horizontalAlignment="center">
     </Label>
     <ScrollView class="anim-cover" orientation="horizontal">
         <StackLayout orientation="horizontal">
@@ -13,21 +13,21 @@
     <StackLayout orientation="horizontal" class="m-b-10">
         <Label class="anim-title text-left m-x-25">
             <FormattedString>
-                <Span class="h3 font-weight-bold " text="Ano: "></Span>
+                <Span class="h3 font-weight-bold " text="{{ 'tile.detail.year.title' | L }}"></Span>
                 <Span text=" {{tile.ano}}"></Span></FormattedString>
         </Label>
         <Label class="anim-title text-right">
             <FormattedString>
-                <Span class="h3 font-weight-bold " text="Condição atual: "></Span>
-                <Span text="{{tile.condicao}}"></Span>
+                <Span class="h3 font-weight-bold " text="{{ 'tile.detail.condition.title' | L }}"></Span>
+                <Span text=" {{tile.condicao}}"></Span>
             </FormattedString>
         </Label>
     </StackLayout>
     <StackLayout width="100%" class="lineBreak"></StackLayout>
-    <Label class="anim-title h2 font-weight-bold m-x-25 " text="Descrição" textWrap="true"></Label>
+    <Label class="anim-title h2 font-weight-bold m-x-25 " text="{{ 'tile.detail.description.title' | L }}" textWrap="true"></Label>
     <Textview class="anim-content m-x-30" editable="false" text="{{tile.info}}" horizontalAlignment="stretch" textWrap="true">
     </Textview>
-    <Label *ngIf="relatedTiles" class="anim-title h2 font-weight-bold m-x-25 " text="Azulejos relacionados"
+    <Label *ngIf="relatedTiles" class="anim-title h2 font-weight-bold m-x-25 " text="{{ 'tile.detail.related.tiles.title' | L }}"
         textWrap="true"></Label>
     <ListView *ngIf="relatedTiles" class="anim-content m-x-30" [items]="myItems | async" (itemTap)="onItemTap($event)">
         <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
@@ -36,5 +36,5 @@
             </StackLayout>
         </ng-template>
     </ListView>
-    <Button text="Obter Direções (Google Maps)" (tap)="openGmaps()" class="anim-content -rounded-sm -primary m-y-30"></Button>
+    <Button text="{{ 'tile.detail.directions.title' | L }}" (tap)="openGmaps()" class="anim-content -rounded-sm -primary m-y-30"></Button>
 </StackLayout>

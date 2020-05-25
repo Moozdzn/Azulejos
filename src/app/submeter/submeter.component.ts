@@ -19,7 +19,8 @@ import * as imagepicker from "nativescript-imagepicker";
 
 import { ModalComponent } from "./map-modal/map-modal";
 
-import { UrlService } from "../shared/url.service"
+import { UrlService } from "../shared/url.service";
+import { localize } from "nativescript-localize";
 
 
 
@@ -139,10 +140,10 @@ export class SubmeterComponent implements OnInit {
     // DIALOG ACTION
     displayActionDialog() {
         let options = {
-            title: "Condição",
-            message: "Escolha condição do azulejo",
-            cancelButtonText: "Cancelar",
-            actions: ["NOVO", "DANIFICADO", "EM MANUTENCAO", "RESTAURADO"]
+            title: localize("tile.conditions.dialog.title"),
+            message: localize("tile.conditions.dialog.message"),
+            cancelButtonText: localize("tile.conditions.dialog.cancel"),
+            actions: [localize('tile.conditions.new'), localize('tile.conditions.damaged'), localize('tile.conditions.maintenance'), localize('tile.conditions.restored')]
         };
 
         action(options).then((result) => {
@@ -155,7 +156,7 @@ export class SubmeterComponent implements OnInit {
     saveTile() {
         var validated = this.validateInputs();
         if (!validated) {
-            alert('Por favor preencha todos os campos antes de submeter');
+            alert(localize("tile.submit.error"));
             return false;
         } else {
             if (this.location.length == 0) {
@@ -174,7 +175,7 @@ export class SubmeterComponent implements OnInit {
                 "Files": b64Images
             }
             this.submittedTiles.push(tile);
-            this.dialogButton.text = "Escolha condição";
+            this.dialogButton.text = localize("tile.condition.hint");
             this.nome.text = "";
             this.info.text = "";
             this.ano.text = "";
@@ -186,11 +187,11 @@ export class SubmeterComponent implements OnInit {
     // Submit Tile
     onSubmit() {
         dialogs.confirm({
-            title: "Submeter azujelo(s)?",
-            message: "Não vai puder alterar as informações que inseriu!",
-            okButtonText: "Sim",
-            cancelButtonText: "Rever",
-            neutralButtonText: "Submeter outro azulejo"
+            title: localize("tile.submit.confirm.title"),
+            message: localize("tile.submit.confirm.message"),
+            okButtonText: localize("yes"),
+            cancelButtonText: localize("review"),
+            neutralButtonText: localize("tile.submit.another")
         }).then(result => {
             if (result) {
                 var flag = this.saveTile();
@@ -201,6 +202,7 @@ export class SubmeterComponent implements OnInit {
                     for (var i in this.submittedTiles) {
                         tilesID.push({ "_id": this.submittedTiles[i]._id, "Nome": this.submittedTiles[i].Nome })
                     }
+                    //CONVERTER O ESTADO PARA PORTUGUES
                     var body = {
                         sessao: {
                             "_id": this.sessionID,
@@ -217,7 +219,7 @@ export class SubmeterComponent implements OnInit {
                         this.sessionID = this.ObjectId();
                         this.darkenStack.class="";
                         this.processing = false;
-                        Toast.makeText('Azulejo submetido com sucesso','short').show();   
+                        Toast.makeText(localize("tile.submit.success"),'short').show();   
                     })
                         .catch(function (e) {
                             console.log("Uh oh, something went wrong1", e);
@@ -256,7 +258,7 @@ export class SubmeterComponent implements OnInit {
     validateInputs() {
         var valid = true;
         for (var i in this.fieldsToValidate) {
-            if (this.fieldsToValidate[i].text.length == 0 || this.fieldsToValidate[i].text == "Escolha condição") {
+            if (this.fieldsToValidate[i].text.length == 0 || this.fieldsToValidate[i].text == localize("tile.condition.hint")) {
                 this.errorCss(this.fieldsToValidate[i], true)
                 valid = false;
             } else {

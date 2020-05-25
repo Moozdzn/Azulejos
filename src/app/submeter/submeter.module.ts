@@ -1,6 +1,7 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
+import { NativeScriptLocalizeModule } from "nativescript-localize/angular";
 
 //import { SubmeterRoutingModule } from "./submeter-routing.module";
 import { SubmeterComponent } from "./submeter.component";
@@ -9,6 +10,7 @@ import { SubmeterComponent } from "./submeter.component";
     imports: [
         NativeScriptCommonModule,
         NativeScriptRouterModule,
+        NativeScriptLocalizeModule,
         NativeScriptRouterModule.forChild([
             { path: "", redirectTo: "submeter" },
             { path: "submeter", component: SubmeterComponent }
