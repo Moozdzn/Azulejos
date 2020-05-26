@@ -8,6 +8,8 @@ import { openUrl } from "tns-core-modules/utils/utils";
 import * as http from "tns-core-modules/http";
 import { UrlService } from "../../shared/url.service"
 
+import { device } from '@nativescript/core/platform';
+
 export class SessionItem {
     constructor(
         public id: string,

@@ -3,14 +3,14 @@ import { Injectable } from "@angular/core";
 import * as http from "tns-core-modules/http";
 import * as geolocation from "nativescript-geolocation";
 import { Accuracy } from "tns-core-modules/ui/enums";
+import { device } from '@nativescript/core/platform';
 
 @Injectable({
     providedIn: "root"
 })
 export class UrlService {
-    //private serverUrl = "http://192.168.1.9:3000/api/"
-    private serverUrl = "https://azueljos.herokuapp.com/api/"
-
+    private serverUrl = "http://192.168.1.9:3000/api/"
+    //private serverUrl = "https://azueljos.herokuapp.com/api/"
 
     private userID: string = "5e8b49d6343d6d38c8d96d6b";
 
@@ -79,7 +79,7 @@ export class UrlService {
     async getTileInfo(tileID) {
         try {
             var httpOptions = {
-                url: this.serverUrl + "sessoes/" + tileID,
+                url: this.serverUrl + "sessoes/" + tileID+"?lan="+device.language,
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json"
