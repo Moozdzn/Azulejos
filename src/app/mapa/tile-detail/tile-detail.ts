@@ -24,7 +24,7 @@ export class TileItem {
         public condicao: string,
         public localizacao,
         public sessao: string,
-        public nrImages: string) { }
+        public nrImages: string) {}
 }
 @Component({ selector: "tile-modal", templateUrl: "tile-detail.html", styleUrls: ["./tile-detail.css"] })
 
