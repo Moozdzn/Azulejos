@@ -8,7 +8,7 @@
       "version": "6.5.0"
     }
   },
-  "description": "NativeScript Application",
+  "description": "A tile discovery app",
   "license": "SEE LICENSE IN <your-license-filename>",
   "repository": "<fill-your-repository-here>",
   "scripts": {
