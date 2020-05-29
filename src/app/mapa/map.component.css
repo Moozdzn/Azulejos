@@ -25,10 +25,7 @@ DockLayout DockLayout {
     height: 20%;
 }
 
-DockLayout DockLayout StackLayout {
-    margin: 20% 0;
-}
-DockLayout DockLayout StackLayout Label {
+DockLayout DockLayout Label {
     color: #eeeeee;
 }
 .fab{

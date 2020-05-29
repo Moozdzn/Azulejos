@@ -41,17 +41,15 @@
 <DockLayout stretchLastChild="false">
     <DockLayout dock="bottom">
         <Button class="-outline -rounded-sm"dock="right" text="{{ 'discover.view' | L }}" (tap)="toggleView()" textwrap="true"></Button>
-        <StackLayout dock="left">
-            <Label class="text-center h3 ">
+            <Label class="text-center h3 "dock="top">
                 <FormattedString>
                     <Span class="font-weight-bold" text="{{ 'discover.radius' | L }} "></Span>
                     <Span class="text-primary font-weight-bold"text="{{radius}} "></Span>
                     <Span class="font-weight-bold" text="km"></Span>
                 </FormattedString>
             </Label>
-            <Slider value="6" minValue="1" maxValue="11" (valueChange)="onSliderValueChange($event)">
+            <Slider value="6" minValue="1" maxValue="11" (valueChange)="onSliderValueChange($event)" dock="bottom">
             </Slider>
-        </StackLayout>
     </DockLayout>
 </DockLayout>
 <!-- https://azulejos.b-cdn.net/item.id/0.jpg -->
