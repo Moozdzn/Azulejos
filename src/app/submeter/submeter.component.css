@@ -16,3 +16,7 @@ Button{
 .darken{
     background-color:rgba(0,0,0,0.6);
 }
+.imgThumb{
+    width: 200px;
+    height: 200px;
+}

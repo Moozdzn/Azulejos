@@ -36,8 +36,10 @@
   <string name="_tile_description_label_Z1PAAJt">"Tile Description"</string>
   <string name="_tile_name_hint_1GvOzv">"Example: Casa no campo de Santa Clara"</string>
   <string name="_tile_name_label_1Kqqnf">"Tile Name"</string>
-  <string name="_session_hint_ZQQiDY">"Example: Building name / House that holds the tile"</string>
-  <string name="_submit_session_label_UEOOq">"Session Name"</string>
+  <string name="_session_info_hint_1S5iyn">"Tell us everything thing you know about the tile(s) you are submitting"</string>
+  <string name="_session_info_label_Z2wr7OG">"Session Info"</string>
+  <string name="_session_name_hint_1Sf8e6">"Example: Building name / House that holds the tile"</string>
+  <string name="_session_name_label_Z2rrn8k">"Session Name"</string>
   <string name="_submit_tab_Z2s4GAF">"Submit"</string>
   <string name="_tile_detail_directions_title_2knJMR">"Get Directions (Google Maps)"</string>
   <string name="_tile_detail_related_tiles_title_r0YNX">"Related Tiles"</string>

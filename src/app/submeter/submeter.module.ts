@@ -3,6 +3,7 @@ import { NativeScriptCommonModule } from "nativescript-angular/common";
 import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { NativeScriptLocalizeModule } from "nativescript-localize/angular";
 import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
+import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 
 //import { SubmeterRoutingModule } from "./submeter-routing.module";
 import { SubmeterComponent } from "./submeter.component";
@@ -12,6 +13,7 @@ import { SubmeterComponent } from "./submeter.component";
         NativeScriptCommonModule,
         NativeScriptRouterModule,
         NativeScriptLocalizeModule,
+        NativeScriptUIListViewModule,
         NativeScriptUIDataFormModule,
         NativeScriptRouterModule.forChild([
             { path: "", redirectTo: "submeter" },

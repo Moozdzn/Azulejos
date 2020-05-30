@@ -36,6 +36,7 @@
     "nativescript-toast": "^2.0.0",
     "nativescript-ui-autocomplete": "^6.0.1",
     "nativescript-ui-dataform": "^6.0.0",
+    "nativescript-ui-listview": "^8.2.0",
     "reflect-metadata": "~0.1.12",
     "rxjs": "^6.4.0",
     "tns-core-modules": "~6.5.0",
