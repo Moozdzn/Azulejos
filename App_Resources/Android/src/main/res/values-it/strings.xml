@@ -36,8 +36,10 @@
   <string name="_tile_description_label_Z1PAAJt">"Descrizione delle piastrelle"</string>
   <string name="_tile_name_hint_1GvOzv">"Esempio: Casa no campo de Santa Clara"</string>
   <string name="_tile_name_label_1Kqqnf">"Nome della piastrella"</string>
-  <string name="_session_hint_ZQQiDY">"Esempio: nome dell\'edificio / casa in cui si trova la piastrella"</string>
-  <string name="_submit_session_label_UEOOq">"Nome della sessione"</string>
+  <string name="_session_info_hint_1S5iyn">"Inserisci le informazioni sulla sessione"</string>
+  <string name="_session_info_label_Z2wr7OG">"Informazioni sulla sessione"</string>
+  <string name="_session_name_hint_1Sf8e6">"Esempio: nome dell\'edificio / casa in cui si trova la piastrella"</string>
+  <string name="_session_name_label_Z2rrn8k">"Nome della sessione"</string>
   <string name="_submit_tab_Z2s4GAF">"Per inviare"</string>
   <string name="_tile_detail_directions_title_2knJMR">"Ottenere indicazioni (Google Maps)"</string>
   <string name="_tile_detail_related_tiles_title_r0YNX">"Tessere correlate"</string>

@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
-import { RouterExtensions } from "nativescript-angular/router";
 import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 
 import * as dialogs from "tns-core-modules/ui/dialogs";
+
+import { RadDataFormComponent } from "nativescript-ui-dataform/angular";
 
 import { action } from "tns-core-modules/ui/dialogs";
 import { Button } from 'tns-core-modules/ui/button';
@@ -20,9 +21,20 @@ import * as imagepicker from "nativescript-imagepicker";
 import { ModalComponent } from "./map-modal/map-modal";
 
 import { UrlService } from "../shared/url.service";
+
 import { localize } from "nativescript-localize";
 
+import { ListViewEventData, RadListView } from "nativescript-ui-listview";
 
+
+export class Session{
+    constructor(public id:string,public name:string,public info:string,public azulejo){
+        this.id = id;
+        this.name = name;
+        this.info = info;
+        this.azulejo = [];
+    }
+}
 
 @Component({
     selector: "Submeter",
@@ -44,18 +56,18 @@ export class SubmeterComponent implements OnInit {
     private file: string;
     public wError = true;
     processing = false;
+    sessionExists = false;
+    currentSession;
+    private _session:Session;
 
-
-    // Image Picker Preview - Not working
-    //thumbSize : number = 80;
-    //previewSize : number = 300;
-    // Server URL
     // Action Dialog Button
+    @ViewChild('sessionForm', { static: false }) sessionForm: RadDataFormComponent;
     @ViewChild('dialogButton', { static: true }) db: ElementRef;
     @ViewChild('btnGaleria', { static: true }) galeria: ElementRef;
     @ViewChild('btnFoto', { static: true }) foto: ElementRef;
     @ViewChild('nome', { static: true }) n: ElementRef;
     @ViewChild('sessao', { static: true }) s: ElementRef;
+    @ViewChild('sessaoInfo', { static: true }) si: ElementRef;
     @ViewChild('ano', { static: true }) a: ElementRef;
     @ViewChild('info', { static: true }) i: ElementRef;
     @ViewChild('darken', { static: true }) dark: ElementRef;
@@ -65,13 +77,15 @@ export class SubmeterComponent implements OnInit {
     galeriaButton: Button;
     nome: TextField;
     sessao: TextField;
+    sessaoInfo: TextView;
     ano: TextField;
     info: TextView;
     darkenStack;
     fieldsToValidate = [];
     location = [];
+    array = [];
 
-    constructor(private modal: ModalDialogService, private vcRef: ViewContainerRef, private _url: UrlService, private routerExtension: RouterExtensions) {
+    constructor(private modal: ModalDialogService, private vcRef: ViewContainerRef, private _url: UrlService) {
         // Use the component constructor to inject providers.
     }
 
@@ -82,23 +96,27 @@ export class SubmeterComponent implements OnInit {
             viewContainerRef: this.vcRef
         };
         this.modal.showModal(ModalComponent, options).then(res => {
-
             this.location = res;
         });
     }
 
     ngOnInit(): void {
         // Use the "ngOnInit" handler to initialize data for the view.
+        this._session = new Session(this.ObjectId(),null,null,null);
+        
         this.darkenStack = this.dark.nativeElement;
         this.dialogButton = <Button>this.db.nativeElement;
         this.galeriaButton = <Button>this.galeria.nativeElement;
         this.fotoButton = <Button>this.foto.nativeElement;
         this.nome = <TextField>this.n.nativeElement;
         this.sessao = <TextField>this.s.nativeElement;
+        this.sessaoInfo = <TextView>this.si.nativeElement;
         this.ano = <TextField>this.a.nativeElement;
         this.info = <TextView>this.i.nativeElement;
-        this.fieldsToValidate = [this.sessao, this.nome, this.info, this.ano, this.dialogButton];
-
+        this.fieldsToValidate = [this.sessao,this.sessaoInfo, this.nome, this.info, this.ano, this.dialogButton];
+    }
+    get session(): Session {
+        return this._session;
     }
 
     //
@@ -117,21 +135,14 @@ export class SubmeterComponent implements OnInit {
             //that.imageSrc = null;
             return context.present();
         }).then((selection) => {
-            console.log("Selection done: " + JSON.stringify(selection));
+            //console.log("Selection done: " + JSON.stringify(selection));
             if (selection.length > 0) {
                 for (var i in selection) {
                     that.imageArray.push(selection[i]._android)
+                    that.array.push(selection[i]._android);
                 }
-                console.log(that.imageArray)
+                //console.log(that.imageArray)
             }
-            /*that.imageSrc = that.isSingleMode && selection.length > 0 ? selection[0] : null;
-
-             //set the images to be loaded from the assets with optimal sizes (optimize memory usage)
-             selection.forEach(function (element) {
-                element.options.width = that.isSingleMode ? that.previewSize : that.thumbSize;
-                element.options.height = that.isSingleMode ? that.previewSize : that.thumbSize;
-            }); 
-            that.imageAssets = selection;*/
         }).catch(function (e) {
             console.log(e);
         });
@@ -150,6 +161,23 @@ export class SubmeterComponent implements OnInit {
             if (result !== options.cancelButtonText)
                 this.dialogButton.text = result;
 
+        });
+    }
+    public onItemSelected(args: ListViewEventData) {
+        let options = {
+            title: "Pretende remover a imagem selecionada?",
+            okButtonText: "Confirmar",
+            cancelButtonText: "Cancelar",
+        }
+
+        dialogs.confirm(options).then(result => {
+            if(result){
+                const listview = args.object;
+                const selectedItems = listview.getSelectedItems();
+                const index = this.array.indexOf(selectedItems[0]);
+       
+                this.array.splice(index,1);
+            }
         });
     }
 
@@ -184,8 +212,44 @@ export class SubmeterComponent implements OnInit {
             return true;
         }
     }
+    createSession(){
+        if(!this.sessionExists){
+            var sessionValid = true;
+            const form = this.sessionForm.dataForm;
+            const name = form.getPropertyByName("name")
+            const info = form.getPropertyByName("info")
+            const group = form.getGroupByName("Session");
+
+            if(name.value != null && name.isValid){} else sessionValid = false;
+            if(info.value != null && info.isValid){} else sessionValid = false;
+            if(sessionValid){
+                name.readOnly = true;
+                info.readOnly = true;
+                group.collapsed = true;
+                form.commitAll();
+                this.sessionExists = true;
+                return true;
+            } else return false
+        } else return true
+    }
     // Submit Tile
     onSubmit() {
+        var hasSession = this.createSession();
+        if(hasSession){
+            dialogs.confirm({
+                title: localize("tile.submit.confirm.title"),
+                message: localize("tile.submit.confirm.message"),
+                okButtonText: localize("yes"),
+                cancelButtonText: localize("review"),
+                neutralButtonText: localize("tile.submit.another")
+            }).then(result => {
+
+            })
+        }
+    
+
+    }
+    /* onSubmit() {
         dialogs.confirm({
             title: localize("tile.submit.confirm.title"),
             message: localize("tile.submit.confirm.message"),
@@ -239,8 +303,7 @@ export class SubmeterComponent implements OnInit {
                 }
             }
         });
-
-    }
+    } */
     // TAKE PHOTO
     takePhoto() {
         if (camera.isAvailable()) {
@@ -248,6 +311,7 @@ export class SubmeterComponent implements OnInit {
                 camera.takePicture().then((imageAsset) => {
                     console.log("Result is an image asset instance");
                     this.imageArray.push(imageAsset.android);
+                    this.array.push(imageAsset.android);
                 }).catch((err) => {
                     console.log("Error -> " + err.message);
                 });

@@ -36,8 +36,10 @@
   <string name="_tile_description_label_Z1PAAJt">"Descrição do Azulejo"</string>
   <string name="_tile_name_hint_1GvOzv">"Exemplo: Casa no campo de Santa Clara"</string>
   <string name="_tile_name_label_1Kqqnf">"Nome do azulejo"</string>
-  <string name="_session_hint_ZQQiDY">"Exemplo: Nome do prédio / Casa onde está o azulejo"</string>
-  <string name="_submit_session_label_UEOOq">"Nome da Sessão"</string>
+  <string name="_session_info_hint_1S5iyn">"Introduza informação da sessão"</string>
+  <string name="_session_info_label_Z2wr7OG">"Informação da Sessão"</string>
+  <string name="_session_name_hint_1Sf8e6">"Exemplo: Nome do prédio / Casa onde está o azulejo"</string>
+  <string name="_session_name_label_Z2rrn8k">"Nome da Sessão"</string>
   <string name="_submit_tab_Z2s4GAF">"Submeter"</string>
   <string name="_tile_detail_directions_title_2knJMR">"Obter Direções (Google Maps)"</string>
   <string name="_tile_detail_related_tiles_title_r0YNX">"Azulejos relacionados"</string>
