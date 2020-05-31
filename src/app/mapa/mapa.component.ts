@@ -201,7 +201,7 @@ export class MapaComponent implements OnInit {
     }
 
     checkUserPos = setInterval(() => {
-        var newLocation = this._url.getUserLocation();
+        var newLocation = this._url.getUserCurrentLocation();
         this.mapbox.getDistanceBetween(this.userLocation, newLocation).then((value: number) => {
             if (value > 2000) {
                 this.userLocation = newLocation;

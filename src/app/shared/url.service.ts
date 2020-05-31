@@ -4,6 +4,7 @@ import * as http from "tns-core-modules/http";
 import * as geolocation from "nativescript-geolocation";
 import { Accuracy } from "tns-core-modules/ui/enums";
 import { device } from '@nativescript/core/platform';
+import {getBoolean,setBoolean,getNumber,setNumber,getString,setString,hasKey,remove,clear} from "tns-core-modules/application-settings";
 
 @Injectable({
     providedIn: "root"
@@ -12,7 +13,8 @@ export class UrlService {
     //private serverUrl = "http://192.168.1.9:3000/api/"
     private serverUrl = "https://azueljos.herokuapp.com/api/"
 
-    private userID: string = "5e8b49d6343d6d38c8d96d6b";
+    private userID: string = getString("id");
+    private username: string = getString("username");
 
     private currentUserLocation;
 
@@ -27,6 +29,9 @@ export class UrlService {
     }
     setID(newID) {
         this.userID = newID;
+    }
+    getUserCurrentLocation(){
+        return this.currentUserLocation;
     }
 
     async getUserSubmissions() {
@@ -90,6 +95,22 @@ export class UrlService {
                 return response.content
             } return
         } catch (e) {
+            console.log(JSON.stringify(e))
+        }
+    }
+    async login(credentials){
+        try{
+            var httpOptions = {
+                url: this.serverUrl + "user",
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                content: JSON.stringify(credentials)
+            }
+            const response = await http.request(httpOptions);
+            return response;
+        }catch(e){
             console.log(JSON.stringify(e))
         }
     }

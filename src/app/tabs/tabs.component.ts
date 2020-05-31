@@ -9,11 +9,11 @@ import { ActivatedRoute } from "@angular/router";
     templateUrl: "./tabs.component.html",styleUrls:["./tabs.component.css"]
 })
 export class TabsComponent {
-    @ViewChild('tab1', { static: false }) tab1: ElementRef;
-	@ViewChild('tab2', { static: false }) tab2: ElementRef;
-	@ViewChild('tab3', { static: false }) tab3: ElementRef;
+    @ViewChild('tab0', { static: false }) tab0: ElementRef;
+	@ViewChild('tab1', { static: false }) tab1: ElementRef;
+    @ViewChild('tab2', { static: false }) tab2: ElementRef;
+    @ViewChild("tabView", {static: false}) tabView: ElementRef;
 
-    selectedTab = 0;
     constructor(
         private routerExtension: RouterExtensions,
         private activeRoute: ActivatedRoute) {
@@ -25,20 +25,20 @@ export class TabsComponent {
 
     onTabSelect(index){
         switch (index){
+            case "tab0":
+                this.tab0.nativeElement.class = "selected";
+                this.tab1.nativeElement.class = "";
+                this.tab2.nativeElement.class = "";
+                break;
             case "tab1":
                 this.tab1.nativeElement.class = "selected";
+                this.tab0.nativeElement.class = "";
                 this.tab2.nativeElement.class = "";
-                this.tab3.nativeElement.class = "";
                 break;
             case "tab2":
                 this.tab2.nativeElement.class = "selected";
+                this.tab0.nativeElement.class = "";
                 this.tab1.nativeElement.class = "";
-                this.tab3.nativeElement.class = "";
-                break;
-            case "tab3":
-                this.tab3.nativeElement.class = "selected";
-                this.tab1.nativeElement.class = "";
-                this.tab2.nativeElement.class = "";
                 break;
             default:
                 break;

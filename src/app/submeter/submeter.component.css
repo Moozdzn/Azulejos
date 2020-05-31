@@ -20,3 +20,8 @@ Button{
     width: 200px;
     height: 200px;
 }
+.imgDel{
+    border-radius: 50;
+    width:50;
+    height:50;
+}

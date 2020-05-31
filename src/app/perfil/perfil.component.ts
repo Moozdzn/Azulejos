@@ -10,6 +10,7 @@ import { Observable as RxObservable } from 'rxjs';
 import { UrlService } from "../shared/url.service";
 import { TileDetailComponent } from "../mapa/tile-detail/tile-detail";
 import { localize } from "nativescript-localize";
+import {getBoolean,setBoolean,getNumber,setNumber,getString,setString,hasKey,remove,clear} from "tns-core-modules/application-settings";
 
 
 export class SessionItem {
@@ -32,6 +33,7 @@ export class PerfilComponent implements OnInit {
     public myItems: RxObservable<Array<SessionItem>>;
     public items;
     public state;
+    public username = getString("username");
 
     constructor(private _url: UrlService,
         private modal: ModalDialogService,
