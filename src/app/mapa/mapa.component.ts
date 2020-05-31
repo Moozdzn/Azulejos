@@ -1,5 +1,4 @@
 import { Component, ViewChild, OnInit, ViewContainerRef, AfterViewInit } from "@angular/core";
-import { Router, NavigationExtras } from "@angular/router";
 
 import * as geolocation from "nativescript-geolocation";
 import * as Toast from 'nativescript-toast';
@@ -7,28 +6,21 @@ import * as Toast from 'nativescript-toast';
 import { Mapbox, MapboxMarker, MapboxViewApi } from "nativescript-mapbox-enduco";
 import { registerElement } from "nativescript-angular/element-registry";
 
-
 import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 import { TokenModel } from "nativescript-ui-autocomplete";
 import { RadAutoCompleteTextViewComponent } from "nativescript-ui-autocomplete/angular";
 
-import { ObservableArray } from "tns-core-modules/data/observable-array";
 import { Accuracy } from "tns-core-modules/ui/enums";
 import { setInterval } from "tns-core-modules/timer";
 
 import { UrlService } from "../shared/url.service"
 
 import { TileDetailComponent } from "./tile-detail/tile-detail";
-
-import { Observable as RxObservable } from 'rxjs';
 import { isDarkModeEnabled } from "nativescript-dark-mode";
 import { localize } from "nativescript-localize";
 
-
-
 registerElement("Mapbox", () => require("nativescript-mapbox-enduco").MapboxView);
 registerElement('Fab', () => require('@nstudio/nativescript-floatingactionbutton').Fab);
-
 
 //import { DataService, DataItem } from "../shared/data.service";
 export class TileItem {
@@ -44,16 +36,18 @@ export class MapaComponent implements OnInit {
 
     public isMap: boolean = true;
     public isList: boolean = false;
+    public charCodes = [String.fromCharCode(0xf5a0),String.fromCharCode(0xf03a)];
+    public icon = this.charCodes[1];
     public darkMode: string = "light";
 
     //User location
     public userLocation;
 
     //Tile List View
-    public myItems: RxObservable<Array<TileItem>>;
+    public myItems: Array<TileItem>;
     public tiles;
     //
-    private _items: ObservableArray<TokenModel>;
+    private _items: Array<TokenModel>;
     private markers;
 
     private radius: number = 6;
@@ -63,9 +57,7 @@ export class MapaComponent implements OnInit {
         private modal: ModalDialogService,
         private vcRef: ViewContainerRef,
         private _url: UrlService
-    ) {
-        
-     }
+    ) {}
 
     ngOnInit(): void {
          if(isDarkModeEnabled()) this.darkMode = "dark";
@@ -97,12 +89,17 @@ export class MapaComponent implements OnInit {
 
     @ViewChild("autocomplete", { static: false }) autocomplete: RadAutoCompleteTextViewComponent;
 
-    get dataItems(): ObservableArray<TokenModel> {
+    get dataItems(): Array<TokenModel> {
         return this._items;
     }
     toggleView(){
         this.isMap = !this.isMap;
         this.isList = !this.isList;
+        if(this.isMap){
+            this.icon = this.charCodes[1];
+        } else {
+            this.icon = this.charCodes[0];
+        }
     }
 
     // When map is ready, focus on user and adds markers to map
@@ -126,7 +123,6 @@ export class MapaComponent implements OnInit {
                 this.setTiles(this.userLocation);
             })
         })
-
     }
 
     onSliderValueChange(args) {
@@ -166,15 +162,7 @@ export class MapaComponent implements OnInit {
             //Markers array to pass to map
             var markers = [];
             //Array for ListView
-            this.tiles=[];
-            var subscr;
-            this.myItems = RxObservable.create(subscriber => {
-                subscr = subscriber;
-                subscriber.next(this.tiles);
-                return function () {
-                    console.log("Unsubscribe called!!!");
-                }
-            });
+            this.myItems = [];
 
             for (var i in r) {
                 markers.push(<MapboxMarker>{
@@ -189,11 +177,10 @@ export class MapaComponent implements OnInit {
                     },
                     onCalloutTap: marker => this.openDetails(marker.id)
                 })
-                this.tiles.push(new TileItem(r[i]._id, r[i].Nome, (r[i].distance / 1000).toFixed(2) + "km"));
+                this.myItems.push(new TileItem(r[i]._id, r[i].Nome, (r[i].distance / 1000).toFixed(2) + "km"))
             }
             this.mapbox.removeMarkers();
             this.mapbox.addMarkers(markers)
-            //subscr.next(this.tiles);
         }, (e) => {
             console.error(JSON.stringify(e))
             alert('hello'+e)

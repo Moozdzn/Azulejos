@@ -1,28 +1,26 @@
 <FlexboxLayout class="page">
     <StackLayout class="form">
-        <Label class="header" text="Azulej"></Label>
-
-        <PreviousNextView>
+        <Image src="res://logo"></Image>
             <GridLayout rows="auto, auto, auto">
                 <StackLayout row="0" class="input-field">
-                    <TextField class="input" hint="Username"
+                    <TextField class="input h2" hint="Username"
                         autocorrect="false"
-                        autocapitalizationType="none" [(ngModel)]="user.username"
+                        autocapitalizationType="none" hint="Username" [(ngModel)]="user.username"
                         returnKeyType="next" (returnPress)="focusPassword()"></TextField>
                     <StackLayout class="hr-light"></StackLayout>
                 </StackLayout>
 
                 <StackLayout row="1" class="input-field">
-                    <TextField #password class="input"
-                        hint="Password" secure="true" [(ngModel)]="user.password"
+                    <TextField #password class="input h2" [(ngModel)]="user.password"
+                        hint="Password" secure="true" 
                         (returnPress)="focusPassword()"></TextField>
                     <StackLayout class="hr-light"></StackLayout>
+                    <Label *ngIf="error" text="We can't seem to find an account with the combination provided" class="text-danger"></Label>
                 </StackLayout>
-
+                
+                <ActivityIndicator rowSpan="3" [busy]="processing"></ActivityIndicator>
             </GridLayout>
-        </PreviousNextView>
-
         <Button text="Log In"
-            (tap)="login()" class="btn btn-primary m-t-20"></Button>
+            (tap)="login()" class="-primary rounded-sm m-t-20"></Button>
     </StackLayout>
 </FlexboxLayout>

@@ -13,9 +13,6 @@ export class UrlService {
     //private serverUrl = "http://192.168.1.9:3000/api/"
     private serverUrl = "https://azueljos.herokuapp.com/api/"
 
-    private userID: string = getString("id");
-    private username: string = getString("username");
-
     private currentUserLocation;
 
     getUrl(): string {
@@ -24,19 +21,14 @@ export class UrlService {
     getUserLocation() {
         return this.currentUserLocation;
     }
-    getID(): string {
-        return this.userID;
-    }
-    setID(newID) {
-        this.userID = newID;
-    }
     getUserCurrentLocation(){
         return this.currentUserLocation;
     }
 
+
     async getUserSubmissions() {
         try {
-            const response = await http.getJSON(this.serverUrl + "user/" + this.userID + "/sessoes");
+            const response = await http.getJSON(this.serverUrl + "user/" + getString("id") + "/sessoes");
             return response;
         } catch (e) {
             console.log(JSON.stringify(e))
@@ -109,9 +101,20 @@ export class UrlService {
                 content: JSON.stringify(credentials)
             }
             const response = await http.request(httpOptions);
-            return response;
+            if(response.statusCode == 200){
+                var login = response.content.toJSON();
+                setString("id",login._id);
+                setString("username",login.username);
+                return 200
+            } else return 404;
         }catch(e){
             console.log(JSON.stringify(e))
+        }
+    }
+    logout(){
+        if(hasKey("id")&& hasKey("username")){
+            remove("id");
+            remove("username");
         }
     }
 

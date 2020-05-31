@@ -1,8 +1,12 @@
 <ActionBar>
     <Label text="Perfil" class="font-weight-bold"></Label>
 </ActionBar>
-
-<StackLayout class="pageContent" orientation="vertical" (unloaded)="onProfileUnload()">
+<Button horizontalAlignment="right" verticalAlignment="top" class="-primary imgDel" (tap)="onLogOut()">
+    <FormattedString>
+        <Span text="&#xf2f5;" class="fas h2"></Span>
+    </FormattedString>
+</Button>
+<StackLayout class="pageContent" orientation="vertical" (loaded)="onProfileLoaded()">
         <Label class="h1 font-weight-bold m-x-auto m-y-30 text-center" text="{{username}}"></Label>
         <StackLayout class="hr m-10"></StackLayout>
         <Label class="h2 font-weight-bold m-10 text-center" text="{{ 'profile.submissions.label' | L }}">
@@ -21,7 +25,7 @@
             <Label text="{{state.inAnalysis}}" row="1" col="2" class="h3 text-center">
             </Label>
         </GridLayout>
-        <ListView height="70%" width="95%" [items]="myItems | async" (itemTap)="onItemTap($event)">
+        <ListView height="50%" width="95%" [items]="userSessions" (itemTap)="onItemTap($event)">
             <ng-template let-item="item">
                 <FlexboxLayout flexDirection="Column">
                     <Label [text]='item.nome' class="h3 text-center">

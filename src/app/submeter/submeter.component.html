@@ -2,7 +2,7 @@
     <Label text="{{ 'submit.tab' | L }}"></Label>
 </ActionBar>
 <ScrollView>
-    <StackLayout>
+    <StackLayout class="m-t-20">
         <Label text="{{ 'session.name.label' | L }}" class="font-weight-bold m-b-5 text-primary"></Label>
         <TextField #sessao class=" -border m-t-10" hint="{{ 'session.name.hint' | L }}" returnKeyType="done"
             maxLength="50">
@@ -22,7 +22,7 @@
         </TextField>
         <Label row="0" col="1" text="{{ 'tile.condition.label' | L }}" class="font-weight-bold m-b-5 text-primary"></Label>
         <Button #dialogButton row="1" col="1" text="{{ 'tile.condition.hint' | L }}" (tap)="displayActionDialog()"
-            class="-outline -rounded-sm">
+            class="-outline">
         </Button>
     </GridLayout>
     
@@ -30,12 +30,18 @@
     <Button text="{{ 'tile.location.hint' | L }}" (tap)="showModal()" class="-outline -rounded-sm"></Button>
     <Label row="5" text="{{ 'tile.pictures.label' | L }}" class="font-weight-bold m-b-5 text-primary"></Label>
     <StackLayout orientation="horizontal">
-        <Button #btnGaleria text="{{ 'tile.pictures.gallery' | L }}" (tap)="onSelectSingleTap()" class="-outline -rounded-sm">
+        <Button #btnGaleria (tap)="onSelectSingleTap()" class="-outline -rounded-sm">
+            <FormattedString>
+                <Span text="&#xf302;" class="fas h2"></Span>
+            </FormattedString>
         </Button>
-        <Button #btnFoto text="{{ 'tile.pictures.camera' | L }}" (tap)="takePhoto()" class="-outline -rounded-sm">
+        <Button #btnFoto (tap)="takePhoto()" class="-outline -rounded-sm">
+            <FormattedString>
+                <Span text="&#xf030;" class="fas h2"></Span>
+            </FormattedString>
         </Button>
     </StackLayout>
-    <StackLayout orientation="horizontal">
+    <StackLayout *ngIf="imageArray.length != 0" orientation="horizontal">
             <RadListView [items]="imageArray" selectionBehavior="Press" (itemSelected)="onItemSelected($event)" multipleSelection="false">
                 <ng-template tkListItemTemplate let-item="item">
                     <StackLayout orientation="horizontal">
@@ -46,12 +52,6 @@
                 <ListViewLinearLayout tkListViewLayout scrollDirection="Horizontal"></ListViewLinearLayout>
                 
             </RadListView>
-            <Button class="imgDel -primary" text="hello"></Button>
-            <Button class="-primary">
-                <FormattedString>
-                    <Span text="&#xf014;" class="fab"></Span>
-                </FormattedString>
-            </Button>
     </StackLayout>
     <StackLayout class="hr m-10"></StackLayout>
     <Button class="-primary -rounded-sm" text="{{ 'tile.submit' | L }}" (tap)="onSubmit()"></Button>
@@ -60,3 +60,4 @@
 
 <StackLayout #darken width="100%" heigth="100%" class=""></StackLayout>
 <ActivityIndicator [busy]="processing" width="150" height="150"></ActivityIndicator>
+

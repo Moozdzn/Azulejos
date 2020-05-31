@@ -23,10 +23,11 @@
         <FAB horizontalAlignment="right" height="50" width="50" margin="28" horizontal-align="right"
             vertical-align="bottom" (tap)="centerUser()" icon="res://center" class="fab">
         </FAB>
+        
     </StackLayout>
 </GridLayout>
 <StackLayout *ngIf="isList">
-    <ListView height="80%" [items]="myItems | async" (itemTap)="onItemTap($event)">
+    <ListView height="80%" [items]="myItems" (itemTap)="onItemTap($event)">
         <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
             <FlexboxLayout flexDirection="row">
                 <Label [text]="item.distance" class="text-center h3" VerticalAlignment="center" textWrap="false"></Label>
@@ -40,8 +41,8 @@
 </StackLayout>
 <DockLayout stretchLastChild="false">
     <DockLayout dock="bottom">
-        <Button class="-outline -rounded-sm"dock="right" text="{{ 'discover.view' | L }}" (tap)="toggleView()" textwrap="true"></Button>
-            <Label class="text-center h3 "dock="top">
+        <StackLayout dock="left" width="70%">
+            <Label class="text-center h3">
                 <FormattedString>
                     <Span class="font-weight-bold" text="{{ 'discover.radius' | L }} "></Span>
                     <Span class="text-primary font-weight-bold"text="{{radius}} "></Span>
@@ -50,6 +51,17 @@
             </Label>
             <Slider value="6" minValue="1" maxValue="11" (valueChange)="onSliderValueChange($event)" dock="bottom">
             </Slider>
+        </StackLayout>
+        <StackLayout dock="right" >
+            <Label class="text-center h3 font-weight-bold" text="{{ 'discover.view' | L }}" textwrap="true" ></Label>
+            <Button class="imgDel -outline" dock="right" (tap)="toggleView()" textwrap="true">
+                <FormattedString>
+                    <Span text="{{icon}}" class="fas h2"></Span>
+                </FormattedString>
+            </Button>
+        </StackLayout>
+        
+            
     </DockLayout>
 </DockLayout>
 <!-- https://azulejos.b-cdn.net/item.id/0.jpg -->

@@ -31,3 +31,8 @@ DockLayout DockLayout Label {
 .fab{
     background-color:#31bbff;
 }
+.imgDel{
+    border-radius: 50;
+    width:50;
+    height:50;
+}

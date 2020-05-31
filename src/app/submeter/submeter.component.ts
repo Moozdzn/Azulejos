@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@ang
 import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 
 import * as dialogs from "tns-core-modules/ui/dialogs";
-
-
 import { action } from "tns-core-modules/ui/dialogs";
 import { Button } from 'tns-core-modules/ui/button';
 import { TextField } from "tns-core-modules/ui/text-field";
@@ -25,6 +23,7 @@ import { localize } from "nativescript-localize";
 import { ListViewEventData } from "nativescript-ui-listview";
 
 import {TabsComponent} from "../tabs/tabs.component";
+import { getString } from 'tns-core-modules/application-settings/application-settings';
 
 
 
@@ -204,7 +203,7 @@ export class SubmeterComponent implements OnInit {
                             "_id": this.sessionID,
                             "estado": "SUBMETIDA",
                             "info": this.sessao.text,
-                            "idAutor": this._url.getID(),
+                            "idAutor": getString("id"),
                             "azulejos": tilesID
                         },
                         azulejos: this.submittedTiles

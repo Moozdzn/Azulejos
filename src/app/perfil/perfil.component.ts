@@ -1,16 +1,17 @@
 import { Component, OnInit, ViewContainerRef } from "@angular/core";
+import { RouterExtensions } from "nativescript-angular/router";
 import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 import * as Toast from 'nativescript-toast';
 
-import { action } from "tns-core-modules/ui/dialogs";
+import { action, confirm } from "tns-core-modules/ui/dialogs";
 
 import { ItemEventData } from "tns-core-modules/ui/list-view"
-import { Observable as RxObservable } from 'rxjs';
 
 import { UrlService } from "../shared/url.service";
 import { TileDetailComponent } from "../mapa/tile-detail/tile-detail";
 import { localize } from "nativescript-localize";
-import {getBoolean,setBoolean,getNumber,setNumber,getString,setString,hasKey,remove,clear} from "tns-core-modules/application-settings";
+import {getString} from "tns-core-modules/application-settings";
+
 
 
 export class SessionItem {
@@ -30,14 +31,14 @@ export class SessionItem {
 
 export class PerfilComponent implements OnInit {
 
-    public myItems: RxObservable<Array<SessionItem>>;
-    public items;
+    public userSessions;
     public state;
     public username = getString("username");
 
     constructor(private _url: UrlService,
         private modal: ModalDialogService,
-        private vcRef: ViewContainerRef) {
+        private vcRef: ViewContainerRef,
+        private routerExtension: RouterExtensions) {
         // Use the constructor to inject services.
     }
 
@@ -47,11 +48,10 @@ export class PerfilComponent implements OnInit {
     }
 
     onItemTap(args: ItemEventData): void {
-        if (this.items[args.index].estado === 'PÚBLICA') {
-
+        if (this.userSessions[args.index].estado === 'PÚBLICA') {
             var actions = [];
-            for (var i in this.items[args.index].tiles) {
-                actions.push(this.items[args.index].tiles[i].Nome)
+            for (var i in this.userSessions[args.index].tiles) {
+                actions.push(this.userSessions[args.index].tiles[i].Nome)
             }
             let options = {
                 title: localize("app.name"),
@@ -59,16 +59,13 @@ export class PerfilComponent implements OnInit {
                 cancelButtonText: localize("tile.conditions.dialog.cancel"),
                 actions: actions
             };
-
             action(options).then((result) => {
                 if (result != localize("tile.conditions.dialog.cancel")) {
-
-                    this.openDetails(this.items[args.index].tiles[i]._id)
+                    this.openDetails(this.userSessions[args.index].tiles[i]._id)
                 }
             });
         }
-        else if (this.items[args.index].estado === 'ANALISADA') {
-            
+        else if (this.userSessions[args.index].estado === 'ANALISADA') {
             Toast.makeText(localize("profile.alert.analysis"), "short").show();
         }
         else {
@@ -81,7 +78,6 @@ export class PerfilComponent implements OnInit {
                 context: { r },
                 fullscreen: true,
                 viewContainerRef: this.vcRef,
-
             };
             this.modal.showModal(TileDetailComponent, options).then((cb) => {
                 if (cb == 0 || cb == null) return
@@ -91,23 +87,14 @@ export class PerfilComponent implements OnInit {
     }
 
     public loadUserStats() {
-        var subscr;
-        this.items = [];
+        this.userSessions = [];
         this.state = {
             public: 0,
             submitted: 0,
             inAnalysis: 0
         }
-        this.myItems = RxObservable.create(subscriber => {
-            subscr = subscriber;
-            subscriber.next(this.items);
-            return function () {
-                console.log("Unsubscribe called!!!");
-            }
-        });
         this._url.getUserSubmissions().then((r: any) => {
             for (var i in r.docs) {
-
                 switch (r.docs[i].estado) {
                     case "PÚBLICA":
                         this.state.public += 1;
@@ -121,12 +108,20 @@ export class PerfilComponent implements OnInit {
                     default:
                         console.log('Wrong value/ New value in db')
                 }
-                this.items.push(new SessionItem(r.docs[i]._id, r.docs[i].data, r.docs[i].estado, r.docs[i].info, r.docs[i].azulejos));
+                this.userSessions.push(new SessionItem(r.docs[i]._id, r.docs[i].data, r.docs[i].estado, r.docs[i].info, r.docs[i].azulejos))
             }
-            subscr.next(this.items);
         });
     }
-    public onProfileUnload() {
+    public onProfileLoaded() {
         this.loadUserStats();
+    }
+    public onLogOut(){
+        confirm("You sure you want to log out?").then(result => {
+            console.log("Dialog result: " + result);
+            if(result){
+                this._url.logout();
+                this.routerExtension.navigate(['/login'], { clearHistory: true });
+            }
+        });
     }
 }

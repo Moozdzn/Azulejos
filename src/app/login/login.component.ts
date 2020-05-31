@@ -1,13 +1,11 @@
 import { Component, ElementRef, ViewChild, OnInit } from "@angular/core";
-import { alert, prompt } from "tns-core-modules/ui/dialogs";
 import { Page } from "tns-core-modules/ui/page";
 import { RouterExtensions } from "nativescript-angular/router";
+import * as Toast from 'nativescript-toast';
 
 import {getBoolean,setBoolean,getNumber,setNumber,getString,setString,hasKey,remove,clear} from "tns-core-modules/application-settings";
 
 import {UrlService} from "../shared/url.service";
-
-
 
 export class User {
     username: string;
@@ -25,47 +23,31 @@ export class LoginComponent{
 
     user: User;
     processing = false;
-    @ViewChild("password", {static: false}) password: ElementRef;
+    error = false;
 
     constructor(private page: Page, 
         private routerExtension: RouterExtensions, private _url: UrlService) {
         this.user = new User();
-        this.user.username = "Hugo";
-        this.user.password = "1234";
+        this.user.username = "";
+        this.user.password = "";
         if(hasKey("id") && hasKey("username")){
             this.routerExtension.navigate(['/tabs/default'], { clearHistory: true });
         }
     }
-
     onAuthorize() {
         // Navigate to welcome page with clearHistory
         this.routerExtension.navigate(['/tabs/default'], { clearHistory: true });
     }
-
     login() {
-        this._url.login({username: this.user.username,password: this.user.password}).then((r:any)=>{
-            const auth = JSON.parse(r.content);
-            if(r.statusCode === 200){
-                setString("id",auth._id);
-                setString("username",auth.username);
+        this.processing = true;
+        this._url.login({username: this.user.username,password: this.user.password}).then((r:number)=>{
+            if(r == 200) {
                 this.routerExtension.navigate(['/tabs/default'], { clearHistory: true });
-            } else{
-                alert("Credentials don't match");
+                this.error = false;
+                Toast.makeText("Successfully logged in", "short").show();
             }
+            else this.error = true;
+            this.processing = false;
         })
     }
-
-    focusPassword() {
-        this.password.nativeElement.focus();
-    }
-    
-    alert(message: string) {
-        return alert({
-            title: "APP NAME",
-            okButtonText: "OK",
-            message: message
-        });
-    }
-    
 }
-
