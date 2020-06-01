@@ -6,14 +6,14 @@
                     <TextField class="input h2" hint="Username"
                         autocorrect="false"
                         autocapitalizationType="none" hint="Username" [(ngModel)]="user.username"
-                        returnKeyType="next" (returnPress)="focusPassword()"></TextField>
+                        returnKeyType="next" ></TextField>
                     <StackLayout class="hr-light"></StackLayout>
                 </StackLayout>
 
                 <StackLayout row="1" class="input-field">
                     <TextField #password class="input h2" [(ngModel)]="user.password"
                         hint="Password" secure="true" 
-                        (returnPress)="focusPassword()"></TextField>
+                        ></TextField>
                     <StackLayout class="hr-light"></StackLayout>
                     <Label *ngIf="error" text="We can't seem to find an account with the combination provided" class="text-danger"></Label>
                 </StackLayout>

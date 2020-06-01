@@ -64,6 +64,15 @@ export class UrlService {
         }
     }
 
+    async getRelatedTiles(sessionID){
+        try{
+            const response = await http.getJSON(this.serverUrl + sessionID + "/azulejos/nome");
+            return response;
+        } catch(e) {
+            console.log(JSON.stringify(e));
+        }
+    }
+
     async getTilesName() {
         try {
             const response = await http.getJSON(this.serverUrl + "sessoes/azulejos/nome");

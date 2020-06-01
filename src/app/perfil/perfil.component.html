@@ -25,6 +25,7 @@
             <Label text="{{state.inAnalysis}}" row="1" col="2" class="h3 text-center">
             </Label>
         </GridLayout>
+        <ActivityIndicator *ngIf="processing" [busy]="processing"></ActivityIndicator>
         <ListView height="50%" width="95%" [items]="userSessions" (itemTap)="onItemTap($event)">
             <ng-template let-item="item">
                 <FlexboxLayout flexDirection="Column">

@@ -25,7 +25,7 @@ export class LoginComponent{
     processing = false;
     error = false;
 
-    constructor(private page: Page, 
+    constructor( 
         private routerExtension: RouterExtensions, private _url: UrlService) {
         this.user = new User();
         this.user.username = "";

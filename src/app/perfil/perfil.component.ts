@@ -34,6 +34,7 @@ export class PerfilComponent implements OnInit {
     public userSessions;
     public state;
     public username = getString("username");
+    public processing = true;
 
     constructor(private _url: UrlService,
         private modal: ModalDialogService,
@@ -87,6 +88,7 @@ export class PerfilComponent implements OnInit {
     }
 
     public loadUserStats() {
+        this.processing = true;
         this.userSessions = [];
         this.state = {
             public: 0,
@@ -110,7 +112,9 @@ export class PerfilComponent implements OnInit {
                 }
                 this.userSessions.push(new SessionItem(r.docs[i]._id, r.docs[i].data, r.docs[i].estado, r.docs[i].info, r.docs[i].azulejos))
             }
+            this.processing = false;
         });
+        
     }
     public onProfileLoaded() {
         this.loadUserStats();

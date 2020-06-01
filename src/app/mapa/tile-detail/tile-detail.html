@@ -1,4 +1,4 @@
-<StackLayout class="m-t-25" orientation="vertical" (loaded)="onPageLoad()">
+<StackLayout class="m-t-25" orientation="vertical">
     <Label text="{{ 'tile.detail.image.info' | L }}" horizontalAlignment="center">
     </Label>
     <ScrollView class="anim-cover" orientation="horizontal">
@@ -23,13 +23,14 @@
             </FormattedString>
         </Label>
     </StackLayout>
+    <ActivityIndicator *ngIf="processing" [busy]="processing"></ActivityIndicator>
     <StackLayout width="100%" class="lineBreak"></StackLayout>
     <Label class="anim-title h2 font-weight-bold m-x-25 " text="{{ 'tile.detail.description.title' | L }}" textWrap="true"></Label>
     <Textview class="anim-content m-x-30" editable="false" text="{{tile.info}}" horizontalAlignment="stretch" textWrap="true">
     </Textview>
     <Label *ngIf="relatedTiles" class="anim-title h2 font-weight-bold m-x-25 " text="{{ 'tile.detail.related.tiles.title' | L }}"
         textWrap="true"></Label>
-    <ListView *ngIf="relatedTiles" class="anim-content m-x-30" [items]="myItems | async" (itemTap)="onItemTap($event)">
+    <ListView *ngIf="relatedTiles" class="anim-content m-x-30" [items]="myItems" (itemTap)="onItemTap($event)">
         <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
             <StackLayout [class.odd]="odd" [class.even]="even">
                 <Label [text]='item.name'></Label>

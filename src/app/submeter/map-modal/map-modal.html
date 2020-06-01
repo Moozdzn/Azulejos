@@ -7,6 +7,6 @@
         </Mapbox>
     </ContentView>
     <DockLayout orientation="horizontal" >
-        <Button dock="right" class="-rounded-sm"style="background-color: #d63447;" text="{{ 'tile.conditions.dialog.cancel' | L }}" (tap)="closeModal(cancel)"></Button>
-        <Button dock="left" class="-rounded-sm" style="background-color: #649d66;" text="{{ 'confirm' | L }}" (tap)="closeModal(confirm)"></Button>
+        <Button dock="right" class="-rounded-sm"style="background-color: #d63447;" text="{{ 'tile.conditions.dialog.cancel' | L }}" (tap)="closeModal('cancel')"></Button>
+        <Button dock="left" class="-rounded-sm" style="background-color: #649d66;" text="{{ 'confirm' | L }}" (tap)="closeModal('confirm')"></Button>
     </DockLayout>

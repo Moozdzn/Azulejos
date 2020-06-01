@@ -50,7 +50,7 @@ export class MapaComponent implements OnInit {
     private _items: Array<TokenModel>;
     private markers;
 
-    private radius: number = 6;
+    public radius: number = 6;
     mapbox: MapboxViewApi;
 
     constructor(
@@ -131,17 +131,17 @@ export class MapaComponent implements OnInit {
     }
     // Opens view of single tile information
     public openDetails(ID) {
-        this._url.getTileInfo(ID).then((r) => {
             let options = {
-                context: { r },
+                context: { ID },
                 fullscreen: true,
                 viewContainerRef: this.vcRef,
+                animated:true
             };
             this.modal.showModal(TileDetailComponent, options).then((cb) => {
                 if (cb == null) return
                 else this.openDetails(cb);
             });
-        })
+        
     }
 
     public onDidAutoComplete(args) { // Does this break?

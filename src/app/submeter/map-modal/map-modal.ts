@@ -9,10 +9,7 @@ import { Accuracy } from "tns-core-modules/ui/enums";
 import { isDarkModeEnabled } from "nativescript-dark-mode";
 import { localize } from "nativescript-localize";
 
-
-
 registerElement("Mapbox", () => require("nativescript-mapbox-enduco").MapboxView);
-
 
 @Component({ selector: "my-modal", templateUrl: "map-modal.html" })
 export class ModalComponent {
