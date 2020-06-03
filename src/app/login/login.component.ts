@@ -40,7 +40,7 @@ export class LoginComponent{
     }
     private login() {
         this.processing = true;
-        this._url.login({username: this.user.username,password: this.user.password}).then((r:number)=>{
+        this._url.requestAuth({username: this.user.username,password: this.user.password}).then((r:number)=>{
             if(r == 200) {
                 this.routerExtension.navigate(['/tabs/default'], { clearHistory: true });
                 this.error = false;

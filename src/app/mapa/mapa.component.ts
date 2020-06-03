@@ -58,7 +58,7 @@ export class MapaComponent implements OnInit {
     ngAfterViewInit(): void {
         this.autocomplete.autoCompleteTextView.loadSuggestionsAsync = () => {
             const promise = new Promise((resolve, reject) => {
-                this._url.getTilesName().then((r: any) => {
+                this._url.requestTilesName().then((r: any) => {
                     const tilesCollection = r.docs;
                     const items: Array<TokenModel> = new Array();
                     for (let i = 0; i < tilesCollection.length; i++) {
@@ -147,7 +147,7 @@ export class MapaComponent implements OnInit {
     }
 
     private setTiles(location) {
-        this._url.getTilesNearUser(location, this.radius).then((r: any) => {
+        this._url.requestTilesNearUser(location, this.radius).then((r: any) => {
             //Markers array to pass to map
             var markers = [];
             //Array for ListView

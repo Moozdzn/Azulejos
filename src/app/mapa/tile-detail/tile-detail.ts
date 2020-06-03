@@ -13,8 +13,8 @@ import { Session, Tile } from "../../shared/azulejos.models";
     styleUrls: ["./tile-detail.css"] })
 
 export class TileDetailComponent {
-    public myItems: Array<Session>;
-    public array = [];
+    public myItems: Array<Session> = [];
+    public images = [];
     public docs: any;
     public tile: Tile;
     public relatedTiles: boolean = false;
@@ -23,20 +23,15 @@ export class TileDetailComponent {
     private isTranslated: boolean = true;
     private originalInfo:string;
 
-
     public constructor(private params: ModalDialogParams, private _url: UrlService) {
         this.docs = params.context.ID;
     }
 
     private onModalLoaded(){
-        this.myItems = [];
-        this.array = [];
-        this._url.getTileInfo(this.docs).then((r:any) => {
+        this._url.requestTileInfo(this.docs).then((r:any) => {
             this.docs = JSON.parse(r)
-
-            console.log(this.docs)
             for (var i = 0; i < this.docs.nrImages; i++) {
-                this.array.push(i);
+                this.images.push(i);
             }
             if(this.docs.Info !== this.docs.InfoOriginal){
                 this.isInfoTranslated = true;
@@ -44,7 +39,7 @@ export class TileDetailComponent {
             }
             this.tile = new Tile(this.docs.id, this.docs.Nome, this.docs.Info, this.docs.Ano, this.docs.Condicao,this.docs.Localizacao.coordinates, this.docs.Sessao, this.docs.nrImages)
             if (this.tile.session != undefined) {
-                this._url.getRelatedTiles(this.tile.session).then((r: any) => {
+                this._url.requestRelatedTiles(this.tile.session).then((r: any) => {
                     for (var i in r.docs) {
                         if (r.docs[i].Nome != this.tile.name) {
                             this.myItems.push(new Session(r.docs[i]._id, r.docs[i].Nome,null,null,null));
@@ -68,6 +63,7 @@ export class TileDetailComponent {
     private openGmaps() {
         openUrl("https://www.google.com/maps/dir/?api=1&destination="+this.tile.location[1]+","+this.tile.location[0]+"&travelmode=walking");
     }
+
     toggleTranslation(){
         this.tile.info = [this.originalInfo, this.originalInfo = this.tile.info][0];
         this.isTranslated = !this.isTranslated; 

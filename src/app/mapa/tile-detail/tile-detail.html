@@ -4,7 +4,7 @@
     <Label text="&#xf057;" horizontalAlignment="right" class="far h1 m-r-10" (tap)=closeModal(0)></Label>
         <ScrollView  orientation="horizontal">
             <StackLayout orientation="horizontal">
-                <GridLayout *ngFor="let i of array" rows="auto" columns="*">
+                <GridLayout *ngFor="let i of images" rows="auto" columns="*">
                     <Image class="card-img-thumb" row="0" col="0" src="https://azulejos.b-cdn.net/{{docs._id}}/{{i}}.jpg"
                         stretch="aspectFill"></Image>
                 </GridLayout>

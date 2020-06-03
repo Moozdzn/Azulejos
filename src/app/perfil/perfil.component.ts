@@ -66,7 +66,7 @@ export class PerfilComponent implements OnInit {
         }
     }
     private openDetails(ID) {
-        this._url.getTileInfo(ID).then((r: any) => {
+        this._url.requestTileInfo(ID).then((r: any) => {
             let options = {
                 context: { r },
                 fullscreen: true,
@@ -87,7 +87,7 @@ export class PerfilComponent implements OnInit {
             submitted: 0,
             inAnalysis: 0
         }
-        this._url.getUserSubmissions().then((r: any) => {
+        this._url.requestUserSubmissions().then((r: any) => {
             for (var i in r.docs) {
                 switch (r.docs[i].estado) {
                     case "PÚBLICA":

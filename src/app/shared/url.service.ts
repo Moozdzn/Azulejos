@@ -26,7 +26,7 @@ export class UrlService {
     }
 
 
-    async getUserSubmissions() {
+    async requestUserSubmissions() {
         try {
             const response = await http.getJSON(this.serverUrl + "user/" + getString("id") + "/sessoes");
             return response;
@@ -54,7 +54,7 @@ export class UrlService {
         }
     }
 
-    async getTilesNearUser(location, radius) {
+    async requestTilesNearUser(location, radius) {
         try {
             const response = await http.getJSON(this.serverUrl + "sessoes/azulejos?lat=" + location.lat + "&lng=" + location.lng + "&radius=" + radius);
             return response;
@@ -64,7 +64,7 @@ export class UrlService {
         }
     }
 
-    async getRelatedTiles(sessionID){
+    async requestRelatedTiles(sessionID){
         try{
             const response = await http.getJSON(this.serverUrl + sessionID + "/azulejos/nome");
             return response;
@@ -73,7 +73,7 @@ export class UrlService {
         }
     }
 
-    async getTilesName() {
+    async requestTilesName() {
         try {
             const response = await http.getJSON(this.serverUrl + "sessoes/azulejos/nome");
             return response;
@@ -82,7 +82,7 @@ export class UrlService {
         }
 
     }
-    async getTileInfo(tileID) {
+    async requestTileInfo(tileID) {
         try {
             var httpOptions = {
                 url: this.serverUrl + "sessoes/" + tileID+"?lan="+device.language,
@@ -99,7 +99,7 @@ export class UrlService {
             console.log(JSON.stringify(e))
         }
     }
-    async login(credentials){
+    async requestAuth(credentials){
         try{
             var httpOptions = {
                 url: this.serverUrl + "user",
