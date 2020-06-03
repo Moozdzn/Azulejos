@@ -24,7 +24,6 @@
     "@angular/platform-browser-dynamic": "~8.2.0",
     "@angular/router": "~8.2.0",
     "@nativescript/theme": "~2.3.3",
-    "@nstudio/nativescript-floatingactionbutton": "^2.0.0",
     "nativescript-angular": "~8.21.0",
     "nativescript-camera": "^4.5.0",
     "nativescript-dark-mode": "^1.0.0",

@@ -9,17 +9,17 @@ import { ActivatedRoute } from "@angular/router";
     templateUrl: "./tabs.component.html",styleUrls:["./tabs.component.css"]
 })
 export class TabsComponent {
-    @ViewChild('tab0', { static: false }) tab0: ElementRef;
-	@ViewChild('tab1', { static: false }) tab1: ElementRef;
-    @ViewChild('tab2', { static: false }) tab2: ElementRef;
-    @ViewChild("tabView", {static: false}) tabView: ElementRef;
+    @ViewChild('tab0', { static: false }) private tab0: ElementRef;
+	@ViewChild('tab1', { static: false }) private tab1: ElementRef;
+    @ViewChild('tab2', { static: false }) private tab2: ElementRef;
+    @ViewChild("tabView", {static: false}) private tabView: ElementRef;
 
     constructor(
         private routerExtension: RouterExtensions,
         private activeRoute: ActivatedRoute) {
     }
 
-    ngOnInit() {
+    private ngOnInit() {
         this.routerExtension.navigate([{ outlets: { mapaTab: ["mapa"], submeterTab: ["submeter"], perfilTab: ["perfil"] } }], { relativeTo: this.activeRoute });
     }
 

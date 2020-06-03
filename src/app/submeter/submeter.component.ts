@@ -34,42 +34,46 @@ import { getString } from 'tns-core-modules/application-settings/application-set
 })
 export class SubmeterComponent implements OnInit {
 
-    ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) =>
+    private ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) =>
         s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h));
 
-    submittedTiles = [];
-    sessionID = this.ObjectId();
-    imageArray = [];
+    private submittedTiles = [];
+    private sessionID = this.ObjectId();
+    private imageArray = [];
     private file: string;
-    processing = false;
+    private processing = false;
     
 
     // Action Dialog Button
-    @ViewChild('dialogButton', { static: true }) db: ElementRef;
-    @ViewChild('btnGaleria', { static: true }) galeria: ElementRef;
-    @ViewChild('btnFoto', { static: true }) foto: ElementRef;
-    @ViewChild('nome', { static: true }) n: ElementRef;
-    @ViewChild('sessao', { static: true }) s: ElementRef;
-    @ViewChild('ano', { static: true }) a: ElementRef;
-    @ViewChild('info', { static: true }) i: ElementRef;
-    @ViewChild('darken', { static: true }) dark: ElementRef;
+    @ViewChild('dialogButton', { static: true }) private conditionBtn: ElementRef;
+    @ViewChild('btnGaleria', { static: true }) private galeria: ElementRef;
+    @ViewChild('btnFoto', { static: true }) private foto: ElementRef;
+    @ViewChild('nome', { static: true }) private name: ElementRef;
+    @ViewChild('sessao', { static: true }) private session: ElementRef;
+    @ViewChild('ano', { static: true }) private year: ElementRef;
+    @ViewChild('info', { static: true }) private infoInpt: ElementRef;
+    @ViewChild('darken', { static: true }) private dark: ElementRef;
 
-    dialogButton: Button;
-    fotoButton: Button;
-    galeriaButton: Button;
-    nome: TextField;
-    sessao: TextField;
-    ano: TextField;
-    info: TextView;
-    darkenStack;
-    fieldsToValidate = [];
-    location = [];
+    private dialogButton: Button;
+    private fotoButton: Button;
+    private galeriaButton: Button;
+    private nome: TextField;
+    private sessao: TextField;
+    private ano: TextField;
+    private info: TextView;
+    private darkenStack;
+    private fieldsToValidate = [];
+    private location = [];
 
-    constructor(private modal: ModalDialogService, private vcRef: ViewContainerRef, private _url: UrlService, private _tabComponent: TabsComponent) {
+    constructor(
+        private modal: ModalDialogService, 
+        private vcRef: ViewContainerRef, 
+        private _url: UrlService, 
+        private _tabComponent: TabsComponent) {
         // Use the component constructor to inject providers.
     }
 
-    public showModal() {
+    private showModal() {
         let options = {
             context: {},
             fullscreen: true,
@@ -83,18 +87,18 @@ export class SubmeterComponent implements OnInit {
     ngOnInit(): void {
         // Use the "ngOnInit" handler to initialize data for the view.
         this.darkenStack = this.dark.nativeElement;
-        this.dialogButton = <Button>this.db.nativeElement;
+        this.dialogButton = <Button>this.conditionBtn.nativeElement;
         this.galeriaButton = <Button>this.galeria.nativeElement;
         this.fotoButton = <Button>this.foto.nativeElement;
-        this.nome = <TextField>this.n.nativeElement;
-        this.sessao = <TextField>this.s.nativeElement;
-        this.ano = <TextField>this.a.nativeElement;
-        this.info = <TextView>this.i.nativeElement;
+        this.nome = <TextField>this.name.nativeElement;
+        this.sessao = <TextField>this.session.nativeElement;
+        this.ano = <TextField>this.year.nativeElement;
+        this.info = <TextView>this.infoInpt.nativeElement;
         this.fieldsToValidate = [this.sessao, this.nome, this.info, this.ano, this.dialogButton];
     }
 
     //
-    public onSelectSingleTap() {
+    private onSelectSingleTap() {
         let context = imagepicker.create({ mode: "multiple" });
         this.startSelection(context);
     }
@@ -116,7 +120,7 @@ export class SubmeterComponent implements OnInit {
     }
 
     // DIALOG ACTION
-    displayActionDialog() {
+    private displayActionDialog() {
         let options = {
             title: localize("tile.conditions.dialog.title"),
             message: localize("tile.conditions.dialog.message"),
@@ -130,7 +134,7 @@ export class SubmeterComponent implements OnInit {
 
         });
     }
-    public onItemSelected(args: ListViewEventData) {
+    private onItemSelected(args: ListViewEventData) {
         let options = {
             title: "Pretende remover a imagem selecionada?",
             okButtonText: "Confirmar",
@@ -147,7 +151,7 @@ export class SubmeterComponent implements OnInit {
         });
     }
 
-    saveTile() {
+    private saveTile() {
         var validated = this.validateInputs();
         if (!validated) {
             alert(localize("tile.submit.error"));
@@ -180,7 +184,7 @@ export class SubmeterComponent implements OnInit {
     }
     // Submit Tile
 
-    onSubmit() {
+    private onSubmit() {
         dialogs.confirm({
             title: localize("tile.submit.confirm.title"),
             message: localize("tile.submit.confirm.message"),
@@ -237,7 +241,7 @@ export class SubmeterComponent implements OnInit {
         });
     }
     // TAKE PHOTO
-    takePhoto() {
+    private takePhoto() {
         if (camera.isAvailable()) {
             camera.requestCameraPermissions().then(() => {
                 camera.takePicture().then((imageAsset) => {
@@ -250,7 +254,7 @@ export class SubmeterComponent implements OnInit {
         }
     }
 
-    validateInputs() {
+    private validateInputs() {
         var valid = true;
         for (var i in this.fieldsToValidate) {
             if (this.fieldsToValidate[i].text.length == 0 || this.fieldsToValidate[i].text == localize("tile.condition.hint")) {
@@ -271,7 +275,7 @@ export class SubmeterComponent implements OnInit {
         return valid;
     }
 
-    errorCss(element, set) {
+    private errorCss(element, set) {
         if (set) {
             element.borderWidth = "1";
             element.borderColor = "red";
@@ -282,7 +286,7 @@ export class SubmeterComponent implements OnInit {
         }
     }
 
-    imagesToBase64() {
+    private imagesToBase64() {
         var imagesToSubmit = [];
 
         for (var i in this.imageArray) {
@@ -293,7 +297,7 @@ export class SubmeterComponent implements OnInit {
         }
         return imagesToSubmit;
     }
-    goToMap(){
+    private goToMap(){
         this._tabComponent.onTabSelect("tab"+0)
     }
 }

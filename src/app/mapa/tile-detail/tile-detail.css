@@ -2,7 +2,6 @@ Button {
     android-elevation: 12;
 }
 
-
 .card-img-thumb {
     background-color: #828282;
     vertical-align: center;
@@ -89,3 +88,4 @@ Button {
         animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
     }
 }
+

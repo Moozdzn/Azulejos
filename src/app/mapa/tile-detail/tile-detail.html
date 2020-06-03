@@ -1,33 +1,42 @@
-<StackLayout class="m-t-25" orientation="vertical">
+<StackLayout class="m-t-25" orientation="vertical" (loaded)=onModalLoaded()>
     <Label text="{{ 'tile.detail.image.info' | L }}" horizontalAlignment="center">
     </Label>
-    <ScrollView class="anim-cover" orientation="horizontal">
-        <StackLayout orientation="horizontal">
-            <GridLayout *ngFor="let i of array" rows="auto" columns="*">
-                <Image class="card-img-thumb" row="0" col="0" src="https://azulejos.b-cdn.net/{{docs._id}}/{{i}}.jpg"
-                    stretch="aspectFill"></Image>
-            </GridLayout>
-        </StackLayout>
-    </ScrollView>
-    <Label text="{{tile.name}}" horizontalAlignment="center" class="anim-title h1 font-weight-bold" textWrap="true"></Label>
+    <Label text="&#xf057;" horizontalAlignment="right" class="far h1 m-r-10" (tap)=closeModal(0)></Label>
+        <ScrollView  orientation="horizontal">
+            <StackLayout orientation="horizontal">
+                <GridLayout *ngFor="let i of array" rows="auto" columns="*">
+                    <Image class="card-img-thumb" row="0" col="0" src="https://azulejos.b-cdn.net/{{docs._id}}/{{i}}.jpg"
+                        stretch="aspectFill"></Image>
+                </GridLayout>
+            </StackLayout>
+        </ScrollView>
+    <Label [text]="tile.name" horizontalAlignment="center" class="anim-title h1 font-weight-bold" textWrap="true"></Label>
     <StackLayout orientation="horizontal" class="m-b-10">
         <Label class="anim-title text-left m-x-25">
             <FormattedString>
                 <Span class="h3 font-weight-bold " text="{{ 'tile.detail.year.title' | L }}"></Span>
-                <Span text=" {{tile.ano}}"></Span></FormattedString>
+                <Span [text]="tile.year"></Span></FormattedString>
         </Label>
         <Label class="anim-title text-right">
             <FormattedString>
                 <Span class="h3 font-weight-bold " text="{{ 'tile.detail.condition.title' | L }}"></Span>
-                <Span text=" {{tile.condicao}}"></Span>
+                <Span [text]=" tile.condition"></Span>
             </FormattedString>
         </Label>
     </StackLayout>
     <ActivityIndicator *ngIf="processing" [busy]="processing"></ActivityIndicator>
     <StackLayout width="100%" class="lineBreak"></StackLayout>
     <Label class="anim-title h2 font-weight-bold m-x-25 " text="{{ 'tile.detail.description.title' | L }}" textWrap="true"></Label>
-    <Textview class="anim-content m-x-30" editable="false" text="{{tile.info}}" horizontalAlignment="stretch" textWrap="true">
+    <Textview class="anim-content m-x-30" editable="false" [text]="tile.info" horizontalAlignment="stretch" textWrap="true">
     </Textview>
+    <FlexLayout *ngIf="isInfoTranslated">
+        <Label text="Description was translated automatically. " class="text-center"></Label>
+        <Label  *ngIf="isTranslated; else elseBlock" text="See original" class="text-primary text-center" (tap)="toggleTranslation()"></Label>
+        <ng-template #elseBlock>
+            <Label text="See translated" class="text-primary text-center" (tap)="toggleTranslation()"></Label>
+        </ng-template>
+    </FlexLayout>
+    <Button text="{{ 'tile.detail.directions.title' | L }}" (tap)="openGmaps()" class="anim-content -rounded-sm -primary m-y-30"></Button>
     <Label *ngIf="relatedTiles" class="anim-title h2 font-weight-bold m-x-25 " text="{{ 'tile.detail.related.tiles.title' | L }}"
         textWrap="true"></Label>
     <ListView *ngIf="relatedTiles" class="anim-content m-x-30" [items]="myItems" (itemTap)="onItemTap($event)">
@@ -37,5 +46,4 @@
             </StackLayout>
         </ng-template>
     </ListView>
-    <Button text="{{ 'tile.detail.directions.title' | L }}" (tap)="openGmaps()" class="anim-content -rounded-sm -primary m-y-30"></Button>
 </StackLayout>

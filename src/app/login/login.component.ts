@@ -21,9 +21,9 @@ export class User {
 
 export class LoginComponent{
 
-    user: User;
-    processing = false;
-    error = false;
+    private user: User;
+    private processing = false;
+    private error = false;
 
     constructor( 
         private routerExtension: RouterExtensions, private _url: UrlService) {
@@ -34,11 +34,11 @@ export class LoginComponent{
             this.routerExtension.navigate(['/tabs/default'], { clearHistory: true });
         }
     }
-    onAuthorize() {
+    private onAuthorize() {
         // Navigate to welcome page with clearHistory
         this.routerExtension.navigate(['/tabs/default'], { clearHistory: true });
     }
-    login() {
+    private login() {
         this.processing = true;
         this._url.login({username: this.user.username,password: this.user.password}).then((r:number)=>{
             if(r == 200) {

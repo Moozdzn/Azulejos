@@ -4,14 +4,14 @@ import * as http from "tns-core-modules/http";
 import * as geolocation from "nativescript-geolocation";
 import { Accuracy } from "tns-core-modules/ui/enums";
 import { device } from '@nativescript/core/platform';
-import {getBoolean,setBoolean,getNumber,setNumber,getString,setString,hasKey,remove,clear} from "tns-core-modules/application-settings";
+import { getString,setString,hasKey,remove } from "tns-core-modules/application-settings";
 
 @Injectable({
     providedIn: "root"
 })
 export class UrlService {
-    //private serverUrl = "http://192.168.1.9:3000/api/"
-    private serverUrl = "https://azueljos.herokuapp.com/api/"
+    private serverUrl = "http://192.168.1.14:3000/api/"
+    //private serverUrl = "https://azueljos.herokuapp.com/api/"
 
     private currentUserLocation;
 
@@ -127,7 +127,7 @@ export class UrlService {
         }
     }
 
-    checkUserLocation = setInterval(() => {
+    private checkUserLocation = setInterval(() => {
         geolocation.enableLocationRequest().then(() => {
             geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
                 this.currentUserLocation = { lat: location.latitude, lng: location.longitude }

@@ -1,31 +1,26 @@
-import { Component, ViewChild, OnInit, ViewContainerRef, AfterViewInit } from "@angular/core";
-
-import * as geolocation from "nativescript-geolocation";
-import * as Toast from 'nativescript-toast';
-
-import { Mapbox, MapboxMarker, MapboxViewApi } from "nativescript-mapbox-enduco";
+// Angular Modules
+import { Component, ViewChild, OnInit, ViewContainerRef} from "@angular/core";
 import { registerElement } from "nativescript-angular/element-registry";
-
 import { ModalDialogService } from "nativescript-angular/directives/dialogs";
-import { TokenModel } from "nativescript-ui-autocomplete";
 import { RadAutoCompleteTextViewComponent } from "nativescript-ui-autocomplete/angular";
-
+// NativeScript Core Modules
+import { TokenModel } from "nativescript-ui-autocomplete";
 import { Accuracy } from "tns-core-modules/ui/enums";
 import { setInterval } from "tns-core-modules/timer";
-
-import { UrlService } from "../shared/url.service"
-
-import { TileDetailComponent } from "./tile-detail/tile-detail";
+// External Packages
+import * as geolocation from "nativescript-geolocation";
+import * as Toast from 'nativescript-toast';
 import { isDarkModeEnabled } from "nativescript-dark-mode";
 import { localize } from "nativescript-localize";
+import { MapboxMarker, MapboxViewApi } from "nativescript-mapbox-enduco";
+// Azulejos Services
+import { UrlService } from "../shared/url.service"
+import { TileDetailComponent } from "./tile-detail/tile-detail";
+// Azulejos Components
+import { TileMarker } from "../shared/azulejos.models";
 
 registerElement("Mapbox", () => require("nativescript-mapbox-enduco").MapboxView);
-registerElement('Fab', () => require('@nstudio/nativescript-floatingactionbutton').Fab);
 
-//import { DataService, DataItem } from "../shared/data.service";
-export class TileItem {
-    constructor(public id: string, public name: string, public distance: string) { }
-}
 @Component({
     selector: "Mapa",
     templateUrl: "./mapa.component.html",
@@ -34,33 +29,30 @@ export class TileItem {
 })
 export class MapaComponent implements OnInit {
 
-    public isMap: boolean = true;
-    public isList: boolean = false;
-    public charCodes = [String.fromCharCode(0xf5a0),String.fromCharCode(0xf03a)];
-    public icon = this.charCodes[1];
-    public darkMode: string = "light";
+    private isMap: boolean = true;
+    private charCodes = [String.fromCharCode(0xf5a0), String.fromCharCode(0xf03a)];
+    private icon = this.charCodes[1];
+    private darkMode: string = "light";
 
     //User location
-    public userLocation;
+    private userLocation;
 
     //Tile List View
-    public myItems: Array<TileItem>;
-    public tiles;
+    private tiles: Array<TileMarker>;
     //
     private _items: Array<TokenModel>;
-    private markers;
 
-    public radius: number = 6;
-    mapbox: MapboxViewApi;
+    private radius: number = 6;
+    private mapbox: MapboxViewApi;
 
     constructor(
         private modal: ModalDialogService,
         private vcRef: ViewContainerRef,
-        private _url: UrlService
-    ) {}
+        private _url: UrlService,
+    ) { }
 
     ngOnInit(): void {
-         if(isDarkModeEnabled()) this.darkMode = "dark";
+        if (isDarkModeEnabled()) this.darkMode = "dark";
     }
 
     ngAfterViewInit(): void {
@@ -72,7 +64,6 @@ export class MapaComponent implements OnInit {
                     for (let i = 0; i < tilesCollection.length; i++) {
                         items.push(new TokenModel(tilesCollection[i].Nome, null));
                     }
-                    this.markers = r.docs;
                     resolve(items);
                 }).catch((err) => {
                     const message = 'Error fetching remote data from ' + this._url.getUrl() + "sessoes/azulejos/nome" + ': ' + err.message;
@@ -87,15 +78,14 @@ export class MapaComponent implements OnInit {
 
     }
 
-    @ViewChild("autocomplete", { static: false }) autocomplete: RadAutoCompleteTextViewComponent;
+    @ViewChild("autocomplete", { static: false }) private autocomplete: RadAutoCompleteTextViewComponent;
 
     get dataItems(): Array<TokenModel> {
         return this._items;
     }
-    toggleView(){
+    private toggleView() {
         this.isMap = !this.isMap;
-        this.isList = !this.isList;
-        if(this.isMap){
+        if (this.isMap) {
             this.icon = this.charCodes[1];
         } else {
             this.icon = this.charCodes[0];
@@ -103,7 +93,7 @@ export class MapaComponent implements OnInit {
     }
 
     // When map is ready, focus on user and adds markers to map
-    onMapReady(args) {
+    private onMapReady(args) {
         this.mapbox = args.map;
         geolocation.enableLocationRequest().then(() => {
             geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
@@ -114,7 +104,7 @@ export class MapaComponent implements OnInit {
         })
     }
     // Button to center user
-    centerUser(): void {
+    private centerUser(): void {
         geolocation.enableLocationRequest().then(() => {
             geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
                 this.mapbox.setCenter({ lat: location.latitude, lng: location.longitude })
@@ -125,69 +115,68 @@ export class MapaComponent implements OnInit {
         })
     }
 
-    onSliderValueChange(args) {
+    private onSliderValueChange(args) {
         this.radius = args.value;
         this.setTiles(this.userLocation)
     }
     // Opens view of single tile information
-    public openDetails(ID) {
-            let options = {
-                context: { ID },
-                fullscreen: true,
-                viewContainerRef: this.vcRef,
-                animated:true
-            };
-            this.modal.showModal(TileDetailComponent, options).then((cb) => {
-                if (cb == null) return
-                else this.openDetails(cb);
-            });
-        
-    }
+    private openDetails(ID) {
+        let options = {
+            context: { ID },
+            fullscreen: true,
+            viewContainerRef: this.vcRef,
+            animated: true
+        };
+        this.modal.showModal(TileDetailComponent, options).then((cb) => {
+            if (cb == 0 || cb == null) return
+            else this.openDetails(cb);
+        });
 
-    public onDidAutoComplete(args) { // Does this break?
-        for (var i in this.markers) {
-            if (this.markers[i].Nome === args.text) {
-                this.openDetails(this.markers[i]._id);
+    }
+    private onDidAutoComplete(args) { // Does this break?
+        for (var i in this.tiles) {
+            if (this.tiles[i].name === args.text) {
+                this.openDetails(this.tiles[i].id);
                 break;
             }
         }
     }
 
-    onItemTap(args) {
+    private onItemTap(args) {
         this.openDetails(this.tiles[args.index].id)
     }
 
-    setTiles(location) {
-        this._url.getTilesNearUser(location,this.radius).then((r: any) => {
+    private setTiles(location) {
+        this._url.getTilesNearUser(location, this.radius).then((r: any) => {
             //Markers array to pass to map
             var markers = [];
             //Array for ListView
-            this.myItems = [];
+            this.tiles = [];
 
             for (var i in r) {
+                this.tiles.push(new TileMarker(r[i]._id, r[i].Nome, [r[i].Localizacao.coordinates[1], r[i].Localizacao.coordinates[0]], (r[i].distance / 1000).toFixed(2) + "km"))
                 markers.push(<MapboxMarker>{
-                    id: r[i]._id,
-                    lat: r[i].Localizacao.coordinates[1],
-                    lng: r[i].Localizacao.coordinates[0],
-                    title: r[i].Nome,
+                    id: this.tiles[i].id,
+                    lat: this.tiles[i].coordinates[0],
+                    lng: this.tiles[i].coordinates[1],
+                    title: this.tiles[i].name,
                     subtitle: localize('discover.marker.subtitle'),
                     onTap: marker => {
-                        console.log("Marker tapped with title: '" + marker.title + "'");
                         this.mapbox.setCenter({ lat: marker.lat, lng: marker.lng })
                     },
-                    onCalloutTap: marker => this.openDetails(marker.id)
+                    onCalloutTap: marker => {
+                        this.openDetails(marker.id)
+                    }
                 })
-                this.myItems.push(new TileItem(r[i]._id, r[i].Nome, (r[i].distance / 1000).toFixed(2) + "km"))
             }
             this.mapbox.removeMarkers();
             this.mapbox.addMarkers(markers)
         }, (e) => {
             console.error(JSON.stringify(e))
-            alert('hello'+e)
         })
     }
 
-    checkUserPos = setInterval(() => {
+    private checkUserPos = setInterval(() => {
         var newLocation = this._url.getUserCurrentLocation();
         this.mapbox.getDistanceBetween(this.userLocation, newLocation).then((value: number) => {
             if (value > 2000) {
@@ -200,3 +189,4 @@ export class MapaComponent implements OnInit {
         })
     }, 600000);
 }
+

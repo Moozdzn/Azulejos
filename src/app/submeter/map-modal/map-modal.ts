@@ -14,18 +14,18 @@ registerElement("Mapbox", () => require("nativescript-mapbox-enduco").MapboxView
 @Component({ selector: "my-modal", templateUrl: "map-modal.html" })
 export class ModalComponent {
 
-    mapbox: MapboxViewApi;
+    private mapbox: MapboxViewApi;
     public locationMarker;
     public oldCoords;
     public darkMode: string = "light";
 
     public constructor(private params: ModalDialogParams) {}
 
-    ngOnInit(): void {
+    private ngOnInit(): void {
         if(isDarkModeEnabled()) this.darkMode = "dark";
     }
 
-    onMapReady(args) {
+    private onMapReady(args) {
         this.mapbox = args.map;
         geolocation.enableLocationRequest().then(() => {
             geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
