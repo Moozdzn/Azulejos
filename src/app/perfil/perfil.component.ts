@@ -1,27 +1,19 @@
+// Angular Modules
 import { Component, OnInit, ViewContainerRef } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ModalDialogService } from "nativescript-angular/directives/dialogs";
-import * as Toast from 'nativescript-toast';
-
-import { action, confirm } from "tns-core-modules/ui/dialogs";
-
+// NativeScript Core Modules
+import { getString } from "tns-core-modules/application-settings";
 import { ItemEventData } from "tns-core-modules/ui/list-view"
-
-import { UrlService } from "../shared/url.service";
-import { TileDetailComponent } from "../mapa/tile-detail/tile-detail";
+import { action, confirm } from "tns-core-modules/ui/dialogs";
+// External Packages
+import * as Toast from 'nativescript-toast';
 import { localize } from "nativescript-localize";
-import {getString} from "tns-core-modules/application-settings";
-
-
-
-export class SessionItem {
-    constructor(
-        public id: string,
-        public data: string,
-        public estado: string,
-        public nome: string,
-        public tiles) { }
-}
+// Azulejos Services
+import { UrlService } from "../shared/url.service";
+import { Session } from "../shared/azulejos.models";
+// Azulejos Components
+import { TileDetailComponent } from "../mapa/tile-detail/tile-detail";
 
 @Component({
     selector: "Perfil",
@@ -31,10 +23,10 @@ export class SessionItem {
 
 export class PerfilComponent implements OnInit {
 
-    public userSessions;
-    public state;
-    public username = getString("username");
-    public processing = true;
+    private userSessions;
+    private state;
+    private username = getString("username");
+    private processing = true;
 
     constructor(private _url: UrlService,
         private modal: ModalDialogService,
@@ -49,7 +41,7 @@ export class PerfilComponent implements OnInit {
     }
 
     onItemTap(args: ItemEventData): void {
-        if (this.userSessions[args.index].estado === 'PÚBLICA') {
+        if (this.userSessions[args.index].state === 'PÚBLICA') {
             var actions = [];
             for (var i in this.userSessions[args.index].tiles) {
                 actions.push(this.userSessions[args.index].tiles[i].Nome)
@@ -73,7 +65,7 @@ export class PerfilComponent implements OnInit {
             Toast.makeText(localize("profile.alert.submitted"), "short").show();
         }
     }
-    public openDetails(ID) {
+    private openDetails(ID) {
         this._url.getTileInfo(ID).then((r: any) => {
             let options = {
                 context: { r },
@@ -87,7 +79,7 @@ export class PerfilComponent implements OnInit {
         })
     }
 
-    public loadUserStats() {
+    private loadUserStats() {
         this.processing = true;
         this.userSessions = [];
         this.state = {
@@ -110,16 +102,16 @@ export class PerfilComponent implements OnInit {
                     default:
                         console.log('Wrong value/ New value in db')
                 }
-                this.userSessions.push(new SessionItem(r.docs[i]._id, r.docs[i].data, r.docs[i].estado, r.docs[i].info, r.docs[i].azulejos))
+                this.userSessions.push(new Session(r.docs[i]._id,r.docs[i].info, r.docs[i].data, r.docs[i].estado,  r.docs[i].azulejos))
             }
             this.processing = false;
         });
         
     }
-    public onProfileLoaded() {
+    private onProfileLoaded() {
         this.loadUserStats();
     }
-    public onLogOut(){
+    private onLogOut(){
         confirm("You sure you want to log out?").then(result => {
             console.log("Dialog result: " + result);
             if(result){

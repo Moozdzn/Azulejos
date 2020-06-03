@@ -10,9 +10,8 @@ ListView{
     background-color: #eeeeee;
     android-elevation: 12;
 }
-.imgDel{
+Button {
     border-radius: 50;
     width:50;
     height:50;
-    color:black;
 }
