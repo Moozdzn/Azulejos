@@ -26,3 +26,8 @@ export class TileMarker {
         public coordinates: Array<2>, 
         public distance) { }
 }
+
+export class User {
+    username: string;
+    password: string;
+}

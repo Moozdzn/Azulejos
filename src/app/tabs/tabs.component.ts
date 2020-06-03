@@ -1,7 +1,7 @@
+// Angular Modules
 import { Component, ViewChild, ElementRef } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ActivatedRoute } from "@angular/router";
-
 
 @Component({
     moduleId: module.id,
@@ -44,5 +44,4 @@ export class TabsComponent {
                 break;
         }
     }
-   
 }

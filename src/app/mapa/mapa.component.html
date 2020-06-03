@@ -12,7 +12,7 @@
             </Mapbox>
         </ContentView>
         <StackLayout orientation="vertical">
-            <RadAutoCompleteTextView #autocomplete [items]="dataItems" suggestMode="Suggest" displayMode="Plain"
+            <RadAutoCompleteTextView #autocomplete suggestMode="Suggest" displayMode="Plain"
                 (didAutoComplete)="onDidAutoComplete($event)" hint="{{ 'discover.autocomplete' | L }}">
                 <SuggestionView tkAutoCompleteSuggestionView suggestionViewHeight="300">
                     <ng-template tkSuggestionItemTemplate let-item="item">

@@ -13,12 +13,12 @@ import { Session, Tile } from "../../shared/azulejos.models";
     styleUrls: ["./tile-detail.css"] })
 
 export class TileDetailComponent {
-    public myItems: Array<Session> = [];
-    public images = [];
-    public docs: any;
-    public tile: Tile;
-    public relatedTiles: boolean = false;
-    public processing: boolean = true;
+    private tileSession: Array<Session> = [];
+    private images = [];
+    private docs: any;
+    private tile: Tile;
+    private relatedTiles: boolean = false;
+    private processing: boolean = true;
     private isInfoTranslated: boolean = false;
     private isTranslated: boolean = true;
     private originalInfo:string;
@@ -27,7 +27,7 @@ export class TileDetailComponent {
         this.docs = params.context.ID;
     }
 
-    private onModalLoaded(){
+    private onModalLoaded(): void{
         this._url.requestTileInfo(this.docs).then((r:any) => {
             this.docs = JSON.parse(r)
             for (var i = 0; i < this.docs.nrImages; i++) {
@@ -42,7 +42,7 @@ export class TileDetailComponent {
                 this._url.requestRelatedTiles(this.tile.session).then((r: any) => {
                     for (var i in r.docs) {
                         if (r.docs[i].Nome != this.tile.name) {
-                            this.myItems.push(new Session(r.docs[i]._id, r.docs[i].Nome,null,null,null));
+                            this.tileSession.push(new Session(r.docs[i]._id, r.docs[i].Nome,null,null,null));
                             this.relatedTiles = true;
                         }
                     }
@@ -52,21 +52,21 @@ export class TileDetailComponent {
         })
     }
 
-    private onItemTap(args): void {
-        this.closeModal(this.myItems[args.index].id)
+    private toggleTranslation(): void{
+        this.tile.info = [this.originalInfo, this.originalInfo = this.tile.info][0];
+        this.isTranslated = !this.isTranslated; 
     }
 
-    public closeModal(ID) {
-        this.params.closeCallback(ID);
-    }
-
-    private openGmaps() {
+    private openGmaps(): void {
         openUrl("https://www.google.com/maps/dir/?api=1&destination="+this.tile.location[1]+","+this.tile.location[0]+"&travelmode=walking");
     }
 
-    toggleTranslation(){
-        this.tile.info = [this.originalInfo, this.originalInfo = this.tile.info][0];
-        this.isTranslated = !this.isTranslated; 
+    private onItemTap(args): void {
+        this.closeModal(this.tileSession[args.index].id)
+    }
+
+    private closeModal(ID): void {
+        this.params.closeCallback(ID);
     }
 }
 

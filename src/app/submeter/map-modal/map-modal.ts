@@ -1,11 +1,13 @@
-import { Component, OnInit } from "@angular/core";
+// Angular Modules
+import { Component } from "@angular/core";
 import { ModalDialogParams } from "nativescript-angular/directives/dialogs";
 import { registerElement } from "nativescript-angular/element-registry";
+// NativeScript Core Modules
+import { Accuracy } from "tns-core-modules/ui/enums";
 
+// External Packages
 import { Mapbox, MapboxMarker, MapboxViewApi } from "nativescript-mapbox-enduco";
 import * as geolocation from "nativescript-geolocation";
-
-import { Accuracy } from "tns-core-modules/ui/enums";
 import { isDarkModeEnabled } from "nativescript-dark-mode";
 import { localize } from "nativescript-localize";
 
@@ -32,18 +34,12 @@ export class ModalComponent {
                 this.mapbox.setCenter({ lat: location.latitude, lng: location.longitude })
                 this.oldCoords = [location.latitude, location.longitude]
                 this.locationMarker = <MapboxMarker>{
-                    id: 1, // can be user in 'removeMarkers()'
-                    lat: location.latitude, // mandatory
-                    lng: location.longitude, // mandatory
-                    title: localize("tile.location.marker.title"), // recommended to pass in
-                    subtitle: localize("tile.location.marker.subtitle"), // one line is available on iOS, multiple on Android
-                    selected: true, // makes the callout show immediately when the marker is added (note: only 1 marker can be selected at a time)
-                    onTap: function (marker) {
-                        console.log("This marker was tapped");
-                    },
-                    onCalloutTap: function (marker) {
-                        console.log("The callout of this marker was tapped");
-                    }
+                    id: 1,
+                    lat: location.latitude, 
+                    lng: location.longitude, 
+                    title: localize("tile.location.marker.title"), 
+                    subtitle: localize("tile.location.marker.subtitle"), 
+                    selected: true, 
                 };
                 this.mapbox.addMarkers([this.locationMarker]);
                 this.mapbox.setOnMapClickListener((data) => {

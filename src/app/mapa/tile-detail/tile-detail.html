@@ -39,7 +39,7 @@
     <Button text="{{ 'tile.detail.directions.title' | L }}" (tap)="openGmaps()" class="anim-content -rounded-sm -primary m-y-30"></Button>
     <Label *ngIf="relatedTiles" class="anim-title h2 font-weight-bold m-x-25 " text="{{ 'tile.detail.related.tiles.title' | L }}"
         textWrap="true"></Label>
-    <ListView *ngIf="relatedTiles" class="anim-content m-x-30" [items]="myItems" (itemTap)="onItemTap($event)">
+    <ListView *ngIf="relatedTiles" class="anim-content m-x-30" [items]="tileSession" (itemTap)="onItemTap($event)">
         <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
             <StackLayout [class.odd]="odd" [class.even]="even">
                 <Label [text]='item.name'></Label>

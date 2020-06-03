@@ -1,16 +1,13 @@
-import { Component, ElementRef, ViewChild, OnInit } from "@angular/core";
-import { Page } from "tns-core-modules/ui/page";
+// Angular Modules
+import { Component } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
+// NativeScript Core Modules
+import { hasKey } from "tns-core-modules/application-settings";
+// External Packages
 import * as Toast from 'nativescript-toast';
-
-import {getBoolean,setBoolean,getNumber,setNumber,getString,setString,hasKey,remove,clear} from "tns-core-modules/application-settings";
-
-import {UrlService} from "../shared/url.service";
-
-export class User {
-    username: string;
-    password: string;
-}
+// Azulejos Services
+import { UrlService } from "../shared/url.service";
+import { User } from "../shared/azulejos.models";
 
 @Component({
     moduleId: module.id,
@@ -22,8 +19,8 @@ export class User {
 export class LoginComponent{
 
     private user: User;
-    private processing = false;
-    private error = false;
+    private processing: boolean = false;
+    private error: boolean = false;
 
     constructor( 
         private routerExtension: RouterExtensions, private _url: UrlService) {
@@ -34,10 +31,7 @@ export class LoginComponent{
             this.routerExtension.navigate(['/tabs/default'], { clearHistory: true });
         }
     }
-    private onAuthorize() {
-        // Navigate to welcome page with clearHistory
-        this.routerExtension.navigate(['/tabs/default'], { clearHistory: true });
-    }
+    
     private login() {
         this.processing = true;
         this._url.requestAuth({username: this.user.username,password: this.user.password}).then((r:number)=>{

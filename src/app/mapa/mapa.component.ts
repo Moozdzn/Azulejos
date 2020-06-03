@@ -33,17 +33,12 @@ export class MapaComponent implements OnInit {
     private charCodes = [String.fromCharCode(0xf5a0), String.fromCharCode(0xf03a)];
     private icon = this.charCodes[1];
     private darkMode: string = "light";
-
-    //User location
     private userLocation;
-
-    //Tile List View
     private tiles: Array<TileMarker>;
-    //
-    private _items: Array<TokenModel>;
-
     private radius: number = 6;
     private mapbox: MapboxViewApi;
+
+    @ViewChild("autocomplete", { static: false }) private autocomplete: RadAutoCompleteTextViewComponent;
 
     constructor(
         private modal: ModalDialogService,
@@ -72,87 +67,34 @@ export class MapaComponent implements OnInit {
                     reject();
                 });
             });
-
             return promise;
         };
-
     }
 
-    @ViewChild("autocomplete", { static: false }) private autocomplete: RadAutoCompleteTextViewComponent;
-
-    get dataItems(): Array<TokenModel> {
-        return this._items;
-    }
-    private toggleView() {
-        this.isMap = !this.isMap;
-        if (this.isMap) {
-            this.icon = this.charCodes[1];
-        } else {
-            this.icon = this.charCodes[0];
-        }
-    }
-
-    // When map is ready, focus on user and adds markers to map
-    private onMapReady(args) {
-        this.mapbox = args.map;
-        geolocation.enableLocationRequest().then(() => {
-            geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
-                this.mapbox.setCenter({ lat: location.latitude, lng: location.longitude });
-                this.userLocation = { lat: location.latitude, lng: location.longitude };
-                this.setTiles(this.userLocation);
-            })
-        })
-    }
-    // Button to center user
-    private centerUser(): void {
-        geolocation.enableLocationRequest().then(() => {
-            geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
-                this.mapbox.setCenter({ lat: location.latitude, lng: location.longitude })
-                var currentUserLocation = { lat: location.latitude, lng: location.longitude }
-                this.userLocation = currentUserLocation;
-                this.setTiles(this.userLocation);
-            })
-        })
-    }
-
-    private onSliderValueChange(args) {
-        this.radius = args.value;
-        this.setTiles(this.userLocation)
-    }
-    // Opens view of single tile information
-    private openDetails(ID) {
-        let options = {
-            context: { ID },
-            fullscreen: true,
-            viewContainerRef: this.vcRef,
-            animated: true
-        };
-        this.modal.showModal(TileDetailComponent, options).then((cb) => {
-            if (cb == 0 || cb == null) return
-            else this.openDetails(cb);
-        });
-
-    }
-    private onDidAutoComplete(args) { // Does this break?
-        for (var i in this.tiles) {
-            if (this.tiles[i].name === args.text) {
-                this.openDetails(this.tiles[i].id);
-                break;
+    private onDidAutoComplete(args) {
+            for (var i in this.tiles) {
+                if (this.tiles[i].name === args.text) {
+                    this.openDetails(this.tiles[i].id);
+                    break;
+                }
             }
         }
-    }
 
-    private onItemTap(args) {
-        this.openDetails(this.tiles[args.index].id)
+    private onMapReady(args) {
+            this.mapbox = args.map;
+            geolocation.enableLocationRequest().then(() => {
+                geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
+                    this.mapbox.setCenter({ lat: location.latitude, lng: location.longitude });
+                    this.userLocation = { lat: location.latitude, lng: location.longitude };
+                    this.setTiles(this.userLocation);
+                })
+            })
     }
 
     private setTiles(location) {
         this._url.requestTilesNearUser(location, this.radius).then((r: any) => {
-            //Markers array to pass to map
             var markers = [];
-            //Array for ListView
             this.tiles = [];
-
             for (var i in r) {
                 this.tiles.push(new TileMarker(r[i]._id, r[i].Nome, [r[i].Localizacao.coordinates[1], r[i].Localizacao.coordinates[0]], (r[i].distance / 1000).toFixed(2) + "km"))
                 markers.push(<MapboxMarker>{
@@ -176,6 +118,47 @@ export class MapaComponent implements OnInit {
         })
     }
 
+    private toggleView() {
+        this.isMap = !this.isMap;
+        if (this.isMap) {
+            this.icon = this.charCodes[1];
+        } else {
+            this.icon = this.charCodes[0];
+        }
+    }
+
+    private onSliderValueChange(args) {
+            this.radius = args.value;
+            this.setTiles(this.userLocation)
+    }
+
+    private centerUser(): void {
+        geolocation.enableLocationRequest().then(() => {
+            geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
+                this.mapbox.setCenter({ lat: location.latitude, lng: location.longitude })
+                var currentUserLocation = { lat: location.latitude, lng: location.longitude }
+                this.userLocation = currentUserLocation;
+                this.setTiles(this.userLocation);
+            })
+        })
+    }
+    private onItemTap(args) {
+        this.openDetails(this.tiles[args.index].id)
+    }
+
+    private openDetails(ID) {
+        let options = {
+            context: { ID },
+            fullscreen: true,
+            viewContainerRef: this.vcRef,
+            animated: true
+        };
+        this.modal.showModal(TileDetailComponent, options).then((cb) => {
+            if (cb == 0 || cb == null) return
+            else this.openDetails(cb);
+        });
+    }
+    
     private checkUserPos = setInterval(() => {
         var newLocation = this._url.getUserCurrentLocation();
         this.mapbox.getDistanceBetween(this.userLocation, newLocation).then((value: number) => {

@@ -1,31 +1,25 @@
+// Angular Modules
 import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
 import { ModalDialogService } from "nativescript-angular/directives/dialogs";
-
+// NativeScript Core Modules
+import { ImageSource, fromFile } from "tns-core-modules/image-source";
+import * as fs from "tns-core-modules/file-system";
+import { getString } from 'tns-core-modules/application-settings/application-settings';
+import { ListViewEventData } from "nativescript-ui-listview";
 import * as dialogs from "tns-core-modules/ui/dialogs";
-import { action } from "tns-core-modules/ui/dialogs";
 import { Button } from 'tns-core-modules/ui/button';
 import { TextField } from "tns-core-modules/ui/text-field";
 import { TextView } from "tns-core-modules/ui/text-view";
-
-import { ImageSource, fromFile } from "tns-core-modules/image-source";
-import * as fs from "tns-core-modules/file-system";
-
+// External Packages
 import * as Toast from 'nativescript-toast';
 import * as camera from "nativescript-camera";
 import * as imagepicker from "nativescript-imagepicker";
-
-import { ModalComponent } from "./map-modal/map-modal";
-
-import { UrlService } from "../shared/url.service";
-
 import { localize } from "nativescript-localize";
-
-import { ListViewEventData } from "nativescript-ui-listview";
-
+// Azulejos Services
+import { UrlService } from "../shared/url.service";
+// Azulejos Components
 import {TabsComponent} from "../tabs/tabs.component";
-import { getString } from 'tns-core-modules/application-settings/application-settings';
-
-
+import { ModalComponent } from "./map-modal/map-modal";
 
 @Component({
     selector: "Submeter",
@@ -42,9 +36,18 @@ export class SubmeterComponent implements OnInit {
     private imageArray = [];
     private file: string;
     private processing = false;
-    
+    private darkenStack;
 
-    // Action Dialog Button
+    private dialogButton.nativeElement: Button;
+    private fotoButton: Button;
+    private galeriaButton: Button;
+    private nome: TextField;
+    private sessao: TextField;
+    private ano: TextField;
+    private info: TextView;
+    private fieldsToValidate;
+    private location = [];
+    
     @ViewChild('dialogButton', { static: true }) private conditionBtn: ElementRef;
     @ViewChild('btnGaleria', { static: true }) private galeria: ElementRef;
     @ViewChild('btnFoto', { static: true }) private foto: ElementRef;
@@ -54,23 +57,22 @@ export class SubmeterComponent implements OnInit {
     @ViewChild('info', { static: true }) private infoInpt: ElementRef;
     @ViewChild('darken', { static: true }) private dark: ElementRef;
 
-    private dialogButton: Button;
-    private fotoButton: Button;
-    private galeriaButton: Button;
-    private nome: TextField;
-    private sessao: TextField;
-    private ano: TextField;
-    private info: TextView;
-    private darkenStack;
-    private fieldsToValidate = [];
-    private location = [];
-
     constructor(
         private modal: ModalDialogService, 
         private vcRef: ViewContainerRef, 
         private _url: UrlService, 
-        private _tabComponent: TabsComponent) {
-        // Use the component constructor to inject providers.
+        private _tabComponent: TabsComponent) { }
+
+    ngOnInit(): void {
+        this.darkenStack = this.dark.nativeElement;
+        this.dialogButton = <Button>this.conditionBtn.nativeElement;
+        this.galeriaButton = <Button>this.galeria.nativeElement;
+        this.fotoButton = <Button>this.foto.nativeElement;
+        this.nome = <TextField>this.name.nativeElement;
+        this.sessao = <TextField>this.session.nativeElement;
+        this.ano = <TextField>this.year.nativeElement;
+        this.info = <TextView>this.infoInpt.nativeElement;
+        this.fieldsToValidate = [this.sessao, this.nome, this.info, this.ano, this.dialogButton];
     }
 
     private showModal() {
@@ -84,20 +86,21 @@ export class SubmeterComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void {
-        // Use the "ngOnInit" handler to initialize data for the view.
-        this.darkenStack = this.dark.nativeElement;
-        this.dialogButton = <Button>this.conditionBtn.nativeElement;
-        this.galeriaButton = <Button>this.galeria.nativeElement;
-        this.fotoButton = <Button>this.foto.nativeElement;
-        this.nome = <TextField>this.name.nativeElement;
-        this.sessao = <TextField>this.session.nativeElement;
-        this.ano = <TextField>this.year.nativeElement;
-        this.info = <TextView>this.infoInpt.nativeElement;
-        this.fieldsToValidate = [this.sessao, this.nome, this.info, this.ano, this.dialogButton];
+    private displayActionDialog() {
+        let options = {
+            title: localize("tile.conditions.dialog.title"),
+            message: localize("tile.conditions.dialog.message"),
+            cancelButtonText: localize("tile.conditions.dialog.cancel"),
+            actions: [localize('tile.conditions.new'), localize('tile.conditions.damaged'), localize('tile.conditions.maintenance'), localize('tile.conditions.restored')]
+        };
+
+        dialogs.action(options).then((result) => {
+            if (result !== options.cancelButtonText)
+                this.dialogButton.text = result;
+
+        });
     }
 
-    //
     private onSelectSingleTap() {
         let context = imagepicker.create({ mode: "multiple" });
         this.startSelection(context);
@@ -105,7 +108,6 @@ export class SubmeterComponent implements OnInit {
 
     private startSelection(context) {
         let that = this;
-
         context.authorize().then(() => {
             return context.present();
         }).then((selection) => {
@@ -119,28 +121,25 @@ export class SubmeterComponent implements OnInit {
         });
     }
 
-    // DIALOG ACTION
-    private displayActionDialog() {
-        let options = {
-            title: localize("tile.conditions.dialog.title"),
-            message: localize("tile.conditions.dialog.message"),
-            cancelButtonText: localize("tile.conditions.dialog.cancel"),
-            actions: [localize('tile.conditions.new'), localize('tile.conditions.damaged'), localize('tile.conditions.maintenance'), localize('tile.conditions.restored')]
-        };
-
-        action(options).then((result) => {
-            if (result !== options.cancelButtonText)
-                this.dialogButton.text = result;
-
-        });
+    private takePhoto() {
+        if (camera.isAvailable()) {
+            camera.requestCameraPermissions().then(() => {
+                camera.takePicture().then((imageAsset) => {
+                    console.log("Result is an image asset instance");
+                    this.imageArray.push(imageAsset.android);
+                }).catch((err) => {
+                    console.log("Error -> " + err.message);
+                });
+            }, () => alert('permissions rejected'))
+        }
     }
+    
     private onItemSelected(args: ListViewEventData) {
         let options = {
             title: "Pretende remover a imagem selecionada?",
             okButtonText: "Confirmar",
             cancelButtonText: "Cancelar",
         }
-
         dialogs.confirm(options).then(result => {
             if(result){
                 const listview = args.object;
@@ -150,39 +149,6 @@ export class SubmeterComponent implements OnInit {
             }
         });
     }
-
-    private saveTile() {
-        var validated = this.validateInputs();
-        if (!validated) {
-            alert(localize("tile.submit.error"));
-            return false;
-        } else {
-            if (this.location.length == 0) {
-                var updatedLocation = this._url.getUserLocation();
-                this.location = [updatedLocation.lng,updatedLocation.lat]
-            }
-            var b64Images = this.imagesToBase64();
-            var tile = {
-                "_id": this.ObjectId(),
-                "Nome": this.nome.text,
-                "Ano": this.ano.text,
-                "Info": this.info.text,
-                "Condicao": this.dialogButton.text,
-                "Localizacao": this.location,
-                "Sessao": this.sessionID,
-                "Files": b64Images
-            }
-            this.submittedTiles.push(tile);
-            this.dialogButton.text = localize("tile.condition.hint");
-            this.nome.text = "";
-            this.info.text = "";
-            this.ano.text = "";
-            this.imageArray = [];
-            this.location = [];
-            return true;
-        }
-    }
-    // Submit Tile
 
     private onSubmit() {
         dialogs.confirm({
@@ -240,18 +206,49 @@ export class SubmeterComponent implements OnInit {
             }
         });
     }
-    // TAKE PHOTO
-    private takePhoto() {
-        if (camera.isAvailable()) {
-            camera.requestCameraPermissions().then(() => {
-                camera.takePicture().then((imageAsset) => {
-                    console.log("Result is an image asset instance");
-                    this.imageArray.push(imageAsset.android);
-                }).catch((err) => {
-                    console.log("Error -> " + err.message);
-                });
-            }, () => alert('permissions rejected'))
+
+    private saveTile() {
+        var validated = this.validateInputs();
+        if (!validated) {
+            Toast.makeText(localize("tile.submit.error"),'long').show();
+            return false;
+        } else {
+            if (this.location.length == 0) {
+                var updatedLocation = this._url.getUserLocation();
+                this.location = [updatedLocation.lng,updatedLocation.lat]
+            }
+            var b64Images = this.imagesToBase64();
+            var tile = {
+                "_id": this.ObjectId(),
+                "Nome": this.nome.text,
+                "Ano": this.ano.text,
+                "Info": this.info.text,
+                "Condicao": this.dialogButton.text,
+                "Localizacao": this.location,
+                "Sessao": this.sessionID,
+                "Files": b64Images
+            }
+            this.submittedTiles.push(tile);
+            this.dialogButton.text = localize("tile.condition.hint");
+            this.nome.text = "";
+            this.info.text = "";
+            this.ano.text = "";
+            this.imageArray = [];
+            this.location = [];
+            return true;
         }
+    }
+
+    private imagesToBase64() {
+        var imagesToSubmit = [];
+
+        for (var i in this.imageArray) {
+            this.file = fs.path.normalize(this.imageArray[i]);
+            const ImageFromFilePath: ImageSource = <ImageSource>fromFile(this.file);
+            var ImageData = ImageFromFilePath.toBase64String("jpg");
+            imagesToSubmit.push(ImageData);
+        }
+        return imagesToSubmit;
     }
 
     private validateInputs() {
@@ -286,17 +283,6 @@ export class SubmeterComponent implements OnInit {
         }
     }
 
-    private imagesToBase64() {
-        var imagesToSubmit = [];
-
-        for (var i in this.imageArray) {
-            this.file = fs.path.normalize(this.imageArray[i]);
-            const ImageFromFilePath: ImageSource = <ImageSource>fromFile(this.file);
-            var ImageData = ImageFromFilePath.toBase64String("jpg");
-            imagesToSubmit.push(ImageData);
-        }
-        return imagesToSubmit;
-    }
     private goToMap(){
         this._tabComponent.onTabSelect("tab"+0)
     }

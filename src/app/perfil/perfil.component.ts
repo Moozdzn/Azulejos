@@ -1,5 +1,5 @@
 // Angular Modules
-import { Component, OnInit, ViewContainerRef } from "@angular/core";
+import { Component, ViewContainerRef } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 // NativeScript Core Modules
@@ -21,12 +21,12 @@ import { TileDetailComponent } from "../mapa/tile-detail/tile-detail";
     styleUrls: ["./perfil.component.css"]
 })
 
-export class PerfilComponent implements OnInit {
+export class PerfilComponent {
 
-    private userSessions;
-    private state;
-    private username = getString("username");
-    private processing = true;
+    private userSessions: Array<Session>;
+    private state: { public: any; inAnalysis: any; submitted: any; };
+    private username: string = getString("username");
+    private processing: boolean = true;
 
     constructor(private _url: UrlService,
         private modal: ModalDialogService,
@@ -35,48 +35,8 @@ export class PerfilComponent implements OnInit {
         // Use the constructor to inject services.
     }
 
-    ngOnInit(): void {
-        // Use the "ngOnInit" handler to initialize data for the view.
+    private onProfileLoaded() {
         this.loadUserStats();
-    }
-
-    onItemTap(args: ItemEventData): void {
-        if (this.userSessions[args.index].state === 'PÚBLICA') {
-            var actions = [];
-            for (var i in this.userSessions[args.index].tiles) {
-                actions.push(this.userSessions[args.index].tiles[i].Nome)
-            }
-            let options = {
-                title: localize("app.name"),
-                message: localize("profile.sessiontap.message"),
-                cancelButtonText: localize("tile.conditions.dialog.cancel"),
-                actions: actions
-            };
-            action(options).then((result) => {
-                if (result != localize("tile.conditions.dialog.cancel")) {
-                    this.openDetails(this.userSessions[args.index].tiles[i]._id)
-                }
-            });
-        }
-        else if (this.userSessions[args.index].estado === 'ANALISADA') {
-            Toast.makeText(localize("profile.alert.analysis"), "short").show();
-        }
-        else {
-            Toast.makeText(localize("profile.alert.submitted"), "short").show();
-        }
-    }
-    private openDetails(ID) {
-        this._url.requestTileInfo(ID).then((r: any) => {
-            let options = {
-                context: { r },
-                fullscreen: true,
-                viewContainerRef: this.vcRef,
-            };
-            this.modal.showModal(TileDetailComponent, options).then((cb) => {
-                if (cb == 0 || cb == null) return
-                else this.openDetails(cb);
-            });
-        })
     }
 
     private loadUserStats() {
@@ -106,11 +66,47 @@ export class PerfilComponent implements OnInit {
             }
             this.processing = false;
         });
-        
     }
-    private onProfileLoaded() {
-        this.loadUserStats();
+
+    private onItemTap(args: ItemEventData): void {
+        if (this.userSessions[args.index].state === 'PÚBLICA') {
+            var actions = [];
+            for (var i in this.userSessions[args.index].tiles) {
+                actions.push(this.userSessions[args.index].tiles[i].Nome)
+            }
+            let options = {
+                title: localize("app.name"),
+                message: localize("profile.sessiontap.message"),
+                cancelButtonText: localize("tile.conditions.dialog.cancel"),
+                actions: actions
+            };
+            action(options).then((result) => {
+                if (result != localize("tile.conditions.dialog.cancel")) {
+                    this.openDetails(this.userSessions[args.index].tiles[i]._id)
+                }
+            });
+        }
+        else if (this.userSessions[args.index].state === 'ANALISADA') {
+            Toast.makeText(localize("profile.alert.analysis"), "short").show();
+        }
+        else {
+            Toast.makeText(localize("profile.alert.submitted"), "short").show();
+        }
     }
+    private openDetails(ID) {
+        this._url.requestTileInfo(ID).then((r: any) => {
+            let options = {
+                context: { r },
+                fullscreen: true,
+                viewContainerRef: this.vcRef,
+            };
+            this.modal.showModal(TileDetailComponent, options).then((cb) => {
+                if (cb == 0 || cb == null) return
+                else this.openDetails(cb);
+            });
+        })
+    }
+
     private onLogOut(){
         confirm("You sure you want to log out?").then(result => {
             console.log("Dialog result: " + result);
