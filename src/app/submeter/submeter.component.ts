@@ -38,7 +38,7 @@ export class SubmeterComponent implements OnInit {
     private processing = false;
     private darkenStack;
 
-    private dialogButton.nativeElement: Button;
+    private dialogButton: Button;
     private fotoButton: Button;
     private galeriaButton: Button;
     private nome: TextField;
