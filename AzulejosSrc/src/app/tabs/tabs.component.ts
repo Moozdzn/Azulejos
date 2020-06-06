@@ -24,6 +24,7 @@ export class TabsComponent {
     }
 
     onTabSelect(index){
+        console.log(index)
         switch (index){
             case "tab0":
                 this.tab0.nativeElement.class = "selected";

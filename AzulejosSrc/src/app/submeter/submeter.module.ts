@@ -4,8 +4,7 @@ import { NativeScriptRouterModule } from "nativescript-angular/router";
 import { NativeScriptLocalizeModule } from "nativescript-localize/angular";
 import { NativeScriptUIDataFormModule } from "nativescript-ui-dataform/angular";
 import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
-
-//import { SubmeterRoutingModule } from "./submeter-routing.module";
+import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { SubmeterComponent } from "./submeter.component";
 
 @NgModule({
@@ -13,6 +12,7 @@ import { SubmeterComponent } from "./submeter.component";
         NativeScriptCommonModule,
         NativeScriptRouterModule,
         NativeScriptLocalizeModule,
+        NativeScriptFormsModule,
         NativeScriptUIListViewModule,
         NativeScriptUIDataFormModule,
         NativeScriptRouterModule.forChild([

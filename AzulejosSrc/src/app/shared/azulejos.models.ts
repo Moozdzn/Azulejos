@@ -7,7 +7,7 @@ export class Tile {
         public condition: string,
         public location,
         public session: string,
-        public nrImages: string) { } 
+        public nrImages) { } 
 }
 
 export class Session {

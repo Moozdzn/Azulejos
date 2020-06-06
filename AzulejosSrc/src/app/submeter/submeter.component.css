@@ -26,3 +26,7 @@ Button{
     height:50;
     color:black;
 }
+.picker{
+    height: 100;
+    vertical-align: middle;
+}

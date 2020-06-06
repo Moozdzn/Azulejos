@@ -14,10 +14,10 @@ import { isDarkModeEnabled } from "nativescript-dark-mode";
 import { localize } from "nativescript-localize";
 import { MapboxMarker, MapboxViewApi } from "nativescript-mapbox-enduco";
 // Azulejos Services
-import { UrlService } from "../shared/url.service"
-import { TileDetailComponent } from "./tile-detail/tile-detail";
-// Azulejos Components
+import { UrlService } from "../shared/url.service";
 import { TileMarker } from "../shared/azulejos.models";
+// Azulejos Components
+import { TileDetailComponent } from "./tile-detail/tile-detail";
 
 registerElement("Mapbox", () => require("nativescript-mapbox-enduco").MapboxView);
 

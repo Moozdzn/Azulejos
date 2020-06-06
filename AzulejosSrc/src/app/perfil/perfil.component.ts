@@ -1,5 +1,5 @@
 // Angular Modules
-import { Component, ViewContainerRef } from "@angular/core";
+import { Component, ViewContainerRef, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 // NativeScript Core Modules
@@ -21,7 +21,7 @@ import { TileDetailComponent } from "../mapa/tile-detail/tile-detail";
     styleUrls: ["./perfil.component.css"]
 })
 
-export class PerfilComponent {
+export class PerfilComponent implements OnInit {
 
     private userSessions: Array<Session>;
     private state: { public: any; inAnalysis: any; submitted: any; };
@@ -33,6 +33,9 @@ export class PerfilComponent {
         private vcRef: ViewContainerRef,
         private routerExtension: RouterExtensions) {
         // Use the constructor to inject services.
+    }
+    ngOnInit(){
+        this.loadUserStats();
     }
 
     private onProfileLoaded() {
