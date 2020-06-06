@@ -1,0 +1,63 @@
+<ActionBar>
+    <Label text="{{ 'submit.tab' | L }}"></Label>
+</ActionBar>
+<ScrollView>
+    <StackLayout class="m-t-20">
+        <Label text="{{ 'session.name.label' | L }}" class="font-weight-bold m-b-5 text-primary"></Label>
+        <TextField #sessao class=" -border m-t-10" hint="{{ 'session.name.hint' | L }}" returnKeyType="done"
+            maxLength="50">
+        </TextField>
+    <StackLayout class="hr m-10"></StackLayout>
+    <Label text="{{ 'tile.name.label' | L }}" class="font-weight-bold m-b-5 text-primary" ></Label>
+    <TextField #nome class="textInput -border m-t-10" hint="{{ 'tile.name.hint' | L }}" returnKeyType="done" maxLength="50">
+    </TextField>
+    <Label text="{{ 'tile.description.label' | L }}" class="font-weight-bold m-b-5 text-primary"></Label>
+    <TextView #info row="3" class="textInput -border m-t-10"
+        hint="{{ 'tile.description.hint' | L }}">
+    </TextView>
+    <GridLayout columns="150,auto" rows="auto,auto">
+        <Label row="0" col="0" text="{{ 'tile.year.label' | L }}" class="font-weight-bold m-b-5 text-primary"></Label>
+        <TextField #ano row="1" col="0" class="textInput -border m-t-10" hint="{{ 'tile.year.hint' | L }}" returnKeyType="done"
+            keyboardType="integer" maxLength="4">
+        </TextField>
+        <Label row="0" col="1" text="{{ 'tile.condition.label' | L }}" class="font-weight-bold m-b-5 text-primary"></Label>
+        <Button #dialogButton row="1" col="1" text="{{ 'tile.condition.hint' | L }}" (tap)="displayActionDialog()"
+            class="-outline">
+        </Button>
+    </GridLayout>
+    
+    <Label text="{{ 'tile.location.label' | L }}" class="font-weight-bold m-b-5 text-primary"></Label>
+    <Button text="{{ 'tile.location.hint' | L }}" (tap)="showModal()" class="-outline -rounded-sm"></Button>
+    <Label row="5" text="{{ 'tile.pictures.label' | L }}" class="font-weight-bold m-b-5 text-primary"></Label>
+    <StackLayout orientation="horizontal">
+        <Button #btnGaleria (tap)="onSelectSingleTap()" class="-outline -rounded-sm">
+            <FormattedString>
+                <Span text="&#xf302;" class="fas h2"></Span>
+            </FormattedString>
+        </Button>
+        <Button #btnFoto (tap)="takePhoto()" class="-outline -rounded-sm">
+            <FormattedString>
+                <Span text="&#xf030;" class="fas h2"></Span>
+            </FormattedString>
+        </Button>
+    </StackLayout>
+    <StackLayout *ngIf="imageArray.length != 0" orientation="horizontal">
+            <RadListView [items]="imageArray" selectionBehavior="Press" (itemSelected)="onItemSelected($event)" multipleSelection="false">
+                <ng-template tkListItemTemplate let-item="item">
+                    <StackLayout orientation="horizontal">
+                        <Image class="imgThumb img-circle" row="0" col="0" [src]="item"
+                    stretch="aspectFill"></Image>
+                    </StackLayout>
+                </ng-template>
+                <ListViewLinearLayout tkListViewLayout scrollDirection="Horizontal"></ListViewLinearLayout>
+                
+            </RadListView>
+    </StackLayout>
+    <StackLayout class="hr m-10"></StackLayout>
+    <Button class="-primary -rounded-sm" text="{{ 'tile.submit' | L }}" (tap)="onSubmit()"></Button>
+</StackLayout>
+</ScrollView>
+
+<StackLayout #darken width="100%" heigth="100%" class=""></StackLayout>
+<ActivityIndicator [busy]="processing" width="150" height="150"></ActivityIndicator>
+

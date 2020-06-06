@@ -1,0 +1,66 @@
+<ActionBar>
+    <Label text="{{ 'discover.tab' | L }}"></Label>
+</ActionBar>
+<GridLayout>
+    <GridLayout *ngIf="isMap">
+        <ContentView height="100%" width="100%">
+            <Mapbox
+                accessToken="pk.eyJ1IjoibW9vemR6biIsImEiOiJjazd5eGh6bjAwMGl1M21vOTdjMTI1d3NzIn0.cxQh0B_dBFEc7xNjtn0-zQ"
+                mapStyle="{{darkMode}}" latitude="38.736946" longitude="-9.142685" hideCompass="false" zoomLevel="15"
+                showUserLocation="true" disableZoom="false" disableRotation="false" disableScroll="false"
+                disableTilt="false" (mapReady)="onMapReady($event)">
+            </Mapbox>
+        </ContentView>
+        <StackLayout orientation="vertical">
+            <RadAutoCompleteTextView #autocomplete suggestMode="Suggest" displayMode="Plain"
+                (didAutoComplete)="onDidAutoComplete($event)" hint="{{ 'discover.autocomplete' | L }}">
+                <SuggestionView tkAutoCompleteSuggestionView suggestionViewHeight="300">
+                    <ng-template tkSuggestionItemTemplate let-item="item">
+                        <StackLayout orientation="vertical" padding="10">
+                            <Label [text]="item.text"></Label>
+                        </StackLayout>
+                    </ng-template>
+                </SuggestionView>
+            </RadAutoCompleteTextView>
+            <Button horizontalAlignment="right" text="&#xf05b;" class="fas -primary h2" (tap)="centerUser()"></Button>
+        </StackLayout>
+    </GridLayout>
+    <GridLayout *ngIf="!isMap">
+        <ListView [items]="tiles" (itemTap)="onItemTap($event)">
+            <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
+                <FlexboxLayout flexDirection="row">
+                    <Image src="https://abrilcasa.files.wordpress.com/2018/02/azulejos.jpg" class="-thumb img-circle">
+                    </Image>
+                    <Label [text]="item.name" class="text-center font-weight-bold h3" verticalAlignment="center"
+                        style="width: 60%" textWrap="false"></Label>
+                    <Label [text]="item.distance" class="text-center h3" VerticalAlignment="center"
+                        textWrap="false"></Label>
+                </FlexboxLayout>
+            </ng-template>
+        </ListView>
+    </GridLayout>
+    <DockLayout stretchLastChild="false">
+        <DockLayout dock="bottom">
+            <StackLayout dock="left" width="70%">
+                <Label class="text-center h3">
+                    <FormattedString>
+                        <Span class="font-weight-bold" text="{{ 'discover.radius' | L }} "></Span>
+                        <Span class="text-primary font-weight-bold" text="{{radius}} "></Span>
+                        <Span class="font-weight-bold" text="km"></Span>
+                    </FormattedString>
+                </Label>
+                <Slider value="6" minValue="1" maxValue="11" (valueChange)="onSliderValueChange($event)" dock="bottom">
+                </Slider>
+            </StackLayout>
+            <StackLayout dock="right">
+                <Label class="text-center h3 font-weight-bold" text="{{ 'discover.view' | L }}" textwrap="true"></Label>
+                <Button class="-outline" dock="right" (tap)="toggleView()" textwrap="true">
+                    <FormattedString>
+                        <Span text="{{icon}}" class="fas h2"></Span>
+                    </FormattedString>
+                </Button>
+            </StackLayout>
+        </DockLayout>
+    </DockLayout>
+</GridLayout>
+<!-- https://azulejos.b-cdn.net/item.id/0.jpg -->
