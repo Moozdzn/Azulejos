@@ -2,6 +2,8 @@
     <Label text="{{ 'submit.tab' | L }}"></Label>
 </ActionBar>
 <GridLayout>
+    <StackLayout #darken width="100%" heigth="100%" class=""></StackLayout>
+    <ActivityIndicator [busy]="processing" width="150" height="150"></ActivityIndicator>
     <ScrollView *ngIf="!hasSession">
         <StackLayout class="m-t-20">
             <!-- HEADING -->
@@ -105,5 +107,3 @@
     </StackLayout>
 </GridLayout>
 
-<StackLayout #darken width="100%" heigth="100%" class=""></StackLayout>
-<ActivityIndicator [busy]="processing" width="150" height="150"></ActivityIndicator>

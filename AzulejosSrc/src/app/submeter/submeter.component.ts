@@ -5,7 +5,6 @@ import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 import { ImageSource, fromFile } from "tns-core-modules/image-source";
 import * as fs from "tns-core-modules/file-system";
 import { getString } from 'tns-core-modules/application-settings/application-settings';
-import { Button } from "tns-core-modules/ui/button";
 import { ListViewEventData } from "nativescript-ui-listview";
 import * as dialogs from "tns-core-modules/ui/dialogs";
 import { Accuracy } from "tns-core-modules/ui/enums";
@@ -19,7 +18,6 @@ import { localize } from "nativescript-localize";
 import { UrlService } from "../shared/url.service";
 import { Tile, Session } from "../shared/azulejos.models";
 // Azulejos Components
-import { TabsComponent } from "../tabs/tabs.component";
 import { ModalComponent } from "./map-modal/map-modal";
 
 @Component({
@@ -47,8 +45,7 @@ export class SubmeterComponent implements OnInit {
     constructor(
         private modal: ModalDialogService, 
         private vcRef: ViewContainerRef, 
-        private _url: UrlService, 
-        private _tabComponent: TabsComponent) {
+        private _url: UrlService) {
             this._session = new Session(this.ObjectId(),"","","SUBMETIDA",getString('id'),[])
             this._tile = new Tile(this.ObjectId(),"","","","",[],this._session.id,[]);
         }
@@ -211,10 +208,6 @@ export class SubmeterComponent implements OnInit {
             imagesToSubmit.push(ImageData);
         }
         return imagesToSubmit;
-    }
-
-    private goToMap(){
-        this._tabComponent.onTabSelect("tab"+0)
     }
 
     private editTile(i){
