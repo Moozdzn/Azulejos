@@ -16,6 +16,7 @@ export class Session {
         public name: string,
         public date: string,
         public state: string,
+        public idAutor: string,
         public tiles) { }
 }
 

@@ -65,7 +65,7 @@ export class PerfilComponent implements OnInit {
                     default:
                         console.log('Wrong value/ New value in db')
                 }
-                this.userSessions.push(new Session(r.docs[i]._id,r.docs[i].info, r.docs[i].data, r.docs[i].estado,  r.docs[i].azulejos))
+                this.userSessions.push(new Session(r.docs[i]._id,r.docs[i].info, r.docs[i].data, r.docs[i].estado,"", r.docs[i].azulejos))
             }
             this.processing = false;
         });

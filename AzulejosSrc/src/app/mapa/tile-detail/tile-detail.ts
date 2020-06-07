@@ -42,7 +42,7 @@ export class TileDetailComponent {
                 this._url.requestRelatedTiles(this.tile.session).then((r: any) => {
                     for (var i in r.docs) {
                         if (r.docs[i].Nome != this.tile.name) {
-                            this.tileSession.push(new Session(r.docs[i]._id, r.docs[i].Nome,null,null,null));
+                            this.tileSession.push(new Session(r.docs[i]._id, r.docs[i].Nome,null,null,null,null));
                             this.relatedTiles = true;
                         }
                     }

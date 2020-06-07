@@ -9,8 +9,6 @@ import { Button } from "tns-core-modules/ui/button";
 import { ListViewEventData } from "nativescript-ui-listview";
 import * as dialogs from "tns-core-modules/ui/dialogs";
 import { Accuracy } from "tns-core-modules/ui/enums";
-import { EventData } from "tns-core-modules/data/observable";
-import { ListPicker } from "tns-core-modules/ui/list-picker";
 // External Packages
 import * as geolocation from "nativescript-geolocation";
 import * as Toast from 'nativescript-toast';
@@ -32,45 +30,26 @@ import { ModalComponent } from "./map-modal/map-modal";
 export class SubmeterComponent implements OnInit {
 
     private _tile: Tile;
+    private tiles = [];
     private _session: Session;
-    private onEdit: boolean = false;
-    private hasSession: boolean = false;
-    private conditionPicker: ListPicker;
-    private conditions = [localize('tile.conditions.new'), localize('tile.conditions.damaged'), localize('tile.conditions.maintenance'), localize('tile.conditions.restored')]
-    
-    tap(){
-        alert(JSON.stringify(this._tile));
-    }
-    private onSelectedIndexChanged(args: EventData) {
-        const picker = <ListPicker>args.object;
-        this._tile.condition = this.conditions[picker.selectedIndex];
-    }
-
-    editTile(i){
-        this.onEdit = true;
-        this.hasSession = false;
-        this._tile = this._session.tiles[i];
-    }
-    deleteTile(i){
-        alert(i);
-    }
-
     private ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) =>
         s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h));
-
-    private submittedTiles = [];
-    private sessionID = this.ObjectId();
-    private imageArray = [];
-    private file: string;
     private processing = false;
-    private darkenStack;
+    private onEdit: boolean = false;
+    private hasSession: boolean = false;
+    private errorSessionName = true;
+    private errorTileName = true;
+    private errorTileInfo = true;
+    private errorTileYear = true;
+    private errorTileCondition = true;
+    private errorTileImages = true;
 
     constructor(
         private modal: ModalDialogService, 
         private vcRef: ViewContainerRef, 
         private _url: UrlService, 
         private _tabComponent: TabsComponent) {
-            this._session = new Session(this.ObjectId(),"","","SUBMETIDA",[])
+            this._session = new Session(this.ObjectId(),"","","SUBMETIDA",getString('id'),[])
             this._tile = new Tile(this.ObjectId(),"","","","",[],this._session.id,[]);
         }
 
@@ -115,7 +94,10 @@ export class SubmeterComponent implements OnInit {
             if (selection.length > 0) {
                 for (var i in selection) {
                     //that.imageArray.push(selection[i]._android)
-                    that._tile.nrImages.push(selection[i]._android)
+                    this._tile.nrImages.push(selection[i]._android);
+                }
+                if(this.errorTileImages) {
+                    this.errorTileImages = !this.errorTileImages;
                 }
             }
         }).catch(function (e) {
@@ -130,6 +112,9 @@ export class SubmeterComponent implements OnInit {
                     console.log("Result is an image asset instance");
                     //this.imageArray.push(imageAsset.android);
                     this._tile.nrImages.push(imageAsset.android);
+                    if(this.errorTileImages) {
+                        this.errorTileImages = !this.errorTileImages;
+                    }
                 }).catch((err) => {
                     console.log("Error -> " + err.message);
                 });
@@ -147,10 +132,11 @@ export class SubmeterComponent implements OnInit {
             if(result){
                 const listview = args.object;
                 const selectedItems = listview.getSelectedItems();
-                //const index = this.imageArray.indexOf(selectedItems[0]);
-                //this.imageArray.splice(index,1);
                 const index = this._tile.nrImages.indexOf(selectedItems[0]);
                 this._tile.nrImages.splice(index,1);
+                if(this._tile.nrImages.length == 0) {
+                    this.errorTileImages = !this.errorTileImages;
+                }
             }
         });
     }
@@ -161,30 +147,66 @@ export class SubmeterComponent implements OnInit {
     //REMOVER AZULEJOS
 
     private onAddAnother(){
-        if(!this.onEdit){
-            this._session.tiles.push(this._tile);
+        const isValid = this.hasErrors();
+        if(isValid){
+            if(!this.onEdit){
+                this.tiles.push(this._tile);
+            } else {
+                this.onEdit = !this.onEdit
+            }
+            this._tile = new Tile(this.ObjectId(),"","","","",[],this._session.id,[]);
+            
+        } else {
+            Toast.makeText('Please fill all field before adding another tile','short').show();
         }
-        this._tile = new Tile(this.ObjectId(),"","","","",[],this._session.id,[]);
     }
     private onSaveAndProceed(){
-        //this.hasSession=!this.hasSession
-        if(!this.errorTileName && !this.errorTileInfo && !this.errorTileYear){
-            if(this._tile.nrImages.length <= 0){
-                this.errorTileImages =!this.errorTileImages;
+        const isValid = this.hasErrors();
+        if(isValid){
+            if(!this.onEdit){
+                this.tiles.push(this._tile);
+            } else {
+                this.onEdit = !this.onEdit
             }
+            this._tile = new Tile(this.ObjectId(),"","","","",[],this._session.id,[]);
+            this.hasSession=!this.hasSession;
+        } else {
+            Toast.makeText('Please fill all field before proceeding','short').show();
         }
-
     }
     private onSubmit(){
-        alert(this._session)
+        if(!this.errorSessionName && this.tiles.length > 0){
+            this.processing=true;
+            for(const i in this.tiles){
+                this._session.tiles.push({"_id":this.tiles[i].id,"Nome":this.tiles[i].name})
+            }
+            for(const i in this._session.tiles){
+                   const data = this.imagesToBase64(this.tiles[i].nrImages);
+                   this.tiles[i].nrImages = data;
+            }
+            var body = {
+                sessao: this._session,
+                azulejos: this.tiles
+            }
+            this._url.submitTiles(body).then((r)=>{
+                this.hasSession = !this.hasSession;
+                this.tiles.length = 0;
+                this._session = new Session(this.ObjectId(),"","","SUBMETIDA",getString('id'),[])
+                this._tile = new Tile(this.ObjectId(),"","","","",[],this._session.id,[]);
+                console.log(r);
+                this.processing = false;
+            });
+        } else {
+            alert('not valid');
+        }
     }
 
-    private imagesToBase64() {
+    private imagesToBase64(imagesToConvert) {
         var imagesToSubmit = [];
-
-        for (var i in this.imageArray) {
-            this.file = fs.path.normalize(this.imageArray[i]);
-            const ImageFromFilePath: ImageSource = <ImageSource>fromFile(this.file);
+        var file;
+        for (var i in imagesToConvert) {
+            file = fs.path.normalize(imagesToConvert[i]);
+            const ImageFromFilePath: ImageSource = <ImageSource>fromFile(file);
             var ImageData = ImageFromFilePath.toBase64String("jpg");
             imagesToSubmit.push(ImageData);
         }
@@ -194,12 +216,47 @@ export class SubmeterComponent implements OnInit {
     private goToMap(){
         this._tabComponent.onTabSelect("tab"+0)
     }
-    private errorSessionName = false;
-    private errorTileName = false;
-    private errorTileInfo = false;
-    private errorTileYear = false;
-    private errorTileImages = false;
-    NameChanged(args){
+
+    private editTile(i){
+        this.onEdit = true;
+        this.hasSession = false;
+        this._tile = this.tiles[i];
+    }
+    private deleteTile(i){
+        dialogs.confirm({
+            title: "Delete Tile: "+this.tiles[i].name,
+            message: "This action can´t be reverted",
+            okButtonText: "Delete",
+            cancelButtonText: "Keep",
+        }).then(result => {
+            // result argument is boolean
+            if(result) {
+                this.tiles.splice(i,1);
+                Toast.makeText('Tile deleted from session','short').show();
+            }
+            console.log("Dialog result: " + result);
+        });  
+    }
+
+    private hasErrors(){
+        if(!this.errorTileName && !this.errorTileInfo && !this.errorTileYear && !this.errorTileCondition && !this.errorTileImages){
+            if(this._tile.location.length == 0){
+                geolocation.enableLocationRequest().then(() => {
+                    geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
+                        this._tile.location = [
+                            location.longitude,
+                            location.latitude    
+                        ]
+                    })
+                })
+            }
+            return true
+        } else {
+            return false
+        }
+    }
+
+    private NameChanged(args){
         console.log(args)
         if(args === "") {
             this.errorTileName = true;
@@ -207,7 +264,7 @@ export class SubmeterComponent implements OnInit {
             this.errorTileName = false;
         }
     }
-    InfoChanged(args){
+    private InfoChanged(args){
         console.log(args)
         if(args === "") {
             this.errorTileInfo = true;
@@ -215,7 +272,7 @@ export class SubmeterComponent implements OnInit {
             this.errorTileInfo = false;
         }
     }
-    YearChanged(args){
+    private YearChanged(args){
         console.log(args)
         if(args === "") {
             this.errorTileYear = true;
@@ -223,7 +280,15 @@ export class SubmeterComponent implements OnInit {
             this.errorTileYear = false;
         }
     }
-    SessionNameChanged(args){
+    private ConditionChanged(args){
+        console.log(args)
+        if(args === "") {
+            this.errorTileCondition = true;
+        } else {
+            this.errorTileCondition = false;
+        }
+    }
+    private SessionNameChanged(args){
         console.log(args)
         if(args === "") {
             this.errorSessionName = true;
@@ -231,5 +296,6 @@ export class SubmeterComponent implements OnInit {
             this.errorSessionName = false;
         }
     }
+    
 }
 

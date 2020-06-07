@@ -10,8 +10,8 @@ import { getString,setString,hasKey,remove } from "tns-core-modules/application-
     providedIn: "root"
 })
 export class UrlService {
-    //private serverUrl = "http://192.168.1.14:3000/api/"
-    private serverUrl = "https://azueljos.herokuapp.com/api/"
+    private serverUrl = "http://192.168.1.14:3000/api/"
+    //private serverUrl = "https://azueljos.herokuapp.com/api/"
 
     getUrl(): string {
         return this.serverUrl;
@@ -28,6 +28,7 @@ export class UrlService {
     }
     async submitTiles(body) {
         try {
+            console.log(body)
             var httpOptions = {
                 url: this.serverUrl + "sessoes",
                 method: "POST",
@@ -36,7 +37,6 @@ export class UrlService {
                 },
                 content: JSON.stringify(body)
             }
-
             const response = await http.request(httpOptions)
             console.log(response);
             return response;

@@ -5,42 +5,47 @@
     <ScrollView *ngIf="!hasSession">
         <StackLayout class="m-t-20">
             <!-- HEADING -->
-            <Label text="Add information for each tile" class="text-center h2 m-x-20 m-b-20"
-            textWrap="true"></Label>
+            <Label text="Add information for each tile" class="text-center h2 m-x-20 m-b-20" textWrap="true"></Label>
             <!-- TILE NAME -->
-            <Label text="{{ 'tile.name.label' | L }}" class="font-weight-bold m-b-5 text-primary"></Label>
-            <TextField class="textInput -border m-t-10" hint="{{ 'tile.name.hint' | L }}" returnKeyType="done"
+            <Label text="{{ 'tile.name.label' | L }}" class="font-weight-bold m-b-5 text-primary h3"></Label>
+            <Label *ngIf="errorTileName" text="Tile name cannot be empty!" class="text-danger"></Label>
+            <TextField class="-border" hint="{{ 'tile.name.hint' | L }}" returnKeyType="done"
                 maxLength="50" [(ngModel)]="_tile.name" (ngModelChange)='NameChanged($event)'>
             </TextField>
-            <Label *ngIf="errorTileName" text="Tile name cannot be empty!" class="text-danger"></Label>
             <!-- TILE INFO -->
-            <Label text="{{ 'tile.description.label' | L }}" class="font-weight-bold m-b-5 text-primary"></Label>
-            <TextView row="3" class="textInput -border m-t-10" hint="{{ 'tile.description.hint' | L }}"
+            <Label text="{{ 'tile.description.label' | L }}" class="font-weight-bold m-b-5 text-primary h3"></Label>
+            <Label *ngIf="errorTileInfo" text="Tile description cannot be empty!" class="text-danger"></Label>
+            <TextView row="3" class="-border" hint="{{ 'tile.description.hint' | L }}"
                 [(ngModel)]="_tile.info" (ngModelChange)='InfoChanged($event)'>
             </TextView>
-            <Label *ngIf="errorTileInfo" text="Tile description cannot be empty!" class="text-danger"></Label>
-            <!-- TILE YEAR AND CONDITION -->
-            <GridLayout columns="auto,*" rows="auto,auto,*">
-                <Label row="0" col="0" text="{{ 'tile.year.label' | L }}"
-                    class="font-weight-bold m-b-5 text-primary"></Label>
-                <StackLayout row="1" col="0">
-                    <TextField class="textInput -border m-t-10" hint="{{ 'tile.year.hint' | L }}" returnKeyType="done"
-                        keyboardType="integer" maxLength="4" [(ngModel)]="_tile.year"
-                        (ngModelChange)='YearChanged($event)'>
-                    </TextField>
-                    <Label *ngIf="errorTileYear" text="Cannot be empty" textWrap="true" class="text-danger"></Label>
-                </StackLayout>
-                <Label row="0" col="1" text="{{ 'tile.condition.label' | L }}"
-                    class="font-weight-bold m-b-5 text-primary"></Label>
-                <Button row="1" col="1" text="{{ 'tile.condition.hint' | L }}" (tap)="displayConditionOptions()" class="-outline"></Button>
-                <TextField row="2" col="1" [(ngModel)]="_tile.condition" editable="false"></TextField>
-            </GridLayout>
-    
+            
+            <!-- TILE YEAR-->
+            <Label text="{{ 'tile.year.label' | L }}" class="font-weight-bold m-b-5 text-primary h3"></Label>
+            <Label *ngIf="errorTileYear" text="Tile year cannot be empty!" textWrap="true" class="text-danger"></Label>
+            <TextField class="-border" hint="{{ 'tile.year.hint' | L }}" returnKeyType="done"
+                keyboardType="integer" maxLength="4" [(ngModel)]="_tile.year" (ngModelChange)='YearChanged($event)'>
+            </TextField>
+        
+            <!-- TILE CONDITION -->
+            <Label text="{{ 'tile.condition.label' | L }}"
+                class="font-weight-bold m-b-5 text-primary  h3"></Label>
+            <Label *ngIf="errorTileCondition" text="Tile condition cannot be empty!" textWrap="true" class="text-danger"></Label>
+            <Button text="{{ 'tile.condition.hint' | L }}" (tap)="displayConditionOptions()"
+                class="-outline"></Button>
+            <TextField [(ngModel)]="_tile.condition" (ngModelChange)='ConditionChanged($event)'
+                editable="false"></TextField>
+            
             <!-- TILE LOCATION -->
-            <Label text="{{ 'tile.location.label' | L }}" class="font-weight-bold m-b-5 text-primary"></Label>
+            <Label text="{{ 'tile.location.label' | L }}" class="font-weight-bold m-b-5 text-primary  h3"></Label>
+            <Label text="Tap button to pick tile location or skip to use your current location"
+                class="text-muted"></Label>
             <Button text="{{ 'tile.location.hint' | L }}" (tap)="showModal()" class="-outline -rounded-sm"></Button>
+            
             <!-- TILE IMAGES -->
-            <Label row="5" text="{{ 'tile.pictures.label' | L }}" class="font-weight-bold m-b-5 text-primary"></Label>
+            <Label row="5" text="{{ 'tile.pictures.label' | L }}"
+                class="font-weight-bold m-b-5 text-primary  h3"></Label>
+            <Label *ngIf="errorTileImages" text="Select images before submitting" textWrap="true"
+                class="text-danger"></Label>
             <StackLayout orientation="horizontal">
                 <Button (tap)="onSelectSingleTap()" class="-outline -rounded-sm">
                     <FormattedString>
@@ -53,6 +58,7 @@
                     </FormattedString>
                 </Button>
             </StackLayout>
+            
             <!-- TILE IMAGE PREVIEW -->
             <StackLayout *ngIf="_tile.nrImages.length != 0" orientation="horizontal">
                 <RadListView [items]="_tile.nrImages" selectionBehavior="Press" (itemSelected)="onItemSelected($event)"
@@ -66,7 +72,7 @@
                         itemDeleteAnimation="Scale"></ListViewLinearLayout>
                 </RadListView>
             </StackLayout>
-            <Label *ngIf="errorTileImages" text="Select images before submitting" textWrap="true" class="text-danger"></Label>
+
             <Button class="-primary -rounded-sm" text="Add Another" (tap)="onAddAnother()"></Button>
             <StackLayout class="hr m-10"></StackLayout>
             <Button class="-primary -rounded-sm" text="Save and Proceed" (tap)="onSaveAndProceed()"></Button>
@@ -75,8 +81,7 @@
 
     <!-- TILE REVIEW AND SUBMIT -->
     <StackLayout *ngIf="hasSession">
-        <Label text="Review and Submit" class="text-center h2 m-x-20 m-b-20"
-            textWrap="true"></Label>
+        <Label text="Review and Submit" class="text-center h2 m-x-20 m-b-20" textWrap="true"></Label>
         <Label text="Describe the group of tiles your are about to submit" class="text-center h4 m-x-20 m-b-20"
             textWrap="true"></Label>
         <Label text="{{ 'session.name.label' | L }}" class="font-weight-bold m-b-5 text-primary"></Label>
@@ -84,7 +89,7 @@
             [(ngModel)]="_session.name" (ngModelChange)='SessionNameChanged($event)'>
         </TextView>
         <Label *ngIf="errorSessionName" text="Tile name cannot be empty!" class="text-danger"></Label>
-        <RadListView [items]="_session.tiles" selectionBehavior="None">
+        <RadListView [items]="tiles" selectionBehavior="None">
             <ng-template tkListItemTemplate let-item="item" let-i="index">
                 <StackLayout orientation="horizontal">
                     <Label [text]="item.name"></Label>
@@ -97,7 +102,6 @@
         </RadListView>
         <Button text="Submit" class="-primary" (tap)="onSubmit()"></Button>
         <Button text="Back" class="-outline" (tap)="hasSession=!hasSession"></Button>
-        <Button text="text" (tap)="tap()"></Button>
     </StackLayout>
 </GridLayout>
 
