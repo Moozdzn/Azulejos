@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 
 import * as http from "tns-core-modules/http";
-import * as geolocation from "nativescript-geolocation";
-import { Accuracy } from "tns-core-modules/ui/enums";
 import { device } from '@nativescript/core/platform';
 import { getString,setString,hasKey,remove } from "tns-core-modules/application-settings";
 
@@ -10,8 +8,8 @@ import { getString,setString,hasKey,remove } from "tns-core-modules/application-
     providedIn: "root"
 })
 export class UrlService {
-    private serverUrl = "http://192.168.1.14:3000/api/"
-    //private serverUrl = "https://azueljos.herokuapp.com/api/"
+    //private serverUrl = "http://192.168.1.14:3000/api/"
+    private serverUrl = "https://azueljos.herokuapp.com/api/"
 
     getUrl(): string {
         return this.serverUrl;
