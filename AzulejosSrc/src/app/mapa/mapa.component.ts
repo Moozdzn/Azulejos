@@ -13,6 +13,7 @@ import {RadAutoCompleteTextViewComponent} from "nativescript-ui-autocomplete/ang
 import {TokenModel} from "nativescript-ui-autocomplete";
 import {Accuracy} from "tns-core-modules/ui/enums";
 import {setInterval} from "tns-core-modules/timer";
+import { getBoolean, setBoolean,getNumber, setNumber, hasKey } from "tns-core-modules/application-settings";
 // External Packages
 import * as geolocation from "nativescript-geolocation";
 import * as Toast from 'nativescript-toast';
@@ -35,46 +36,51 @@ export class MapaComponent implements OnInit {
 
     private isMap : boolean = true;
     private charCodes = [String.fromCharCode(0xf5a0), String.fromCharCode(0xf03a)];
+    
     private icon = this.charCodes[1];
-    private darkMode : string = "light";
+    private darkMode : string = "mapbox_streets";
     private userLocation;
     private tiles : Array < TileMarker >;
     private radius : number = 6;
     private mapbox : MapboxViewApi;
     private settingsDialog;
-    private settingsOpened : boolean = false;
-    @ViewChild("autocomplete", {static: false})private autocomplete : RadAutoCompleteTextViewComponent;
-    @ViewChild('settingDialog', {static: true})private dialog : ElementRef;
+    private settingsBtn;
+    
+    private isSettingsOpened : boolean = false;
+
+
+    @ViewChild("autocomplete", {static: false}) private autocomplete : RadAutoCompleteTextViewComponent;
+    @ViewChild('settingDialog', {static: true}) private dialog : ElementRef;
+    @ViewChild('settingBtn', {static: true}) private dialogBtn : ElementRef;
 
     constructor(private modal : ModalDialogService, private vcRef : ViewContainerRef, private _url : UrlService,) {}
 
     ngOnInit(): void {
-        if (isDarkModeEnabled()) 
-            this.darkMode = "dark";
-        
+        if (isDarkModeEnabled()) {this.darkMode = "dark";}
+        if(hasKey('radius')) this.radius = getNumber('radius');
+    
         this.settingsDialog = this.dialog.nativeElement;
+        this.settingsBtn = this.dialogBtn.nativeElement;
 
     }
 
-    doCloseAnimation() {
-        this.settingsOpened = true;
-        this.settingsDialog.visibility = "collapse";
-        /* this.settingsDialog.animate({
-            translate: { x: 0, y: screen.mainScreen.heightPixels*0.11 },
-            duration: 600,
-            curve: AnimationCurve.easeOut
-        }).then(()=>{
-            this.settingsDialog.visibility = "collapse";  
-        }) */
-    }
-    doOpenAnimation() {
-        this.settingsDialog.visibility = "visible";
-        this.settingsOpened = false;
-        /* this.settingsDialog.animate({
-            translate: { x: 0, y: 0 },
-            duration: 600,
-            curve: AnimationCurve.easeIn
-        }) */
+    doAnimation(){
+        if(this.isSettingsOpened){
+            
+            this.settingsBtn.animate({
+                rotate: 0,
+                duration: 700
+            })
+            this.settingsDialog.visibility = "collapse";
+            this.isSettingsOpened = !this.isSettingsOpened
+        } else {
+            this.settingsDialog.visibility = "visible";
+            this.settingsBtn.animate({
+                rotate: 180,
+                duration: 700
+            })
+            this.isSettingsOpened = !this.isSettingsOpened
+        }
     }
 
     ngAfterViewInit(): void {
@@ -97,6 +103,8 @@ export class MapaComponent implements OnInit {
             return promise;
         };
     }
+
+    
 
     private onDidAutoComplete(args) {
         for (var i in this.tiles) {
@@ -162,6 +170,7 @@ export class MapaComponent implements OnInit {
 
     private onSliderValueChange(args) {
         this.radius = args.value;
+        setNumber('radius',this.radius)
         this.setTiles(this.userLocation)
     }
 
