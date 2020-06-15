@@ -4,9 +4,8 @@ import { ModalDialogParams } from "nativescript-angular/directives/dialogs";
 import { registerElement } from "nativescript-angular/element-registry";
 // NativeScript Core Modules
 import { Accuracy } from "tns-core-modules/ui/enums";
-
 // External Packages
-import { Mapbox, MapboxMarker, MapboxViewApi } from "nativescript-mapbox-enduco";
+import { MapboxMarker, MapboxViewApi } from "nativescript-mapbox-enduco";
 import * as geolocation from "nativescript-geolocation";
 import { isDarkModeEnabled } from "nativescript-dark-mode";
 import { localize } from "nativescript-localize";
@@ -17,11 +16,10 @@ registerElement("Mapbox", () => require("nativescript-mapbox-enduco").MapboxView
 export class ModalComponent {
 
     private mapbox: MapboxViewApi;
-    public locationMarker;
-    public oldCoords;
-    public darkMode: string = "light";
+    private locationMarker;
+    private darkMode: string = "light";
 
-    public constructor(private params: ModalDialogParams) {}
+    constructor(private params: ModalDialogParams) {}
 
     private ngOnInit(): void {
         if(isDarkModeEnabled()) this.darkMode = "dark";
@@ -31,8 +29,11 @@ export class ModalComponent {
         this.mapbox = args.map;
         geolocation.enableLocationRequest().then(() => {
             geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
+                if(this.params.context.marker != null){
+                    location.longitude = this.params.context.marker[0];
+                    location.latitude = this.params.context.marker[1];
+                } 
                 this.mapbox.setCenter({ lat: location.latitude, lng: location.longitude })
-                this.oldCoords = [location.latitude, location.longitude]
                 this.locationMarker = <MapboxMarker>{
                     id: 1,
                     lat: location.latitude, 
@@ -42,18 +43,28 @@ export class ModalComponent {
                     selected: true, 
                 };
                 this.mapbox.addMarkers([this.locationMarker]);
-                this.mapbox.setOnMapClickListener((data) => {
-                    this.locationMarker.update({ lat: data.lat, lng: data.lng })
-                    console.log(this.locationMarker);
+                this.mapbox.setOnMapClickListener((newMarker) => {
+                    this.locationMarker.update({ lat: newMarker.lat, lng: newMarker.lng })
                     return true;
                 })
             })
         })
     }
-    public closeModal(decision) {
-        if (decision == "cancel")
-            this.params.closeCallback(this.oldCoords);
-        else
-            this.params.closeCallback([this.locationMarker.lng, this.locationMarker.lat]);
+    private closeModal(decision) {
+        switch (decision){
+            case 0:
+                geolocation.enableLocationRequest().then(() => {
+                    geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
+                        this.params.closeCallback([location.longitude, location.latitude]);
+                    })
+                })
+                break;
+            case 1:
+                this.params.closeCallback([this.locationMarker.lng, this.locationMarker.lat]);
+                break;
+            default:
+                console.error('this should not have happened');
+        }
+    
     }
 }
