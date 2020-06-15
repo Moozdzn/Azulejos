@@ -11,14 +11,14 @@
             <!-- TILE NAME -->
             <Label text="{{ 'tile.name.label' | L }}" class="font-weight-bold m-b-5 text-primary h3"></Label>
             <Label *ngIf="errorTileName" text="Tile name cannot be empty!" class="text-danger"></Label>
-            <TextField class="-border" hint="{{ 'tile.name.hint' | L }}" returnKeyType="done"
+            <TextField class="-border" hint="{{ 'tile.name.hint' | L }}" returnKeyType="next"
                 maxLength="50" [(ngModel)]="_tile.name" (ngModelChange)='NameChanged($event)'>
             </TextField>
             <!-- TILE INFO -->
             <Label text="{{ 'tile.description.label' | L }}" class="font-weight-bold m-b-5 text-primary h3"></Label>
             <Label *ngIf="errorTileInfo" text="Tile description cannot be empty!" class="text-danger"></Label>
-            <TextView row="3" class="-border" hint="{{ 'tile.description.hint' | L }}"
-                [(ngModel)]="_tile.info" (ngModelChange)='InfoChanged($event)'>
+            <TextView class="-border" hint="{{ 'tile.description.hint' | L }}"
+                [(ngModel)]="_tile.info" (ngModelChange)='InfoChanged($event)' returnKeyType="next">
             </TextView>
             
             <!-- TILE YEAR-->
@@ -35,7 +35,7 @@
             <Button text="{{ 'tile.condition.hint' | L }}" (tap)="displayConditionOptions()"
                 class="-outline"></Button>
             <TextField [(ngModel)]="_tile.condition" (ngModelChange)='ConditionChanged($event)'
-                editable="false"></TextField>
+                editable="false" class="text-center"></TextField>
             
             <!-- TILE LOCATION -->
             <Label text="{{ 'tile.location.label' | L }}" class="font-weight-bold m-b-5 text-primary  h3"></Label>
@@ -75,9 +75,10 @@
                 </RadListView>
             </StackLayout>
 
-            <Button class="-primary -rounded-sm" text="Add Another" (tap)="onAddAnother()"></Button>
+            <!-- <Button class="-primary -rounded-sm" text="Add Another" (tap)="onAddAnother()"></Button> -->
             <StackLayout class="hr m-10"></StackLayout>
             <Button class="-primary -rounded-sm" text="Save and Proceed" (tap)="onSaveAndProceed()"></Button>
+            <Button class="-outline -rounded-sm" text="Cancel" (tap)="hasSession=!hasSession"></Button>
         </StackLayout>
     </ScrollView>
 
@@ -102,8 +103,9 @@
             <ListViewLinearLayout tkListViewLayout scrollDirection="Vertical" itemInsertAnimation="Scale"
                 itemDeleteAnimation="Scale"></ListViewLinearLayout>
         </RadListView>
-        <Button text="Submit" class="-primary" (tap)="onSubmit()"></Button>
-        <Button text="Back" class="-outline" (tap)="hasSession=!hasSession"></Button>
+        <Label *ngIf="errorTileList" text="Add tiles before submitting" class="text-danger"></Label>
+        <Button text="Submit" class="-primary -rounded-sm" (tap)="onSubmit()"></Button>
+        <Button text="Add Tile" class="-outline -rounded-sm" (tap)="hasSession=!hasSession"></Button>
     </StackLayout>
 </GridLayout>
 

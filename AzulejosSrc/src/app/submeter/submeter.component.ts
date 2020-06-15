@@ -20,6 +20,7 @@ import { Tile, Session } from "../shared/azulejos.models";
 // Azulejos Components
 import { ModalComponent } from "./map-modal/map-modal";
 
+
 @Component({
     selector: "Submeter",
     templateUrl: "./submeter.component.html",
@@ -41,6 +42,10 @@ export class SubmeterComponent implements OnInit {
     private errorTileYear = true;
     private errorTileCondition = true;
     private errorTileImages = true;
+    private errorTileList = true;
+    
+
+    
 
     constructor(
         private modal: ModalDialogService, 
@@ -51,7 +56,7 @@ export class SubmeterComponent implements OnInit {
         }
 
     ngOnInit(): void { }
-
+    
     private showModal() {
         let options = {
             context: {},
@@ -166,6 +171,11 @@ export class SubmeterComponent implements OnInit {
                 this.onEdit = !this.onEdit
             }
             this._tile = new Tile(this.ObjectId(),"","","","",[],this._session.id,[]);
+            this.errorTileName = true;
+            this.errorTileInfo = true;
+            this.errorTileYear = true;
+            this.errorTileCondition = true;
+            this.errorTileImages = true;
             this.hasSession=!this.hasSession;
         } else {
             Toast.makeText('Please fill all field before proceeding','short').show();
@@ -240,15 +250,17 @@ export class SubmeterComponent implements OnInit {
                             location.longitude,
                             location.latitude    
                         ]
+                        return true
                     })
                 })
+            } else{
+                return true
             }
-            return true
+            
         } else {
             return false
         }
     }
-
     private NameChanged(args){
         console.log(args)
         if(args === "") {

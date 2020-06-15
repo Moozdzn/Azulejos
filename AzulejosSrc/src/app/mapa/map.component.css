@@ -23,18 +23,26 @@ ListView{
     height: 50%;
 }
 
-DockLayout DockLayout {
+.bottomContainer{
     background-color: rgba(0, 0, 0, 0.5);
-    height: 20%;
+    height: 40%;
+    border-top-left-radius: 25;
+    border-top-right-radius: 25;
 }
 
-DockLayout DockLayout Label {
+.bottomContainer Label {
     color: #eeeeee;
 }
 
 Button{
+    android-elevation:12;
+}
+.roundBtn {
     border-radius: 50;
     width:50;
     height:50;
-    android-elevation:12;
+}
+.changeViewBtn {
+    border-radius: 50;
+    width:50%;
 }

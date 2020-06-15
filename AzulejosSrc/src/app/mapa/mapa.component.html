@@ -1,7 +1,7 @@
 <ActionBar>
     <Label text="{{ 'discover.tab' | L }}"></Label>
 </ActionBar>
-<!-- <GridLayout>
+<GridLayout>
     <GridLayout *ngIf="isMap">
         <ContentView height="100%" width="100%">
             <Mapbox
@@ -22,11 +22,11 @@
                     </ng-template>
                 </SuggestionView>
             </RadAutoCompleteTextView>
-            <Button horizontalAlignment="right" text="&#xf05b;" class="fas -primary h2" (tap)="centerUser()"></Button>
+            <Button horizontalAlignment="right" text="&#xf05b;" class="fas -primary h2 roundBtn" (tap)="centerUser()"></Button>
         </StackLayout>
     </GridLayout>
-    <GridLayout *ngIf="!isMap">
-        <ListView [items]="tiles" (itemTap)="onItemTap($event)">
+    <GridLayout *ngIf="!isMap" >
+        <ListView [items]="tiles" (itemTap)="onItemTap($event)" height="100%" width="100%">
             <ng-template let-item="item" let-i="index" let-odd="odd" let-even="even">
                 <FlexboxLayout flexDirection="row">
                     <Image src="https://abrilcasa.files.wordpress.com/2018/02/azulejos.jpg" class="-thumb img-circle">
@@ -39,10 +39,13 @@
             </ng-template>
         </ListView>
     </GridLayout>
-    <DockLayout stretchLastChild="false">
-        <DockLayout dock="bottom">
-            <StackLayout dock="left" width="70%">
-                <Label class="text-center h3">
+    <StackLayout verticalAlignment="bottom"  >
+            <StackLayout>
+                <Button *ngIf="settingsOpened"  text="&#xf102;" horizontalAlignment="center" class="fas h2 roundBtn -primary m-b-20" (tap)="doOpenAnimation()"></Button>
+                <Button *ngIf="!settingsOpened" text="&#xf103;" horizontalAlignment="center" class="fas h2 roundBtn -primary m-b-20" (tap)="doCloseAnimation()"></Button>
+            </StackLayout>
+            <StackLayout #settingDialog class="bottomContainer" visibility="visible">
+                <Label class="text-center h3 m-t-20 ">
                     <FormattedString>
                         <Span class="font-weight-bold" text="{{ 'discover.radius' | L }} "></Span>
                         <Span class="text-primary font-weight-bold" text="{{radius}} "></Span>
@@ -51,21 +54,24 @@
                 </Label>
                 <Slider value="6" minValue="1" maxValue="11" (valueChange)="onSliderValueChange($event)" dock="bottom">
                 </Slider>
-            </StackLayout>
-            <StackLayout dock="right">
                 <Label class="text-center h3 font-weight-bold" text="{{ 'discover.view' | L }}" textwrap="true"></Label>
-                <Button class="-outline" dock="right" (tap)="toggleView()" textwrap="true">
+                <Button class="-outline changeViewBtn" dock="right" (tap)="toggleView()" textwrap="true">
                     <FormattedString>
                         <Span text="{{icon}}" class="fas h2"></Span>
                     </FormattedString>
                 </Button>
+                
             </StackLayout>
-        </DockLayout>
-    </DockLayout>
-</GridLayout> -->
-<DockLayout>
-    <DockLayout dock="bottom">
-        <StackLayout dock="left" width="70%">
+            
+        
+    </StackLayout>
+</GridLayout>
+<!-- <DockLayout>
+    <DockLayout #settingDialog dock="bottom">
+        <StackLayout>
+            <Button text="animate dialog" (tap)="doAnimation()"></Button>
+
+            <Label text="&#xf062;" class="fas h2" horizontalAlignment="center"></Label>
             <Label class="text-center h3">
                 <FormattedString>
                     <Span class="font-weight-bold" text="{{ 'discover.radius' | L }} "></Span>
@@ -123,5 +129,5 @@
         </ListView>
     </GridLayout>
     
-  </DockLayout>
+  </DockLayout> -->
 <!-- https://azulejos.b-cdn.net/item.id/0.jpg -->
