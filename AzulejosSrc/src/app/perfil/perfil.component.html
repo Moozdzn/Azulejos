@@ -1,43 +1,37 @@
 <ActionBar>
     <Label text="Perfil" class="font-weight-bold"></Label>
 </ActionBar>
-<GridLayout>
-    <Button horizontalAlignment="right" verticalAlignment="top" class="-primary" (tap)="onLogOut()">
-        <FormattedString>
-            <Span text="&#xf2f5;" class="fas h2"></Span>
-        </FormattedString>
-    </Button>
-    <StackLayout orientation="vertical" (loaded)="onProfileLoaded()">
-            <Label class="h1 font-weight-bold m-x-auto m-y-30 text-center" text="{{username}}"></Label>
-            <StackLayout class="hr m-10"></StackLayout>
-        <GridLayout  columns="*, *, *" rows="auto,auto,auto">
-            <Label class="h2 font-weight-bold m-5 text-center" text="{{ 'profile.submissions.label' | L }}" row="0" col="1">
-            </Label>
-            <Label text="{{ 'profile.submissions.public' | L }}" row="1" col="0"
-                class="h3 text-center font-weight-bold">
-            </Label>
-            <Label text="{{ 'profile.submissions.submitted' | L }}" row="1" col="1"
-                class="h3 text-center font-weight-bold">
-            </Label>
-            <Label text="{{ 'profile.submissions.analysis' | L }}" row="1" col="2"
-                class="h3 text-center font-weight-bold">
-            </Label>
-            <Label text="{{state.public}}" row="2" col="0" class="h3 text-center">
-            </Label>
-            <Label text="{{state.submitted}}" row="2" col="1" class="h3 text-center">
-            </Label>
-            <Label text="{{state.inAnalysis}}" row="2" col="2" class="h3 text-center">
-            </Label>
-        </GridLayout>
-        <ActivityIndicator *ngIf="processing" [busy]="processing"></ActivityIndicator>
-        <ListView height="80%" width="95%" [items]="userSessions" (itemTap)="onItemTap($event)">
-            <ng-template let-item="item">
-                <FlexboxLayout flexDirection="Column">
-                    <Label [text]='item.name' class="h3 text-center">
-                    </Label>
-                    <Label [text]='item.state' class="text-center text-primary"></Label>
-                </FlexboxLayout>
-            </ng-template>
-        </ListView>
-    </StackLayout>
+<GridLayout columns="*,*,*" rows="auto,auto,auto,auto,auto,auto,auto,auto,*" (loaded)="onProfileLoaded()">
+    <Button row="0" col="2" rowSpan="2" colSpan="3" text="&#xf2f5;" class="-primary fas h2" (tap)="onLogOut()"></Button>
+    <Label row="1" col="0" colSpan="3" class="h1 font-weight-bold m-x-auto m-y-30 text-center" text="{{username}}"></Label>
+    <!-- LINE BREAK -->
+    <StackLayout row="2" col="0" colSpan="3" class="hr m-10"></StackLayout>
+    <!-- SESSION STATS -->
+    <Label row="3" col="1" class="h2 font-weight-bold m-5 text-center" text="{{ 'profile.submissions.label' | L }}" >
+    </Label>
+    <Label row="4" col="0" text="{{ 'profile.submissions.public' | L }}" class="h3 text-center font-weight-bold">
+    </Label>
+    <Label row="4" col="1" text="{{ 'profile.submissions.submitted' | L }}" class="h3 text-center font-weight-bold">
+    </Label>
+    <Label row="4" col="2" text="{{ 'profile.submissions.analysis' | L }}" class="h3 text-center font-weight-bold">
+    </Label>
+    <Label row="5" col="0" text="{{state.public}}" class="h3 text-center">
+    </Label>
+    <Label row="5" col="1" text="{{state.submitted}}" class="h3 text-center">
+    </Label>
+    <Label row="5" col="2" text="{{state.inAnalysis}}" class="h3 text-center">
+    </Label>
+    <!-- LINE BREAK -->
+    <StackLayout row="6" col="0" colSpan="3" class="hr m-10"></StackLayout>
+    <ActivityIndicator row="7" col="1" *ngIf="processing" [busy]="processing" width="100%" height="100%"></ActivityIndicator>
+    <!-- SESSION LIST -->
+    <ListView row="8" col="0" colSpan="3" [items]="userSessions" (itemTap)="onItemTap($event)">
+        <ng-template let-item="item">
+            <FlexboxLayout flexDirection="Column">
+                <Label [text]='item.name' class="h3 text-center">
+                </Label>
+                <Label [text]='item.state' class="text-center text-primary"></Label>
+            </FlexboxLayout>
+        </ng-template>
+    </ListView>
 </GridLayout>

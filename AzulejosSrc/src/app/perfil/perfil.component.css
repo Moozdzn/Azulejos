@@ -1,9 +1,4 @@
-GridLayout{
-    border-color: rgba(0, 0, 0, 0.1);
-    border-width: 2;
-    background-color: #eeeeee;
-    android-elevation: 12;
-}
+
 ListView{
     border-color: rgba(0, 0, 0, 0.1);
     border-width: 2;
@@ -14,4 +9,5 @@ Button {
     border-radius: 50;
     width:50;
     height:50;
+    android-elevation: 12;
 }
