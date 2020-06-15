@@ -42,10 +42,7 @@ export class SubmeterComponent implements OnInit {
     private errorTileYear = true;
     private errorTileCondition = true;
     private errorTileImages = true;
-    private errorTileList = true;
-    
-
-    
+    private errorTileLocation = true;
 
     constructor(
         private modal: ModalDialogService, 
@@ -56,19 +53,48 @@ export class SubmeterComponent implements OnInit {
         }
 
     ngOnInit(): void { }
+
+    private NameChanged(args){
+        if(args === "") {
+            this.errorTileName = true;
+        } else {
+            this.errorTileName = false;
+        }
+    }
+    private InfoChanged(args){
+        if(args === "") {
+            this.errorTileInfo = true;
+        } else {
+            this.errorTileInfo = false;
+        }
+    }
+
+    private YearChanged(args){
+        if(args === "") {
+            this.errorTileYear = true;
+        } else {
+            this.errorTileYear = false;
+        }
+    }
     
-    private showModal() {
+    private showLocationModal() {
         let options = {
             context: {},
             fullscreen: true,
             viewContainerRef: this.vcRef
         };
+        if(this._tile.location.length > 0){
+            options.context['marker'] = this._tile.location;
+        }
+        console.log(options);
         this.modal.showModal(ModalComponent, options).then(res => {
             this._tile.location = res;
+            this.errorTileLocation = false;
+            console.log(this._tile.location);
         });
     }
     
-    private displayConditionOptions() {
+    private showConditionOptions() {
         let options = {
             title: localize("tile.conditions.dialog.title"),
             message: localize("tile.conditions.dialog.message"),
@@ -81,6 +107,14 @@ export class SubmeterComponent implements OnInit {
                 this._tile.condition = result;
             }       
         });
+    }
+
+    private ConditionChanged(args){
+        if(args === "") {
+            this.errorTileCondition = true;
+        } else {
+            this.errorTileCondition = false;
+        }
     }
 
     private onSelectSingleTap() {
@@ -142,26 +176,7 @@ export class SubmeterComponent implements OnInit {
             }
         });
     }
-
-    //TODO VALIDAR INPUTS NO ADDANOTHER E NO PROCEED
-    //FAZER A VERIFICACAO SE O UTILIZADOR ESCOLHEU LOCALIZAÇÃO
-    //NO SUBMIT FAZER UM LOOP PARA CONVERTER AS IMAGENS
-    //REMOVER AZULEJOS
-
-    private onAddAnother(){
-        const isValid = this.hasErrors();
-        if(isValid){
-            if(!this.onEdit){
-                this.tiles.push(this._tile);
-            } else {
-                this.onEdit = !this.onEdit
-            }
-            this._tile = new Tile(this.ObjectId(),"","","","",[],this._session.id,[]);
-            
-        } else {
-            Toast.makeText('Please fill all field before adding another tile','short').show();
-        }
-    }
+    
     private onSaveAndProceed(){
         const isValid = this.hasErrors();
         if(isValid){
@@ -176,11 +191,56 @@ export class SubmeterComponent implements OnInit {
             this.errorTileYear = true;
             this.errorTileCondition = true;
             this.errorTileImages = true;
+            this.errorTileLocation = true;
             this.hasSession=!this.hasSession;
         } else {
             Toast.makeText('Please fill all field before proceeding','short').show();
         }
     }
+
+    private hasErrors(){
+        if(!this.errorTileName && !this.errorTileInfo && !this.errorTileYear && !this.errorTileCondition && !this.errorTileImages && !this.errorTileLocation){
+            return true
+        } else {
+            return false
+        }
+    }
+
+    private onCancel(){
+        this.hasSession=!this.hasSession;
+    }
+
+    private SessionNameChanged(args){
+        if(args === "") {
+            this.errorSessionName = true;
+        } else {
+            this.errorSessionName = false;
+        }
+    }
+
+    private editTile(i){
+        this.onEdit = true;
+        this.errorTileImages = false;
+        this.errorTileLocation = false;
+        this.hasSession = false;
+        this._tile = this.tiles[i];
+    }
+
+    private deleteTile(i){
+        dialogs.confirm({
+            title: "Delete Tile: "+this.tiles[i].name,
+            message: "This action can´t be reverted",
+            okButtonText: "Delete",
+            cancelButtonText: "Keep",
+        }).then(result => {
+            if(result) {
+                this.tiles.splice(i,1);
+                Toast.makeText('Tile deleted from session','short').show();
+            }
+            console.log("Dialog result: " + result);
+        });  
+    }
+
     private onSubmit(){
         if(!this.errorSessionName && this.tiles.length > 0){
             this.processing=true;
@@ -220,87 +280,20 @@ export class SubmeterComponent implements OnInit {
         return imagesToSubmit;
     }
 
-    private editTile(i){
-        this.onEdit = true;
-        this.hasSession = false;
-        this._tile = this.tiles[i];
-    }
-    private deleteTile(i){
-        dialogs.confirm({
-            title: "Delete Tile: "+this.tiles[i].name,
-            message: "This action can´t be reverted",
-            okButtonText: "Delete",
-            cancelButtonText: "Keep",
-        }).then(result => {
-            // result argument is boolean
-            if(result) {
-                this.tiles.splice(i,1);
-                Toast.makeText('Tile deleted from session','short').show();
+    private onAddAnother(){
+        const isValid = this.hasErrors();
+        if(isValid){
+            if(!this.onEdit){
+                this.tiles.push(this._tile);
+            } else {
+                this.onEdit = !this.onEdit
             }
-            console.log("Dialog result: " + result);
-        });  
-    }
-
-    private hasErrors(){
-        if(!this.errorTileName && !this.errorTileInfo && !this.errorTileYear && !this.errorTileCondition && !this.errorTileImages){
-            if(this._tile.location.length == 0){
-                geolocation.enableLocationRequest().then(() => {
-                    geolocation.getCurrentLocation({ desiredAccuracy: Accuracy.high }).then((location) => {
-                        this._tile.location = [
-                            location.longitude,
-                            location.latitude    
-                        ]
-                        return true
-                    })
-                })
-            } else{
-                return true
-            }
+            this._tile = new Tile(this.ObjectId(),"","","","",[],this._session.id,[]);
             
         } else {
-            return false
+            Toast.makeText('Please fill all field before adding another tile','short').show();
         }
     }
-    private NameChanged(args){
-        console.log(args)
-        if(args === "") {
-            this.errorTileName = true;
-        } else {
-            this.errorTileName = false;
-        }
-    }
-    private InfoChanged(args){
-        console.log(args)
-        if(args === "") {
-            this.errorTileInfo = true;
-        } else {
-            this.errorTileInfo = false;
-        }
-    }
-    private YearChanged(args){
-        console.log(args)
-        if(args === "") {
-            this.errorTileYear = true;
-        } else {
-            this.errorTileYear = false;
-        }
-    }
-    private ConditionChanged(args){
-        console.log(args)
-        if(args === "") {
-            this.errorTileCondition = true;
-        } else {
-            this.errorTileCondition = false;
-        }
-    }
-    private SessionNameChanged(args){
-        console.log(args)
-        if(args === "") {
-            this.errorSessionName = true;
-        } else {
-            this.errorSessionName = false;
-        }
-    }
-    
+
 }
 
