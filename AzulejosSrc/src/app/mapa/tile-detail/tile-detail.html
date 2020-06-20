@@ -1,8 +1,9 @@
-<GridLayout rows="auto,auto,*,auto,auto,auto,auto,auto,auto,auto,auto,auto" columns="*,2*" (loaded)=onModalLoaded()>
+<GridLayout rows="auto,auto,*,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto" columns="*,2*" (loaded)=onModalLoaded() class="m-t-25">
     <Label row="0" col="0" colSpan="2" rowSpan="2" text="{{ 'tile.detail.image.info' | L }}"
         horizontalAlignment="center"></Label>
     <Label row="1" col="1" text="&#xf057;" horizontalAlignment="right" class="far h1 m-r-10"
         (tap)=closeModal(0)></Label>
+    <!-- TILE IMAGE -->
     <ScrollView row="2" col="0" colSpan="2" orientation="horizontal">
         <StackLayout orientation="horizontal">
             <GridLayout *ngFor="let i of images">
@@ -12,38 +13,44 @@
             </GridLayout>
         </StackLayout>
     </ScrollView>
+    <!-- TILE NAME -->
     <Label row="3" col="0" colSpan="2" [text]="tile.name" horizontalAlignment="center"
         class="anim-title h1 font-weight-bold" textWrap="true"></Label>
-    <Label row="4" col="0" class="anim-title m-x-25">
+    <StackLayout row="4" col="0" colSpan="2" class="hr m-10"></StackLayout>
+    <!-- TILE YEAR -->
+    <Label row="5" col="0" class="anim-title m-x-25">
         <FormattedString>
             <Span class="h3 font-weight-bold " text="{{ 'tile.detail.year.title' | L }}"></Span>
             <Span [text]="tile.year"></Span></FormattedString>
     </Label>
-    <Label row="4" col="1" class="anim-title">
+    <!-- TILE CONDITION -->
+    <Label row="5" col="1" class="anim-title">
         <FormattedString>
             <Span class="h3 font-weight-bold " text="{{ 'tile.detail.condition.title' | L }}"></Span>
             <Span [text]=" tile.condition"></Span>
         </FormattedString>
     </Label>
-    <!-- <ActivityIndicator *ngIf="processing" [busy]="processing"></ActivityIndicator> -->
-    <StackLayout row="5" col="0" colSpan="2" width="100%" class="lineBreak"></StackLayout>
-    <Label row="6" col="0" colSpan="2" class="anim-title h2 font-weight-bold m-x-25 "
+    <StackLayout row="6" col="0" colSpan="2" class="hr m-10"></StackLayout>
+    <ActivityIndicator *ngIf="processing" rowSpan="8" col="0" colSpan="2" width="150" height="150" [busy]="processing"></ActivityIndicator>
+    <!-- TILE DESCRIPTION -->
+    <Label row="7" col="0" colSpan="2" class="anim-title h2 font-weight-bold m-x-25 "
         text="{{ 'tile.detail.description.title' | L }}" textWrap="true"></Label>
-    <Textview row="7" col="0" colSpan="2" class="anim-content m-x-30" editable="false" [text]="tile.info"
+    <Textview row="8" col="0" colSpan="2" class="anim-content m-x-30" editable="false" isUserInteractionEnabled="false" [text]="tile.info"
         textWrap="true"></Textview>
-    <StackLayout row="8" col="0" colSpan="2" *ngIf="isInfoTranslated">
-        <Label text="Description was translated automatically. " class="text-center"></Label>
-        <Label *ngIf="isTranslated; else elseBlock" text="See original" class="text-primary text-center"
+    <StackLayout row="9" col="0" colSpan="2" *ngIf="isInfoTranslated">
+        <Label text="{{ 'tile.detail.translation' | L }} " class="text-center"></Label>
+        <Label *ngIf="isTranslated; else elseBlock" text="{{ 'tile.detail.original' | L }}" class="text-primary text-center"
             (tap)="toggleTranslation()"></Label>
         <ng-template #elseBlock>
-            <Label text="See translated" class="text-primary text-center" (tap)="toggleTranslation()"></Label>
+            <Label text="{{ 'tile.detail.translated' | L }}" class="text-primary text-center" (tap)="toggleTranslation()"></Label>
         </ng-template>
     </StackLayout>
-    <Button row="9" col="0" colSpan="2" text="{{ 'tile.detail.directions.title' | L }}" (tap)="openGmaps()"
+    <!-- TILE DIRECTIONS -->
+    <Button row="10" col="0" colSpan="2" text="{{ 'tile.detail.directions.title' | L }}" (tap)="openGmaps()"
         class="anim-content -rounded-sm -primary m-y-30"></Button>
-    <Label row="10" col="0" colSpan="2" *ngIf="relatedTiles" class="anim-title h2 font-weight-bold m-x-25 "
+    <Label row="11" col="0" colSpan="2" *ngIf="relatedTiles" class="anim-title h2 font-weight-bold m-x-25 "
         text="{{ 'tile.detail.related.tiles.title' | L }}" textWrap="true"></Label>
-    <ListView row="11" col="0" colSpan="2" *ngIf="relatedTiles" class="anim-content m-x-30" [items]="tileSession"
+    <ListView row="12" col="0" colSpan="2" *ngIf="relatedTiles" class="anim-content m-x-30" [items]="tileSession"
         (itemTap)="onItemTap($event)">
         <ng-template let-item="item">
             <StackLayout>

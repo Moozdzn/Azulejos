@@ -5,6 +5,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 import { hasKey } from "tns-core-modules/application-settings";
 // External Packages
 import * as Toast from 'nativescript-toast';
+import { localize } from "nativescript-localize";
 // Azulejos Services
 import { UrlService } from "../shared/url.service";
 import { User } from "../shared/azulejos.models";
@@ -38,7 +39,7 @@ export class LoginComponent{
             if(r == 200) {
                 this.routerExtension.navigate(['/tabs/default'], { clearHistory: true });
                 this.error = false;
-                Toast.makeText("Successfully logged in", "short").show();
+                Toast.makeText(localize('login.success'), "short").show();
             }
             else this.error = true;
             this.processing = false;

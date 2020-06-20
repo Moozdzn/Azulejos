@@ -3,7 +3,7 @@
         <Image src="res://logo"></Image>
             <GridLayout rows="auto, auto, auto">
                 <StackLayout row="0" class="input-field">
-                    <TextField class="input h2" hint="Username"
+                    <TextField class="input h2" hint="{{ 'login.username.hint' | L }}"
                         autocorrect="false"
                         autocapitalizationType="none" [(ngModel)]="user.username"
                         returnKeyType="next" ></TextField>
@@ -12,15 +12,15 @@
 
                 <StackLayout row="1" class="input-field">
                     <TextField #password class="input h2" [(ngModel)]="user.password"
-                        hint="Password" secure="true" 
+                        hint="{{ 'login.password.hint' | L }}" secure="true" 
                         ></TextField>
                     <StackLayout class="hr-light"></StackLayout>
-                    <Label *ngIf="error" text="We can't seem to find an account with the combination provided" class="text-danger"></Label>
+                    <Label *ngIf="error" text="{{ 'login.error' | L }}" class="text-danger" textWrap="true"></Label>
                 </StackLayout>
                 
                 <ActivityIndicator rowSpan="3" [busy]="processing"></ActivityIndicator>
             </GridLayout>
-        <Button text="Log In"
+        <Button text="{{ 'login.button' | L }}"
             (tap)="login()" class="-primary rounded-sm m-t-20"></Button>
     </StackLayout>
 </FlexboxLayout>

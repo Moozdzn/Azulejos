@@ -160,9 +160,9 @@ export class SubmeterComponent implements OnInit {
     
     private onItemSelected(args: ListViewEventData) {
         let options = {
-            title: "Pretende remover a imagem selecionada?",
-            okButtonText: "Confirmar",
-            cancelButtonText: "Cancelar",
+            title: localize('tile.pictures.remove'),
+            okButtonText: localize('yes'),
+            cancelButtonText: localize('no'),
         }
         dialogs.confirm(options).then(result => {
             if(result){
@@ -194,7 +194,7 @@ export class SubmeterComponent implements OnInit {
             this.errorTileLocation = true;
             this.hasSession=!this.hasSession;
         } else {
-            Toast.makeText('Please fill all field before proceeding','short').show();
+            Toast.makeText(localize('tile.submit.error'),'short').show();
         }
     }
 
@@ -228,14 +228,14 @@ export class SubmeterComponent implements OnInit {
 
     private deleteTile(i){
         dialogs.confirm({
-            title: "Delete Tile: "+this.tiles[i].name,
-            message: "This action can´t be reverted",
-            okButtonText: "Delete",
-            cancelButtonText: "Keep",
+            title: localize('tile.list.delete') +this.tiles[i].name,
+            message: localize('tile.list.message'),
+            okButtonText: localize('yes'),
+            cancelButtonText: localize('no'),
         }).then(result => {
             if(result) {
                 this.tiles.splice(i,1);
-                Toast.makeText('Tile deleted from session','short').show();
+                Toast.makeText(localize('tile.list.delete.confirmation'),'short').show();
             }
             console.log("Dialog result: " + result);
         });  

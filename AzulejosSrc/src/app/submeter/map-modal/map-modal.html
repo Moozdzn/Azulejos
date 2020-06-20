@@ -1,11 +1,11 @@
 <GridLayout rows="*,auto" columns="*,*">
     <ContentView row="0" col="0" colSpan="2">
         <Mapbox accessToken="pk.eyJ1IjoibW9vemR6biIsImEiOiJjazd5eGh6bjAwMGl1M21vOTdjMTI1d3NzIn0.cxQh0B_dBFEc7xNjtn0-zQ"
-            mapStyle="{{darkMode}}" latitude="38.736946" longitude="-9.142685" hideCompass="false" zoomLevel="15"
+            [mapStyle]="darkMode" latitude="38.736946" longitude="-9.142685" hideCompass="false" zoomLevel="15"
             showUserLocation="true" disableZoom="false" disableRotation="false" disableScroll="false"
             disableTilt="false" (mapReady)="onMapReady($event)">
         </Mapbox>
     </ContentView>
     <Button row="1" col="1" class="-rounded-sm -primary" text="{{ 'confirm' | L }}" (tap)="closeModal(1)"></Button>
-    <Button row="1" col="0" class="-rounded-sm -outline" text="Use current location" (tap)="closeModal(0)" textWrap="true"></Button>
+    <Button row="1" col="0" class="-rounded-sm -outline" text="{{ 'tile.location.userlocation' | L }}" (tap)="closeModal(0)" textWrap="true"></Button>
 </GridLayout>
