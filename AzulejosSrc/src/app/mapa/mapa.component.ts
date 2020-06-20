@@ -1,11 +1,5 @@
 // Angular Modules
-import {
-    Component,
-    ViewChild,
-    OnInit,
-    ViewContainerRef,
-    ElementRef
-} from "@angular/core";
+import { Component, ViewChild, OnInit, ViewContainerRef, ElementRef } from "@angular/core";
 import {registerElement} from "nativescript-angular/element-registry";
 import {ModalDialogService} from "nativescript-angular/directives/dialogs";
 import {RadAutoCompleteTextViewComponent} from "nativescript-ui-autocomplete/angular";
@@ -13,7 +7,8 @@ import {RadAutoCompleteTextViewComponent} from "nativescript-ui-autocomplete/ang
 import {TokenModel} from "nativescript-ui-autocomplete";
 import {Accuracy} from "tns-core-modules/ui/enums";
 import {setInterval} from "tns-core-modules/timer";
-import { getBoolean, setBoolean,getNumber, setNumber, hasKey } from "tns-core-modules/application-settings";
+import { Page } from "tns-core-modules/ui/page"
+import { getNumber, setNumber, hasKey } from "tns-core-modules/application-settings";
 // External Packages
 import * as geolocation from "nativescript-geolocation";
 import * as Toast from 'nativescript-toast';
@@ -25,9 +20,6 @@ import {UrlService} from "../shared/url.service";
 import {TileMarker} from "../shared/azulejos.models";
 // Azulejos Components
 import {TileDetailComponent} from "./tile-detail/tile-detail";
-
-import {AnimationCurve} from "tns-core-modules/ui/enums";
-import {isAndroid, isIOS, device, screen} from "tns-core-modules/platform";
 
 registerElement("Mapbox", () => require("nativescript-mapbox-enduco").MapboxView);
 
@@ -45,6 +37,7 @@ export class MapaComponent implements OnInit {
     private mapbox : MapboxViewApi;
     private settingsDialog;
     private settingsBtn;
+    private checkUserPos;
     
     private isSettingsOpened : boolean = false;
 
@@ -53,7 +46,13 @@ export class MapaComponent implements OnInit {
     @ViewChild('settingDialog', {static: true}) private dialog : ElementRef;
     @ViewChild('settingBtn', {static: true}) private dialogBtn : ElementRef;
 
-    constructor(private modal : ModalDialogService, private vcRef : ViewContainerRef, private _url : UrlService,) {}
+    constructor(private modal : ModalDialogService, 
+        private vcRef : ViewContainerRef, 
+        private _url : UrlService,
+        private _page: Page
+        ) {
+            this._page.actionBarHidden = true;
+        }
 
     ngOnInit(): void {
         if (isDarkModeEnabled()) {this.darkMode = "dark";}
@@ -114,11 +113,11 @@ export class MapaComponent implements OnInit {
             }
         }
     }
-
-    private onMapReady(args) {
+    onMapReady(args) {
         this.mapbox = args.map;
         geolocation.enableLocationRequest().then(() => {
             geolocation.getCurrentLocation({desiredAccuracy: Accuracy.high}).then((location) => {
+                
                 this.mapbox.setCenter({lat: location.latitude, lng: location.longitude});
                 this.userLocation = {
                     lat: location.latitude,
@@ -127,6 +126,25 @@ export class MapaComponent implements OnInit {
                 this.setTiles(this.userLocation);
             })
         })
+        this.checkUserPos = setInterval(() => {
+            geolocation.enableLocationRequest().then(() => {
+                geolocation.getCurrentLocation({desiredAccuracy: Accuracy.high}).then((location) => {
+                    var newLocation = {
+                        lat: location.latitude,
+                        lng: location.longitude
+                    }
+                    this.mapbox.getDistanceBetween(this.userLocation, newLocation).then((value : number) => {
+                        if (value > 2000) {
+                            this.userLocation = newLocation;
+                            this.setTiles(this.userLocation);
+                            console.log('Getting new markers');
+                        } else {
+                            console.log('New markers not needed');
+                        }
+                    })
+                })
+            })
+        }, 60000);
     }
 
     private setTiles(location) {
@@ -184,7 +202,6 @@ export class MapaComponent implements OnInit {
                     lng: location.longitude
                 }
                 this.userLocation = currentUserLocation;
-
             })
         })
     }
@@ -209,23 +226,4 @@ export class MapaComponent implements OnInit {
             
         });
     }
-    private checkUserPos = setInterval(() => {
-        geolocation.enableLocationRequest().then(() => {
-            geolocation.getCurrentLocation({desiredAccuracy: Accuracy.high}).then((location) => {
-                var newLocation = {
-                    lat: location.latitude,
-                    lng: location.longitude
-                }
-                this.mapbox.getDistanceBetween(this.userLocation, newLocation).then((value : number) => {
-                    if (value > 2000) {
-                        this.userLocation = newLocation;
-                        this.setTiles(this.userLocation);
-                        console.log('Getting new markers');
-                    } else {
-                        console.log('New markers not needed');
-                    }
-                })
-            })
-        })
-    }, 600000);
 }

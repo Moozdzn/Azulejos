@@ -1,5 +1,5 @@
 // Angular Modules
-import { Component, OnInit, ViewChild, ElementRef, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 // NativeScript Core Modules
 import { ImageSource, fromFile } from "tns-core-modules/image-source";
@@ -7,9 +7,8 @@ import * as fs from "tns-core-modules/file-system";
 import { getString } from 'tns-core-modules/application-settings/application-settings';
 import { ListViewEventData } from "nativescript-ui-listview";
 import * as dialogs from "tns-core-modules/ui/dialogs";
-import { Accuracy } from "tns-core-modules/ui/enums";
+import { Page } from "tns-core-modules/ui/page"
 // External Packages
-import * as geolocation from "nativescript-geolocation";
 import * as Toast from 'nativescript-toast';
 import * as camera from "nativescript-camera";
 import * as imagepicker from "nativescript-imagepicker";
@@ -46,8 +45,10 @@ export class SubmeterComponent implements OnInit {
 
     constructor(
         private modal: ModalDialogService, 
-        private vcRef: ViewContainerRef, 
+        private vcRef: ViewContainerRef,
+        private _page: Page,
         private _url: UrlService) {
+            this._page.actionBarHidden = true;
             this._session = new Session(this.ObjectId(),"","","SUBMETIDA",getString('id'),[])
             this._tile = new Tile(this.ObjectId(),"","","","",[],this._session.id,[]);
         }
@@ -278,21 +279,6 @@ export class SubmeterComponent implements OnInit {
             imagesToSubmit.push(ImageData);
         }
         return imagesToSubmit;
-    }
-
-    private onAddAnother(){
-        const isValid = this.hasErrors();
-        if(isValid){
-            if(!this.onEdit){
-                this.tiles.push(this._tile);
-            } else {
-                this.onEdit = !this.onEdit
-            }
-            this._tile = new Tile(this.ObjectId(),"","","","",[],this._session.id,[]);
-            
-        } else {
-            Toast.makeText('Please fill all field before adding another tile','short').show();
-        }
     }
 
 }

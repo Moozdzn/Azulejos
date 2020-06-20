@@ -1,7 +1,5 @@
-<ActionBar>
-    <Label text="{{ 'discover.tab' | L }}"></Label>
-</ActionBar>
-<GridLayout>
+
+<GridLayout class="m-t-30">
     <GridLayout *ngIf="isMap">
         <ContentView>
             <Mapbox
@@ -41,7 +39,6 @@
     </GridLayout>
     <StackLayout verticalAlignment="bottom"  >
             <StackLayout>
-                <!-- <Button text="&#xf103;" horizontalAlignment="center" class="fas h2 roundBtn -primary m-b-20" (tap)="doOpenAnimation()"></Button> -->
                 <Button #settingBtn text="&#xf102;" horizontalAlignment="center" class="fas h2 roundBtn -primary m-b-20" (tap)="doAnimation()"></Button>
             </StackLayout>
             <StackLayout #settingDialog class="bottomContainer" visibility="collapse">

@@ -1,7 +1,5 @@
-<ActionBar>
-    <Label text="Perfil" class="font-weight-bold"></Label>
-</ActionBar>
-<GridLayout columns="*,*,*" rows="auto,auto,auto,auto,auto,auto,auto,auto,*" (loaded)="onProfileLoaded()">
+
+<GridLayout columns="*,*,*" rows="auto,auto,auto,auto,auto,auto,auto,auto,*" (loaded)="onProfileLoaded()" class="m-t-30">
     <Button row="0" col="2" rowSpan="2" colSpan="3" text="&#xf2f5;" class="-primary fas h2" (tap)="onLogOut()"></Button>
     <Label row="1" col="0" colSpan="3" class="h1 font-weight-bold m-x-auto m-y-30 text-center" text="{{username}}"></Label>
     <!-- LINE BREAK -->

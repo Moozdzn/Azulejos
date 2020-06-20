@@ -6,6 +6,7 @@ import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 import { getString } from "tns-core-modules/application-settings";
 import { ItemEventData } from "tns-core-modules/ui/list-view"
 import { action, confirm } from "tns-core-modules/ui/dialogs";
+import { Page } from "tns-core-modules/ui/page"
 // External Packages
 import * as Toast from 'nativescript-toast';
 import { localize } from "nativescript-localize";
@@ -31,8 +32,9 @@ export class PerfilComponent implements OnInit {
     constructor(private _url: UrlService,
         private modal: ModalDialogService,
         private vcRef: ViewContainerRef,
+        private _page: Page,
         private routerExtension: RouterExtensions) {
-        // Use the constructor to inject services.
+            this._page.actionBarHidden = true;
     }
     ngOnInit(){
         this.loadUserStats();
