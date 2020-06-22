@@ -41,7 +41,7 @@
             <StackLayout>
                 <Button #settingBtn text="&#xf102;" horizontalAlignment="center" class="fas h2 roundBtn -primary m-b-20" (tap)="doAnimation()"></Button>
             </StackLayout>
-            <StackLayout #settingDialog class="bottomContainer" visibility="collapse">
+            <StackLayout class="bottomContainer" [visibility]="visibility">
                 <Label class="text-center h3 m-t-20 ">
                     <FormattedString>
                         <Span class="font-weight-bold" text="{{ 'discover.radius' | L }} "></Span>
