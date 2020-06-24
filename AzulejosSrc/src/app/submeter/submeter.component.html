@@ -1,7 +1,7 @@
 <GridLayout class="m-t-30">
     <ActivityIndicator [busy]="processing" width="150" height="150"></ActivityIndicator>
     <!-- TILE ADD INFORMATION -->
-    <ScrollView *ngIf="!hasSession">
+    <ScrollView *ngIf="hasSession">
         <GridLayout columns="*,*" rows="*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*,*">
             <!-- HEADING -->
             <Label row="0" col="0" colSpan="2" text="{{ 'tile.submit.add' | L }}" class="text-center h2 m-x-20 m-b-20"
@@ -66,7 +66,7 @@
     </ScrollView>
 
     <!-- TILE REVIEW AND SUBMIT -->
-    <StackLayout *ngIf="hasSession">
+    <StackLayout *ngIf="!hasSession">
         <Label text="{{ 'tile.submit.review' | L }}" class="text-center h2 m-x-20 m-b-20" textWrap="true"></Label>
         <Label text="{{ 'tile.session.hint' | L }}" class="text-center h4 m-x-20 m-b-20"
             textWrap="true"></Label>

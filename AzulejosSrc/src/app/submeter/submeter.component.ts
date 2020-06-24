@@ -223,7 +223,7 @@ export class SubmeterComponent implements OnInit {
         this.onEdit = true;
         this.errorTileImages = false;
         this.errorTileLocation = false;
-        this.hasSession = false;
+        this.hasSession = true;
         this._tile = this.tiles[i];
     }
 
