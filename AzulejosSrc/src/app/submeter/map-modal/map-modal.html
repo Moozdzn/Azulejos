@@ -6,6 +6,6 @@
             disableTilt="false" (mapReady)="onMapReady($event)">
         </Mapbox>
     </ContentView>
-    <Button row="1" col="1" class="-rounded-sm -primary" text="{{ 'confirm' | L }}" (tap)="closeModal(1)"></Button>
+    <Button row="1" col="1" class="-rounded-sm -primary" text="{{ 'tile.location.useMarker' | L }}" (tap)="closeModal(1)"></Button>
     <Button row="1" col="0" class="-rounded-sm -outline" text="{{ 'tile.location.userlocation' | L }}" (tap)="closeModal(0)" textWrap="true"></Button>
 </GridLayout>

@@ -1,4 +1,5 @@
-<GridLayout rows="auto,auto,*,auto,auto,auto,auto,auto,auto,auto,auto,auto,auto" columns="*,2*" (loaded)=onModalLoaded() class="m-t-25">
+<GridLayout rows="auto,auto,*,auto,auto,auto,auto,2*" columns="*,2*" (loaded)=onModalLoaded()
+    class="m-t-25">
     <Label row="0" col="0" colSpan="2" rowSpan="2" text="{{ 'tile.detail.image.info' | L }}"
         horizontalAlignment="center"></Label>
     <Label row="1" col="1" text="&#xf057;" horizontalAlignment="right" class="far h1 m-r-10"
@@ -31,31 +32,40 @@
         </FormattedString>
     </Label>
     <StackLayout row="6" col="0" colSpan="2" class="hr m-10"></StackLayout>
-    <ActivityIndicator *ngIf="processing" rowSpan="8" col="0" colSpan="2" width="150" height="150" [busy]="processing"></ActivityIndicator>
+    <ActivityIndicator *ngIf="processing" rowSpan="8" col="0" colSpan="2" width="150" height="150" [busy]="processing">
+    </ActivityIndicator>
     <!-- TILE DESCRIPTION -->
-    <Label row="7" col="0" colSpan="2" class="anim-title h2 font-weight-bold m-x-25 "
-        text="{{ 'tile.detail.description.title' | L }}" textWrap="true"></Label>
-    <Textview row="8" col="0" colSpan="2" class="anim-content m-x-30" editable="false" isUserInteractionEnabled="false" [text]="tile.info"
-        textWrap="true"></Textview>
-    <StackLayout row="9" col="0" colSpan="2" *ngIf="isInfoTranslated">
-        <Label text="{{ 'tile.detail.translation' | L }} " class="text-center"></Label>
-        <Label *ngIf="isTranslated; else elseBlock" text="{{ 'tile.detail.original' | L }}" class="text-primary text-center"
-            (tap)="toggleTranslation()"></Label>
-        <ng-template #elseBlock>
-            <Label text="{{ 'tile.detail.translated' | L }}" class="text-primary text-center" (tap)="toggleTranslation()"></Label>
-        </ng-template>
-    </StackLayout>
-    <!-- TILE DIRECTIONS -->
-    <Button row="10" col="0" colSpan="2" text="{{ 'tile.detail.directions.title' | L }}" (tap)="openGmaps()"
-        class="anim-content -rounded-sm -primary m-y-30"></Button>
-    <Label row="11" col="0" colSpan="2" *ngIf="relatedTiles" class="anim-title h2 font-weight-bold m-x-25 "
-        text="{{ 'tile.detail.related.tiles.title' | L }}" textWrap="true"></Label>
-    <ListView row="12" col="0" colSpan="2" *ngIf="relatedTiles" class="anim-content m-x-30" [items]="tileSession"
-        (itemTap)="onItemTap($event)">
-        <ng-template let-item="item">
-            <StackLayout>
-                <Label [text]='item.name'></Label>
+    <ScrollView row="7" col="0" colSpan="2">
+        <StackLayout>
+            <Label class="anim-title h2 font-weight-bold m-x-25 "
+                text="{{ 'tile.detail.description.title' | L }}" textWrap="true"></Label>
+            <ScrollView >
+                <Textview class="anim-content m-x-30" editable="false" isUserInteractionEnabled="false"
+                    [text]="tile.info" textWrap="true"></Textview>
+            </ScrollView>
+            <StackLayout *ngIf="isInfoTranslated">
+                <Label text="{{ 'tile.detail.translation' | L }} " class="text-center"></Label>
+                <Label *ngIf="isTranslated; else elseBlock" text="{{ 'tile.detail.original' | L }}"
+                    class="text-primary text-center" (tap)="toggleTranslation()"></Label>
+                <ng-template #elseBlock>
+                    <Label text="{{ 'tile.detail.translated' | L }}" class="text-primary text-center"
+                        (tap)="toggleTranslation()"></Label>
+                </ng-template>
             </StackLayout>
-        </ng-template>
-    </ListView>
+            
+            <Label *ngIf="relatedTiles" class="anim-title h2 font-weight-bold m-x-25 "
+                text="{{ 'tile.detail.related.tiles.title' | L }}" textWrap="true"></Label>
+            <ListView *ngIf="relatedTiles" class="anim-content m-x-30"
+                [items]="tileSession" (itemTap)="onItemTap($event)">
+                <ng-template let-item="item">
+                    <StackLayout>
+                        <Label [text]='item.name'></Label>
+                    </StackLayout>
+                </ng-template>
+            </ListView>
+            <!-- TILE DIRECTIONS -->
+            <Button text="{{ 'tile.detail.directions.title' | L }}" (tap)="openGmaps()"
+                class="anim-content -rounded-sm -primary m-y-30"></Button>
+        </StackLayout>
+    </ScrollView>
 </GridLayout>

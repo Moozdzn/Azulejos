@@ -25,8 +25,9 @@
   <string name="_tile_submit_add_1rr7Oz">"Adicione informação sobre o azulejo"</string>
   <string name="_tile_submit_cancel_tJnHk">"Cancelar"</string>
   <string name="_tile_submit_saveProceed_27jE5O">"Guardar e Prosseguir"</string>
-  <string name="_tile_location_marker_subtitle_ECAoN">"Pressione outro local para mudar a localização"</string>
+  <string name="_tile_location_marker_subtitle_ECAoN">"Toque para alterar a localização do marcador"</string>
   <string name="_tile_location_marker_title_ZNoIYO">"Localizacao azulejo"</string>
+  <string name="_tile_location_useMarker_ZLfE0C">"Usar local do marcador"</string>
   <string name="_tile_location_userlocation_Z1aDk7K">"Usar localização atual"</string>
   <string name="_tile_location_error_Z1ze3dn">"Escolha a localização do azulejo!"</string>
   <string name="_tile_location_hint_Zn6LRP">"Escolher Localização"</string>

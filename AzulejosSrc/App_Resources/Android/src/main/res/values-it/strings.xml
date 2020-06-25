@@ -25,8 +25,9 @@
   <string name="_tile_submit_add_1rr7Oz">"Aggiungi informazioni sulla tessera"</string>
   <string name="_tile_submit_cancel_tJnHk">"Annulla"</string>
   <string name="_tile_submit_saveProceed_27jE5O">"Salva e procedi"</string>
-  <string name="_tile_location_marker_subtitle_ECAoN">"Premere un\'altra posizione per modificare la posizione"</string>
+  <string name="_tile_location_marker_subtitle_ECAoN">"Tocca per cambiare la posizione dell\'indicatore"</string>
   <string name="_tile_location_marker_title_ZNoIYO">"Posizione delle piastrelle"</string>
+  <string name="_tile_location_useMarker_ZLfE0C">"Usa l\'indicatore di posizione"</string>
   <string name="_tile_location_userlocation_Z1aDk7K">"Usa posizione corrente"</string>
   <string name="_tile_location_error_Z1ze3dn">"Scegli la posizione della piastrella!"</string>
   <string name="_tile_location_hint_Zn6LRP">"Scegli la posizione"</string>

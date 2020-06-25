@@ -25,8 +25,9 @@
   <string name="_tile_submit_add_1rr7Oz">"Add tile information"</string>
   <string name="_tile_submit_cancel_tJnHk">"Cancel"</string>
   <string name="_tile_submit_saveProceed_27jE5O">"Save and Proceed"</string>
-  <string name="_tile_location_marker_subtitle_ECAoN">"Press another location to change the location"</string>
+  <string name="_tile_location_marker_subtitle_ECAoN">"Tap to change marker location"</string>
   <string name="_tile_location_marker_title_ZNoIYO">"Tile Location"</string>
+  <string name="_tile_location_useMarker_ZLfE0C">"Use marker location"</string>
   <string name="_tile_location_userlocation_Z1aDk7K">"Use current location"</string>
   <string name="_tile_location_error_Z1ze3dn">"Pick tile location!"</string>
   <string name="_tile_location_hint_Zn6LRP">"Pick location"</string>

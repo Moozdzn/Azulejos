@@ -25,8 +25,9 @@
   <string name="_tile_submit_add_1rr7Oz">"Fügen Sie Kachelinformationen hinzu"</string>
   <string name="_tile_submit_cancel_tJnHk">"Stornieren"</string>
   <string name="_tile_submit_saveProceed_27jE5O">"Speichern und fortfahren"</string>
-  <string name="_tile_location_marker_subtitle_ECAoN">"Drücken Sie auf einen anderen Ort, um den Ort zu ändern"</string>
+  <string name="_tile_location_marker_subtitle_ECAoN">"Tippen Sie hier, um die Position der Markierung zu ändern"</string>
   <string name="_tile_location_marker_title_ZNoIYO">"Kachelstandort"</string>
+  <string name="_tile_location_useMarker_ZLfE0C">"Verwenden Sie die Positionsmarkierung"</string>
   <string name="_tile_location_userlocation_Z1aDk7K">"Verwenden Sie den aktuellen Standort"</string>
   <string name="_tile_location_error_Z1ze3dn">"Wählen Sie die Position der Kacheln!"</string>
   <string name="_tile_location_hint_Zn6LRP">"Standort auswählen"</string>

@@ -63,7 +63,7 @@ export class MapaComponent implements OnInit {
                     const tilesCollection = r.docs;
                     const items: Array<TokenModel> = new Array();
                     for (let i = 0; i < tilesCollection.length; i++) {
-                        items.push(new TokenModel(tilesCollection[i].Nome, null));
+                        items.push(new TokenModel(tilesCollection[i].Nome, tilesCollection[i]._id));
                     }
                     resolve(items);
                 }).catch((err) => {
@@ -89,12 +89,15 @@ export class MapaComponent implements OnInit {
     }
 
     private onDidAutoComplete(args) {
+        this.openDetails(args.token.image);
+        /* console.log(args.token.image)
         for (var i in this.tiles) {
             if (this.tiles[i].name === args.text) {
+                console.log('here')
                 this.openDetails(this.tiles[i].id);
                 break;
             }
-        }
+        } */
     }
     private onMapReady(args) {
         this.mapbox = args.map;

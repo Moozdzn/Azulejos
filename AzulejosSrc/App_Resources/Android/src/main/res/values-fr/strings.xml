@@ -25,8 +25,9 @@
   <string name="_tile_submit_add_1rr7Oz">"Ajouter des informations sur les tuiles"</string>
   <string name="_tile_submit_cancel_tJnHk">"Annuler"</string>
   <string name="_tile_submit_saveProceed_27jE5O">"Enregistrer et continuer"</string>
-  <string name="_tile_location_marker_subtitle_ECAoN">"Appuyez sur un autre emplacement pour modifier l\'emplacement"</string>
+  <string name="_tile_location_marker_subtitle_ECAoN">"Appuyez pour changer l\'emplacement du marqueur"</string>
   <string name="_tile_location_marker_title_ZNoIYO">"Emplacement des tuiles"</string>
+  <string name="_tile_location_useMarker_ZLfE0C">"Utiliser l\'emplacement du marqueur"</string>
   <string name="_tile_location_userlocation_Z1aDk7K">"Utiliser l\'emplacement actuel"</string>
   <string name="_tile_location_error_Z1ze3dn">"Choisissez l\'emplacement des tuiles!"</string>
   <string name="_tile_location_hint_Zn6LRP">"Choisissez l\'emplacement"</string>
