@@ -2,6 +2,8 @@
 # Azulejos Mobile App - Project Report 
 [Final Project Report - Portuguese Only](../master/Deliverables/Relat%C3%B3rio%20de%20Projeto%20-%20App%20Azulejos.pdf)
 
+[App Preview](https://bit.ly/2A7H2DH)
+
 ### Degree in Computer Engineering | School Year 2019/2020 
 
 
