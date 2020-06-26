@@ -87,11 +87,9 @@ export class SubmeterComponent implements OnInit {
         if(this._tile.location.length > 0){
             options.context['marker'] = this._tile.location;
         }
-        console.log(options);
         this.modal.showModal(ModalComponent, options).then(res => {
             this._tile.location = res;
             this.errorTileLocation = false;
-            console.log(this._tile.location);
         });
     }
     
@@ -138,7 +136,6 @@ export class SubmeterComponent implements OnInit {
                 }
             }
         }).catch(function (e) {
-            console.log(e);
         });
     }
 
@@ -146,14 +143,12 @@ export class SubmeterComponent implements OnInit {
         if (camera.isAvailable()) {
             camera.requestCameraPermissions().then(() => {
                 camera.takePicture().then((imageAsset) => {
-                    console.log("Result is an image asset instance");
                     //this.imageArray.push(imageAsset.android);
                     this._tile.nrImages.push(imageAsset.android);
                     if(this.errorTileImages) {
                         this.errorTileImages = !this.errorTileImages;
                     }
                 }).catch((err) => {
-                    console.log("Error -> " + err.message);
                 });
             }, () => alert('permissions rejected'))
         }
@@ -238,7 +233,6 @@ export class SubmeterComponent implements OnInit {
                 this.tiles.splice(i,1);
                 Toast.makeText(localize('tile.list.delete.confirmation'),'short').show();
             }
-            console.log("Dialog result: " + result);
         });  
     }
 
@@ -261,7 +255,6 @@ export class SubmeterComponent implements OnInit {
                 this.tiles.length = 0;
                 this._session = new Session(this.ObjectId(),"","","SUBMETIDA",getString('id'),[])
                 this._tile = new Tile(this.ObjectId(),"","","","",[],this._session.id,[]);
-                console.log(r);
                 this.processing = false;
             });
         } else {

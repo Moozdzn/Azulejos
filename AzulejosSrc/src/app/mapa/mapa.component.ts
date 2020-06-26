@@ -68,7 +68,6 @@ export class MapaComponent implements OnInit {
                     resolve(items);
                 }).catch((err) => {
                     const message = 'Error fetching remote data from ' + this._url.getUrl() + "sessoes/azulejos/nome" + ': ' + err.message;
-                    console.log(message);
                     Toast.makeText(message, "short").show();
                     reject();
                 });
@@ -90,14 +89,6 @@ export class MapaComponent implements OnInit {
 
     private onDidAutoComplete(args) {
         this.openDetails(args.token.image);
-        /* console.log(args.token.image)
-        for (var i in this.tiles) {
-            if (this.tiles[i].name === args.text) {
-                console.log('here')
-                this.openDetails(this.tiles[i].id);
-                break;
-            }
-        } */
     }
     private onMapReady(args) {
         this.mapbox = args.map;
@@ -202,9 +193,6 @@ export class MapaComponent implements OnInit {
                 if (this.distance(this.userLocation.lat, this.userLocation.lng, newLocation.lat, newLocation.lng) > 2) {
                     this.userLocation = newLocation;
                     this.setTiles(this.userLocation);
-                    console.log('Getting new markers');
-                } else {
-                    console.log('New markers not needed');
                 }
             })
         })
@@ -229,7 +217,6 @@ export class MapaComponent implements OnInit {
             dist = dist * 180 / Math.PI;
             dist = dist * 60 * 1.1515;
             dist = dist * 1.609344
-            console.log(dist)
             return dist;
         }
     }
