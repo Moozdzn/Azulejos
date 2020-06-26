@@ -37,36 +37,33 @@ The user using this aplication should be able to view information about the tile
  The user acesses an interface where the user can see their submissions and their state (Submitted, Reviewed and Public).
 
 ## Work Plan
-![WorkPlanImage](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/WorkPlan-V4.png)
+![WorkPlanImage](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/WorkPlan-V5.png)
 
 ## Functional Requirements
-![Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/FR-V3.png)
+![Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/FR-V4.png)
 
 ## Non Functional Requirements
-![Non Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/NFR-V2.png)
+![Non Functional Requirements](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/NFR-V3.png)
 
 ## Mockups
 ![Mockups](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/Mockups-V2.png)
 [Adobe XD link](https://xd.adobe.com/view/cac3ce1b-bc83-45f9-52ae-82d713068e32-bcf2/?fullscreen)
 
 ## Interfaces Implemented
-![Interfaces](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/Interfaces/InterfacesGrouped.png)
-
-
+![Interfaces](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/Interfaces/Grouped1.png)
+![Interfaces1](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/Interfaces/Grouped2.png)
 
 ## Block Diagram
-![Block Diagram](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/azulejos-blockdiagram.png)
+![Block Diagram](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/azulejos-blockdiagram-V2.png)
 
 ## Domain Model
 ![Domain Model](https://raw.githubusercontent.com/AppleJackPOR/InfoAzulejo/master/Terceira%20Entrega/ModeloDominio.png)
 
-## State Machine
-![State Machine](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/StateMachine-V1.png)
+## Use Case
+![Use Case](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/UseCases-V1.png)
 
 ## WBS
 ![WBS](https://raw.githubusercontent.com/Moozdzn/Azulejos/master/Deliverables/attachments/WBS-V1.png)
-
-
 
 ## References
 História do Azulejo (Museu do Azulejo). Acedidos a 17/02/2020 : 
